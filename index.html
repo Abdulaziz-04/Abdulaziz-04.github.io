@@ -1,44 +1,59 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Your Name | Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
-</head>
-<body>
-  <header class="site-header">
-    <div class="logo">Your Name</div>
-    <nav class="nav">
-      <a href="#intro">Home</a>
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
-    </nav>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Abdulaziz Suria | Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <div
+      class="template-slot"
+      data-template="assets/templates/header.html"
+    >
+      <p class="loading-text">Loading navigation...</p>
+    </div>
 
-  <main>
-    <section id="intro" class="section hero">
-      <!-- Intro section -->
-    </section>
+    <main>
+      <div
+        class="template-slot"
+        data-template="assets/templates/hero.html"
+      >
+        <p class="loading-text">Loading intro...</p>
+      </div>
+      <div
+        class="template-slot"
+        data-template="assets/templates/experience.html"
+      >
+        <p class="loading-text">Loading experience...</p>
+      </div>
+      <div
+        class="template-slot"
+        data-template="assets/templates/education.html"
+      >
+        <p class="loading-text">Loading education...</p>
+      </div>
+      <div
+        class="template-slot"
+        data-template="assets/templates/projects.html"
+      >
+        <p class="loading-text">Loading projects...</p>
+      </div>
+      <div
+        class="template-slot"
+        data-template="assets/templates/skills.html"
+      >
+        <p class="loading-text">Loading skills...</p>
+      </div>
+    </main>
 
-    <section id="experience" class="section">
-      <!-- Timeline -->
-    </section>
+    <div
+      class="template-slot"
+      data-template="assets/templates/footer.html"
+    >
+      <p class="loading-text">Loading footer...</p>
+    </div>
 
-    <section id="projects" class="section">
-      <!-- Project categories & cards -->
-    </section>
-
-    <section id="skills" class="section">
-      <!-- Skills -->
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <p>&copy; <span id="year"></span> Your Name</p>
-  </footer>
-
-  <script src="assets/js/main.js"></script>
-</body>
+    <script src="assets/js/main.js"></script>
+  </body>
 </html>
