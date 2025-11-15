@@ -1,12 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const setYear = () => {
-    const yearEl = document.getElementById('year');
-    if (yearEl) {
-      yearEl.textContent = new Date().getFullYear();
-    }
-  };
-  setYear();
-
   const templateContainers = document.querySelectorAll('[data-template]');
   templateContainers.forEach((container) => {
     const url = container.getAttribute('data-template');
@@ -21,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .then((html) => {
         container.innerHTML = html;
-        setYear();
       })
       .catch((error) => {
         console.error(`Template load failed for ${url}`, error);

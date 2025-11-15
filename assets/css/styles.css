@@ -1,15 +1,15 @@
 ﻿:root {
-  --bg: #04070f;
-  --bg-alt: #0b162d;
-  --panel: #101f3f;
-  --panel-soft: rgba(255, 255, 255, 0.02);
-  --accent: #8b5cf6;
-  --accent-strong: #c084fc;
+  --bg: #030a13;
+  --bg-alt: #050f1f;
+  --panel: #071425;
+  --panel-soft: rgba(34, 197, 94, 0.08);
+  --accent: #22c55e;
+  --accent-strong: #86efac;
   --text: #f8fafc;
   --muted: #cbd5f5;
   --border: rgba(255, 255, 255, 0.08);
   --radius: 18px;
-  --shadow: 0 25px 70px rgba(8, 6, 28, 0.55);
+  --shadow: 0 25px 70px rgba(1, 8, 4, 0.55);
 }
 
 * {
@@ -22,7 +22,9 @@ body {
   font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
     sans-serif;
   color: var(--text);
-  background: radial-gradient(circle at 20% 20%, #182040, #05060f 65%);
+  background: radial-gradient(circle at 15% 35%, rgba(34, 197, 94, 0.15), transparent 45%),
+    radial-gradient(circle at 80% 0%, rgba(134, 239, 172, 0.2), transparent 35%),
+    #020714;
   scroll-behavior: smooth;
 }
 
@@ -39,8 +41,8 @@ main {
 .site-header {
   margin: 0;
   padding: 4rem clamp(1.5rem, 6vw, 5rem);
-  background: linear-gradient(135deg, rgba(10, 10, 30, 0.9), rgba(6, 10, 28, 0.75)),
-    radial-gradient(circle at top left, rgba(139, 92, 246, 0.3), transparent 55%);
+  background: linear-gradient(135deg, rgba(5, 18, 12, 0.9), rgba(3, 10, 19, 0.85)),
+    radial-gradient(circle at top left, rgba(34, 197, 94, 0.25), transparent 55%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
   min-height: 100vh;
   display: flex;
@@ -49,7 +51,7 @@ main {
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(220px, 320px) auto;
+  grid-template-columns: minmax(0, 1.4fr) minmax(220px, 320px);
   gap: clamp(2rem, 5vw, 4rem);
   width: 100%;
   align-items: center;
@@ -109,7 +111,7 @@ main {
 
 .btn.primary {
   background: linear-gradient(120deg, var(--accent), var(--accent-strong));
-  color: #05060f;
+  color: #020714;
   box-shadow: var(--shadow);
 }
 
@@ -129,32 +131,56 @@ main {
 .hero-photo img {
   width: clamp(220px, 18vw, 280px);
   border-radius: 28px;
-  border: 1px solid var(--border);
-  box-shadow: 0 20px 60px rgba(5, 5, 16, 0.8);
+  border: 1px solid rgba(134, 239, 172, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
   filter: saturate(1.05);
 }
 
-.nav-bullets {
-  justify-self: end;
+.doc-nav {
+  padding: 2.5rem clamp(1.5rem, 6vw, 5rem) 1.5rem;
+  background: var(--bg);
 }
 
-.nav-bullets ul {
-  list-style: none;
+.doc-nav__inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.doc-nav__label {
   margin: 0;
-  padding: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+}
+
+.nav-bullets {
+  display: flex;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 1.25rem 1.75rem;
+  margin: 0;
+  background: var(--panel);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
 }
 
 .nav-bullets li {
   position: relative;
-  margin: 0.6rem 0;
-  padding-left: 1.5rem;
+  padding-left: 1.85rem;
 }
 
 .nav-bullets li::before {
   content: "";
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 999px;
   border: 2px solid var(--accent);
   left: 0;
@@ -170,7 +196,7 @@ main {
   letter-spacing: 0.04em;
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.45rem;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
@@ -210,7 +236,7 @@ main {
 
 .experience-card,
 .project-card {
-  background: linear-gradient(145deg, var(--panel), rgba(13, 21, 42, 0.9));
+  background: linear-gradient(145deg, var(--panel), rgba(6, 14, 18, 0.9));
   border-radius: var(--radius);
   border: 1px solid var(--border);
   padding: 1.75rem;
@@ -234,7 +260,7 @@ main {
   height: 11px;
   border-radius: 999px;
   background: var(--accent);
-  box-shadow: 0 0 16px rgba(139, 92, 246, 0.8);
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.8);
   position: absolute;
   left: -6px;
   top: 4px;
@@ -266,7 +292,7 @@ main {
 .project-media img {
   max-width: 280px;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
 .project-grid {
@@ -304,17 +330,15 @@ main {
     order: -1;
   }
 
+  .doc-nav__inner {
+    flex-direction: column;
+  }
+
+  .doc-nav__label {
+    margin-bottom: 1rem;
+  }
+
   .nav-bullets {
-    justify-self: center;
-  }
-
-  .nav-bullets li {
-    display: inline-flex;
-    padding-left: 0;
-    margin: 0.4rem 0.8rem;
-  }
-
-  .nav-bullets li::before {
-    display: none;
+    justify-content: center;
   }
 }
