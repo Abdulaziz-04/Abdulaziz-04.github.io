@@ -599,15 +599,55 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem 2rem;
-  color: var(--muted);
+  color: var(--accent-strong);
 }
 
 .detail-content {
   padding-top: 0;
 }
 
+.home-page p,
+.home-page li,
+.home-page .course-panel__body {
+  text-align: justify;
+}
+
+.project-detail-page p,
+.project-detail-page li {
+  text-align: justify;
+}
+
 .detail-section {
   margin-bottom: 2.5rem;
+}
+
+.detail-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail-gallery .gallery-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.detail-gallery .gallery-item {
+  flex: 0 0 auto;
+  max-width: 880px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.detail-gallery .gallery-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 0 auto;
 }
 
 .detail-gallery__grid {
@@ -703,5 +743,21 @@ main {
 }
 
 
+/* Medium size for first GIF */
+.gallery-item--medium {
+  text-align: center;
+}
 
+.gallery-item--medium img {
+  max-width: 720px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
 
+.gallery-item figcaption {
+  margin-top: 0.95rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
