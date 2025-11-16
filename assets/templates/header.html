@@ -1,4 +1,13 @@
 ﻿<header class="site-header hero-header">
+  <nav class="top-nav">
+    <div class="top-nav__brand">Abdulaziz's Portfolio</div>
+    <div class="top-nav__links">
+      <a href="#experience" class="nav-link">Experience</a>
+      <a href="#education" class="nav-link">Education</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#skills" class="nav-link">Skills</a>
+    </div>
+  </nav>
   <div class="hero-grid">
     <div class="hero-text">
       <h1>Abdulaziz Suria</h1>
@@ -23,8 +32,7 @@
         </ul>
       </div>
       <div class="hero-actions">
-        <a href="#experience" class="btn primary">Experience</a>
-        <a href="#projects" class="btn secondary">See my Projects!</a>
+        <button class="btn hire-btn" data-hire-trigger>Hire Me!</button>
       </div>
     </div>
     <div class="hero-photo">
@@ -33,11 +41,37 @@
   </div>
 </header>
 
-<nav class="side-nav" aria-label="Section navigation">
-  <ul class="side-nav__list">
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Technical Skills</a></li>
-  </ul>
-</nav>
+<div class="hire-modal" data-hire-modal hidden>
+  <div class="hire-modal__panel">
+    <button class="hire-modal__close" data-hire-close>&times;</button>
+    <h3>Let's work together!</h3>
+    <p>Choose the channel that works best for you.</p>
+    <div class="hire-options">
+      <a
+        class="hire-option"
+        href="https://mail.google.com/mail/?view=cm&fs=1&to=abdulaziz.suria04@gmail.com"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <span>Email</span>
+        <small>abdulaziz.suria04@gmail.com</small>
+      </a>
+      <a
+        class="hire-option"
+        href="https://www.linkedin.com/in/abdulaziz-suria/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <span>LinkedIn</span>
+        <small>linkedin.com/in/abdulaziz-suria</small>
+      </a>
+      <a class="hire-option" href="tel:+18576939586">
+        <span>Phone</span>
+        <small>+1 (857) 693-9586</small>
+      </a>
+    </div>
+    <button class="btn hire-btn hire-modal__action" data-hire-close>
+      Close
+    </button>
+  </div>
+</div>
