@@ -323,14 +323,34 @@ main {
   margin-top: 1rem;
 }
 
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
 .skill-pill {
+  --pill-bg: rgba(148, 163, 184, 0.15);
+  --pill-color: #f8fafc;
+  --pill-icon: rgba(255, 255, 255, 0.85);
   display: inline-flex;
-  padding: 0.4rem 0.9rem;
-  margin: 0.25rem;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--panel-soft);
-  font-size: 0.9rem;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.85rem;
+  background: var(--pill-bg);
+  color: var(--pill-color);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.skill-pill i {
+  font-size: 1rem;
+  color: var(--pill-icon);
 }
 
 .site-footer {
