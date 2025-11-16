@@ -86,6 +86,7 @@ main {
 }
 
 .summary-list {
+  font-size: large;
   margin: 0;
   padding-left: 1.5rem;
 }
@@ -201,6 +202,24 @@ main {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.75rem;
+}
+
+.experience-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.2rem;
+}
+
+.experience-title .role {
+  color: var(--text); /* default text color */
+  font-weight: 600;
+}
+
+.experience-title .org {
+  color:#6DF9C9;
+  white-space: nowrap;
 }
 
 .experience-card,
