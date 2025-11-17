@@ -483,6 +483,7 @@ main {
   flex-direction: column;
   gap: 0.75rem;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+  min-height: 260px;
 }
 
 .category-pill {
@@ -491,10 +492,25 @@ main {
   font-size: 0.78rem;
   color: var(--accent-strong);
   margin: 0;
+  display: block;
+  min-height: 2.2em;
+}
+
+.project-category-card h3 {
+  margin: 0;
+  line-height: 1.35;
+  min-height: 3.2em;
+}
+
+.project-category-card > p:not(.category-pill) {
+  margin: 0;
+  line-height: 1.5;
+  min-height: 4.4em;
 }
 
 .category-link {
   align-self: flex-start;
+  margin-top: auto;
 }
 
 .category-page {
@@ -548,10 +564,10 @@ main {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
 }
 
-.project-modal__media img {
-  width: 100%;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.project-modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .project-modal__summary {
@@ -567,6 +583,7 @@ main {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+  margin-top: auto;
 }
 
 .category-footer {
@@ -610,6 +627,11 @@ main {
 .home-page li,
 .home-page .course-panel__body {
   text-align: justify;
+}
+
+.home-page .projects-overview p,
+.home-page .project-category-card p {
+  text-align: left;
 }
 
 .project-detail-page p,

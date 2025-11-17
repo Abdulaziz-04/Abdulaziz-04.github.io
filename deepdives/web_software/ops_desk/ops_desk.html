@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpsDesk – Project Detail</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/web-software.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">Web and Software</p>
+
+      <h1>OpsDesk</h1>
+
+      <p class="detail-summary">
+        <b>
+          A lightweight React and Node based helpdesk dashboard for IT teams to
+          log, triage and track incidents, with filters, live stats and a
+          responsive UI designed for day to day operations.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li><strong>Timeline:</strong> <b>Oct 2019 to Dec 2019</b></li>
+        <li>
+          <strong>Tech Stack:</strong>
+          <b>React.js, Context API, Node.js, MongoDB, Docker, AWS EC2</b>
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE ABOVE QUICK INSIGHTS -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--medium">
+          <img
+            src="./images/activities.png"
+            alt="OpsDesk activity feed dashboard"
+          />
+          <figcaption>
+            OpsDesk activity view showing current tickets with status, priority
+            and quick actions for IT technicians.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick Insights:</h2>
+
+        <ul class="psr-list">
+          <li>
+            <strong>Problem:</strong>
+            An internal IT department managed incidents through ad hoc emails
+            and spreadsheets, making it hard to see current workload, ownership
+            and which tickets needed urgent attention.
+          </li>
+          <br />
+
+          <li>
+            <strong>Solution:</strong>
+            Built OpsDesk as a single page React application backed by a Node
+            and MongoDB API, providing a live dashboard with filters, attention
+            flags, technician assignment, light and dark themes and full CRUD
+            for system logs.
+          </li>
+          <br />
+
+          <li>
+            <strong>Result:</strong>
+            Delivered a production ready tool as part of a freelancing
+            engagement, containerized with Docker and deployed on an AWS EC2
+            instance so the client team could log, search and update tickets
+            from one place instead of juggling multiple tools, saving 5 hours
+            per week on average.
+          </li>
+        </ul>
+      </section>
+
+      <!-- INTRODUCTION -->
+      <section class="detail-section">
+        <h2>Introduction</h2>
+
+        <p>
+          OpsDesk is a custom internal application built for an IT department
+          client during a freelancing engagement. The goal was to replace email
+          and spreadsheet based logging with a focused dashboard that gives
+          technicians a clear view of current incidents and who owns what. The
+          system supports everyday helpdesk tasks such as password resets,
+          network issues and hardware problems.
+        </p>
+
+        <p>
+          The frontend is implemented in React using a component based
+          architecture and Context API to manage global state such as filters,
+          theme and technician data without prop drilling. A Node.js backend
+          exposes REST endpoints that read and write to MongoDB. MongoDB was
+          chosen because log entries and technician records are naturally
+          document shaped, may evolve over time with new fields and are easy to
+          query by status, category or technician.
+        </p>
+
+        <p>
+          The application is packaged into Docker containers and deployed on an
+          AWS EC2 instance, making it simple for the client to run the system in
+          their environment and restart or update it with minimal downtime. The
+          design emphasizes quick scanning for busy technicians with clear
+          status chips, attention flags and minimal friction for creating or
+          editing a log.
+        </p>
+
+        <ul>
+          <li>
+            <b>
+              Replaced manual email and spreadsheet workflows, saving
+              technicians an average of <u>5 hours per week</u> by centralizing
+              logs, ownership and updates into a single interface.
+            </b>
+          </li>
+          <li>
+            <b>
+              Context API centralizes filters, theme and technician data so
+              updates appear immediately across the interface.
+            </b>
+          </li>
+          <li>
+            <b>
+              MongoDB collections store logs and technicians as flexible JSON
+              documents, supporting new categories and flags without schema
+              migrations.
+            </b>
+          </li>
+          <li>
+            <b>
+              Docker on AWS EC2 provides a simple deployable unit the client can
+              run and restart in their own infrastructure.
+            </b>
+          </li>
+        </ul>
+      </section>
+
+      <!-- DEMONSTRATION -->
+      <section class="detail-section detail-gallery">
+        <h2>Demonstration</h2>
+
+        <div class="gallery-row gallery-row--two">
+          <!-- Edit log modal -->
+          <figure
+            class="gallery-item gallery-item--clickable gallery-item--wide"
+          >
+            <a href="./images/edit_log.png" target="_blank">
+              <img
+                src="./images/edit_log.png"
+                alt="Edit OpsDesk system log modal"
+              />
+            </a>
+            <figcaption>
+              Edit log modal for updating status, technician, date and attention
+              flag while keeping all context in a single place.
+            </figcaption>
+          </figure>
+
+          <!-- Filters and stats -->
+          <figure
+            class="gallery-item gallery-item--clickable gallery-item--wide"
+          >
+            <a href="./images/filters_and_stats.png" target="_blank">
+              <img
+                src="./images/filters_and_stats.png"
+                alt="OpsDesk filters and status statistics"
+              />
+            </a>
+            <figcaption>
+              Dashboard level filters and live counts for open, in progress,
+              resolved and attention required tickets, with quick actions for
+              new logs and technician management.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- KEY OUTCOMES AND LEARNINGS -->
+      <section class="detail-section detail-impact">
+        <h2>Key Outcomes and Learnings</h2>
+
+        <p>
+          OpsDesk brought together full stack development, deployment and UX
+          decisions into a single deliverable for a real client. It required
+          balancing implementation speed with a design that technicians could
+          understand at a glance and adopt without formal training.
+        </p>
+
+        <ul>
+          <li>
+            Reduced operational friction by cutting the number of steps needed
+            to resolve a ticket from an average of
+            <u>7–8 interactions down to 3</u>, thanks to unified filters,
+            streamlined editing and centralized technician data.
+          </li>
+          <li>
+            Gained experience designing REST endpoints and data models so logs,
+            technicians and categories remain easy to query and extend.
+          </li>
+          <li>
+            Containerized the application with Docker and deployed it to AWS
+            EC2, gaining practical experience with environment configuration and
+            runtime management.
+          </li>
+          <li>
+            Focused on operator experience by adding clear status and attention
+            indicators, quick actions and sortable, newest first activity feeds.
+          </li>
+          <li>
+            Delivered a production ready tool for an IT department client,
+            improving visibility into current incidents and technician workload.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

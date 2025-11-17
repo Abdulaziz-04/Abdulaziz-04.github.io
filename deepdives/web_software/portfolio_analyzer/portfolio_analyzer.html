@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio Analyzer – Project Detail</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/web-software.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">Web and Software</p>
+
+      <h1>Portfolio Analyzer</h1>
+
+      <p class="detail-summary">
+        <b>
+          A modular Java portfolio management system built with MVC and MVVM,
+          supporting flexible portfolios, automated investment plans, portfolio
+          rebalancing, performance visualization and multi-layered testing.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li><strong>Timeline:</strong> <b>Nov 2022 to Dec 2022</b></li>
+        <li>
+          <strong>Tech Stack:</strong>
+          <b
+            >Java, Swing, MVC + MVVM, Factory & Command patterns, AlphaVantage
+            API, ElasticSearch</b
+          >
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE ABOVE QUICK INSIGHTS -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--medium">
+          <img
+            src="./images/visualize_feature.png"
+            alt="Portfolio value visualization screenshot"
+          />
+          <figcaption>
+            Portfolio performance visualization generated through the GUI using
+            live and cached market data.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick Insights:</h2>
+
+        <ul class="psr-list">
+          <li>
+            <strong>Problem:</strong>
+            Build a portfolio management system that can expand over multiple
+            iterations without breaking earlier functionality, while supporting
+            both console and GUI interfaces and live API-driven data.
+          </li>
+          <br />
+          <li>
+            <strong>Solution:</strong>
+            Designed a modular Java application using MVC and MVVM patterns,
+            introduced helper models, factories, command objects and mock
+            components for testability, and extended the system with flexible
+            portfolios, investment plans, rebalancing and visualization.
+          </li>
+          <br />
+          <li>
+            <strong>Result:</strong>
+            Fully functioning analyzer supporting creation, modification,
+            visualization, cost basis, investment plans, rebalancing and
+            persistence across users, backed by extensive unit testing and mock
+            testing layers.
+          </li>
+        </ul>
+      </section>
+
+      <!-- INTRODUCTION -->
+      <section class="detail-section">
+        <h2>Introduction</h2>
+
+        <p>
+          Portfolio Analyzer was built as a multi-iteration project focused on
+          applying SOLID principles and evolving a basic console application
+          into a robust GUI driven financial tool. MVC formed the foundation,
+          later extended with MVVM-style separation for Swing views to reduce
+          UI-logic coupling.
+        </p>
+
+        <p>
+          To keep the code extensible, I introduced factories for portfolio
+          types, helper models for validation and caching, command pattern for
+          user operations and modular interfaces for adding new features
+          incrementally. Market data retrieval used the AlphaVantage API with
+          caching and date validation.
+        </p>
+
+        <p>
+          Testing was a major focus: mock models, mock views and mock
+          controllers enabled isolated testing of all layers. Contract tests
+          ensured feature additions never broke earlier assignments.
+        </p>
+
+        <ul>
+          <li>
+            <b
+              >10+ major features added across iterative assignments without
+              modifying core contracts.</b
+            >
+          </li>
+          <li>
+            <b
+              >Rebalancing functionality introduced to redistribute portfolio
+              weights automatically.</b
+            >
+          </li>
+          <li>
+            <b
+              >Integrated ElasticSearch to index portfolio snapshots and allow
+              faster search and analysis.</b
+            >
+          </li>
+          <li>
+            <b
+              >Reduced API usage by ~45% after adding caching and transaction
+              date preprocessing.</b
+            >
+          </li>
+        </ul>
+      </section>
+
+      <!-- DEMONSTRATION -->
+      <section class="detail-section detail-gallery">
+        <h2>Demonstration</h2>
+
+        <div class="gallery-row gallery-row--two">
+          <figure
+            class="gallery-item gallery-item--clickable gallery-item--wide"
+          >
+            <img
+              src="./images/class_diagram.png"
+              alt="Class diagram of Portfolio Analyzer"
+            />
+            <figcaption>
+              Class diagram illustrating helper models, controllers, factories
+              and views organized under MVC + MVVM.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- KEY OUTCOMES AND LEARNINGS -->
+      <section class="detail-section detail-impact">
+        <h2>Key Outcomes and Learnings</h2>
+
+        <p>
+          The project emphasized extensibility, testability and design-driven
+          development. It combined architectural patterns with API integration,
+          caching, visualization and portfolio analytics.
+        </p>
+
+        <ul>
+          <li>
+            Applied SOLID principles by introducing new features through helper
+            interfaces, factories and strategy components without editing stable
+            logic.
+          </li>
+          <li>
+            Strengthened understanding of MVC and MVVM by separating domain
+            logic from views and wiring multiple interfaces to the same core
+            models and controllers.
+          </li>
+          <li>
+            Gained experience collaborating on and extending another team’s
+            codebase while respecting previously defined contracts and behavior.
+          </li>
+          <li>
+            Used ElasticSearch to index portfolio data and perform trend
+            analysis.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
