@@ -100,7 +100,7 @@
           syncActiveNav(sectionId || '');
         }
       },
-      { threshold: 0.4, rootMargin: '-20% 0px -40% 0px' }
+      { threshold: 0.2, rootMargin: '-25% 0px -25% 0px' }
     );
   };
 
