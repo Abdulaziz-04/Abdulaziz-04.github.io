@@ -194,6 +194,16 @@
     });
   };
 
+  const scrollToHashTarget = () => {
+    if (!window.location.hash) return;
+    const id = resolveSectionId(window.location.hash.slice(1));
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   setYear();
   initDropdowns();
   initHireTriggers();
@@ -218,6 +228,7 @@
         initHireTriggers(container);
         initTopNav(container);
         registerSections(container);
+        scrollToHashTarget();
       })
       .catch((error) => {
         console.error(`Template load failed for ${url}`, error);
