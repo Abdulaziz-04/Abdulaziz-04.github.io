@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Accessible Drum Machine – Project Detail</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/web-software.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">Web and Software</p>
+
+      <h1>Accessible Drum Machine for Visually impaired</h1>
+
+      <p class="detail-summary">
+        <b>
+          A keyboard driven, screen reader friendly drum machine built in React
+          for a visually impaired friend who wanted an easy way to practice
+          rhythms. Pads, volume, sound banks and looping can all be operated
+          with the keyboard and ARIA announcements.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li><strong>Timeline:</strong> <b>Jan - 2019 Feb - 2019</b></li>
+        <li>
+          <strong>Tech Stack:</strong>
+          <b>React 18, CRA, CSS, ARIA attributes</b>
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE ABOVE QUICK INSIGHTS -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--medium">
+          <img
+            src="./images/intro_page.png"
+            alt="Accessible drum machine interface with pads, controls and loop recorder"
+          />
+          <figcaption>
+            Drum machine interface with keyboard mapped pads, power toggle,
+            sound bank selector, volume slider and loop recorder panel.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick Insights:</h2>
+
+        <ul class="psr-list">
+          <li>
+            <strong>Problem:</strong>
+            A visually impaired friend wanted to learn basic drumming patterns,
+            but most browser drum machines rely on visual pads, tiny controls
+            and mouse interaction. Screen readers either ignore key controls or
+            give very little feedback while playing.
+          </li>
+          <br />
+
+          <li>
+            <strong>Solution:</strong>
+            Built a React based drum machine that can be fully controlled with
+            the keyboard. It exposes semantic buttons, ARIA labels and live
+            regions so screen readers announce pad hits, volume changes and loop
+            state. The layout mirrors the Q W E A S D Z X C keys so the mental
+            model matches the physical keyboard.
+          </li>
+          <br />
+
+          <li>
+            <strong>Result:</strong>
+            All interactions, from power and sound bank selection to pad hits
+            and looping, are accessible without a mouse. In informal testing it
+            reduced the time my friend needed to set up a practice loop from
+            about one minute in a traditional DAW to under 15 seconds in the
+            browser.
+          </li>
+        </ul>
+      </section>
+
+      <!-- INTRODUCTION -->
+      <section class="detail-section">
+        <h2>Introduction</h2>
+
+        <p>
+          This project started as a small experiment to make rhythm practice
+          more approachable for a visually impaired friend. The goal was not to
+          compete with full digital audio workstations but to provide a focused
+          tool: tap pads, hear immediate feedback, record a loop and repeat the
+          pattern without fighting the interface.
+        </p>
+
+        <p>
+          The drum machine is built as a single page React application using
+          functional components and hooks. Pads are mapped to the keys Q W E A S
+          D Z X C, with both click and key support. Each pad is rendered as a
+          semantic button element with ARIA labels and a visual active state for
+          sighted users. A top level status region announces the last pad hit,
+          power changes and loop actions so NVDA and VoiceOver users can follow
+          what is happening.
+        </p>
+
+        <ul>
+          <li>
+            Two sound banks, a classic kit and an ambient kit, can be switched
+            from a select element that is accessible to both keyboard and screen
+            reader users.
+          </li>
+          <li>
+            A power toggle, volume slider and loop recorder sit in a side panel,
+            all wired to the same accessible state model so they can be
+            controlled by tabbing and arrow keys.
+          </li>
+          <li>
+            The application is front end only, built with Create React App and
+            bundled by react-scripts, which makes it easy to host as a static
+            site.
+          </li>
+        </ul>
+      </section>
+
+      <!-- DEMONSTRATION -->
+      <section class="detail-section detail-gallery">
+        <h2>Demonstration</h2>
+
+        <div class="gallery-row gallery-row--one">
+          <figure class="gallery-item gallery-item--wide">
+            <video
+              src="./images/loop_video.mp4"
+              controls
+              class="detail-video"
+            ></video>
+            <figcaption>
+              Short demo showing keyboard driven pad hits, sound bank switching
+              and the loop recorder playing back the last 12 hits at a chosen
+              tempo.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ACCESSIBILITY & FEATURES -->
+      <section class="detail-section">
+        <h2>Accessibility and Features</h2>
+
+        <p>
+          The main focus was making sure the experience remains usable with only
+          a keyboard and a screen reader. This required careful attention to
+          semantics, focus order and announcements rather than just styling
+          buttons to look like pads.
+        </p>
+
+        <ul>
+          <li>
+            All pads are keyboard operable and use ARIA labels plus a dedicated
+            live region to announce the sound name so users confirm what they
+            are triggering.
+          </li>
+          <li>
+            The volume slider and tempo slider expose their values through
+            accessible names, allowing screen reader users to fine tune levels
+            without guessing.
+          </li>
+          <li>
+            The loop recorder automatically stores the last 12 hits and can play
+            them back at an adjustable tempo. Status messages such as “Loop
+            started”, “Loop stopped” and “Loop cleared” are spoken out as they
+            occur.
+          </li>
+          <li>
+            The interface uses a high contrast theme and focus visible styling
+            so keyboard focus is easy to track for users with low vision.
+          </li>
+          <li>
+            In practice sessions the loop feature let my friend spend far more
+            time repeating patterns than manually retriggering pads, which led
+            to more consistent practice in shorter sessions.
+          </li>
+        </ul>
+      </section>
+
+      <!-- KEY OUTCOMES AND LEARNINGS -->
+      <section class="detail-section detail-impact">
+        <h2>Key Outcomes and Learnings</h2>
+
+        <p>
+          This project reinforced how much thought is required to make even a
+          simple interface truly accessible. It also highlighted how small
+          changes in feedback and control design can significantly affect how
+          quickly someone can start practicing.
+        </p>
+
+        <ul>
+          <li>
+            Gained hands on experience with ARIA roles, live regions and focus
+            management to support screen readers in a reactive UI.
+          </li>
+          <li>
+            Designed a state model that keeps visual, audio and accessibility
+            feedback in sync for pads, power, sound banks, volume and loops.
+          </li>
+          <li>
+            Used React testing utilities to verify basic behavior such as pad
+            triggers, power toggling and loop actions without relying on manual
+            clicking.
+          </li>
+          <li>
+            Validated that small, focused tools can meaningfully lower the
+            friction for visually impaired users who want to explore music and
+            rhythm.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
