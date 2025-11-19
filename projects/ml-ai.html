@@ -44,17 +44,25 @@
 
         <article class="project-modal-card">
           <div class="project-modal__body">
-            <h3>Edge Vision Inspector</h3>
+            <h3>Camera Calibration & Marker-Based Augmented Reality</h3>
             <p class="project-modal__summary">
-              On-device defect detection tuned for Jetson hardware. Mention
-              pruning/quantization strategies or data pipelines.
+              Built a full camera calibration and marker-based AR pipeline using
+              OpenCV. Estimated real-world pose from a checkerboard, computed
+              projection transformations, and rendered a virtual 3D prism
+              anchored to the physical marker.
             </p>
             <p class="project-modal__tech">
-              <strong>Tech Stack:</strong> PyTorch, TensorRT, ONNX Runtime
+              <strong>Tech Stack:</strong>
+              <b
+                >C++, OpenCV, solvePnP, projectPoints, Linear Algebra, 3D
+                Geometry</b
+              >
             </p>
             <div class="project-modal__actions">
-              <a class="btn primary" href="project-template.html"
-                >Open Project Page Template</a
+              <a
+                class="btn primary"
+                href="../deepdives/ml-ai/ar_visualizer/ar_visualizer.html"
+                >Learn more!</a
               >
             </div>
           </div>
@@ -62,17 +70,24 @@
 
         <article class="project-modal-card">
           <div class="project-modal__body">
-            <h3>Agentic QA Evaluator</h3>
+            <h3>ShapeSense – Real-Time 2D Object Recognition</h3>
             <p class="project-modal__summary">
-              Self-play agents that grade generated answers before escalation.
-              Use this slot for governance narratives or prompt libraries.
+              Built a real-time 2D object recognition system in OpenCV that
+              segments live video, computes custom shape descriptors, and
+              classifies objects like mugs, gloves, watches, and power banks
+              while allowing users to register new categories on the fly.
             </p>
             <p class="project-modal__tech">
-              <strong>Tech Stack:</strong> OpenAI Assistants API, Weights &
-              Biases, Redis
+              <strong>Tech Stack:</strong>
+              <b
+                >C++, OpenCV, custom Otsu thresholding, Hu moments, k-NN style
+                classifier, cosine similarity, CSV feature store</b
+              >
             </p>
             <div class="project-modal__actions">
-              <a class="btn primary" href="project-template.html"
+              <a
+                class="btn primary"
+                href="../deepdives/ml-ai/object_detection/object_detection.html"
                 >Open Project Page Template</a
               >
             </div>

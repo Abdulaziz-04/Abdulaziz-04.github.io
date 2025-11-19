@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Camera Calibration & Augmented Reality</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/ml-ai.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">ML/AI & Computer Vision</p>
+
+      <h1>Camera Calibration & Marker-Based Augmented Reality</h1>
+
+      <p class="detail-summary">
+        <b>
+          Built a complete camera calibration and marker-based AR pipeline using
+          OpenCV. Estimated full camera pose from a checkerboard pattern and
+          overlaid a virtual 3D prism anchored to the physical marker in real
+          time.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li><strong>Timeline:</strong> <b>Mar 2023 – Apr 2023</b></li>
+        <li>
+          <strong>Tech Stack:</strong>
+          <b
+            >C++, OpenCV, solvePnP, projectPoints, Linear Algebra, 3D
+            Geometry</b
+          >
+        </li>
+      </ul>
+
+      <!-- HERO IMAGE (PRISM) -->
+      <section class="detail-section detail-hero-gif" style="margin-top: 2rem">
+        <figure class="gallery-item gallery-item--medium">
+          <img
+            src="./images/prism_1.png"
+            alt="Virtual 3D prism rendered on top of checkerboard marker using AR pipeline"
+            style="
+              max-width: 900px;
+              width: 100%;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            "
+          />
+          <figcaption>
+            AR overlay result: A 3D prism rendered using pose estimated from the
+            checkerboard marker.
+          </figcaption>
+        </figure>
+      </section>
+    </header>
+
+    <main class="section detail-content">
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick Insights:</h2>
+        <ul class="psr-list">
+          <li>
+            <strong>Problem:</strong>
+            Rendering virtual 3D content in real scenes requires accurate camera
+            intrinsics, distortion removal and pose estimation from real-world
+            markers.
+          </li>
+          <br />
+          <li>
+            <strong>Solution:</strong>
+            Calibrated the camera with multiple checkerboard images, estimated
+            rotation and translation vectors using <code>solvePnP</code>, and
+            projected the vertices of a virtual prism with
+            <code>projectPoints</code>.
+          </li>
+          <br />
+          <li>
+            <strong>Result:</strong>
+            A stable augmented reality effect where the virtual object tracks
+            the checkerboard marker’s position, orientation and perspective in
+            real time.
+          </li>
+        </ul>
+      </section>
+
+      <!-- INTRODUCTION -->
+      <section class="detail-section">
+        <h2>Introduction</h2>
+        <p>
+          This project implements a classical computer vision AR system without
+          deep learning. Using a printed checkerboard, the camera’s intrinsic
+          matrix and distortion parameters were estimated. With these, the pose
+          relative to the marker was recovered frame-by-frame and a virtual 3D
+          prism was rendered at the correct physical location on the board.
+        </p>
+
+        <ul>
+          <li>
+            Computed intrinsics + distortion from multiple checkerboard views
+          </li>
+          <li>
+            Used <code>solvePnP</code> to obtain rotation + translation vectors
+          </li>
+          <li>Projected a 3D object model using <code>projectPoints</code></li>
+          <li>Maintained alignment even under changes in angle and distance</li>
+        </ul>
+      </section>
+
+      <!-- DEMONSTRATION -->
+      <section class="detail-section detail-gallery">
+        <h2>Demonstration</h2>
+
+        <p>
+          The pipeline below shows the two key stages:
+          <b>pose estimation via checkerboard detection</b> and
+          <b>virtual object rendering</b>.
+        </p>
+
+        <div class="detail-gallery__grid">
+          <!-- CHECKERBOARD IMAGE -->
+          <figure>
+            <img
+              src="./images/callibration.png"
+              alt="Detected checkerboard corners with color-coded lines"
+            />
+            <figcaption>
+              <b>Camera Calibration:</b> Detected checkerboard corners used to
+              compute intrinsic matrix and distortion coefficients.
+            </figcaption>
+          </figure>
+
+          <!-- PRISM IMAGE 1 -->
+          <figure>
+            <img
+              src="./images/prism_1.png"
+              alt="AR prism rendered using solvePnP based pose estimation"
+            />
+            <figcaption>
+              <b>AR Rendering Stage:</b> Prism rendered using projected 3D
+              points from the estimated camera pose.
+            </figcaption>
+          </figure>
+
+          <!-- PRISM IMAGE 2 -->
+          <figure>
+            <img
+              src="./images/prism2.png"
+              alt="Second AR prism view with perspective alignment"
+            />
+            <figcaption>
+              Another view of the AR overlay showing correct perspective
+              alignment.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- CODE SNIPPET -->
+      <section class="detail-section detail-snippet">
+        <h2>Representative Code Snippet</h2>
+        <pre><code>// Estimate pose from checkerboard points
+solvePnP(objectPoints, imagePoints,
+         cameraMatrix, distCoeffs,
+         rvec, tvec);
+
+// Project 3D prism vertices into image space
+projectPoints(prismVertices, rvec, tvec,
+              cameraMatrix, distCoeffs,
+              projected2D);
+
+// Draw edges between projected points
+for (auto &edge : prismEdges) {
+    line(frame, projected2D[edge.first],
+         projected2D[edge.second],
+         Scalar(0, 255, 255), 2);
+}
+</code></pre>
+      </section>
+
+      <!-- IMPACT -->
+      <section class="detail-section detail-impact">
+        <h2>Why It Matters</h2>
+        <p>
+          This project recreates the core of ARKit/ARCore-style tracking using
+          only geometry and OpenCV. It demonstrates practical understanding of
+          camera projection, pose estimation and real-time rendering—all
+          foundational skills for AR, robotics, SLAM and computer vision work.
+        </p>
+
+        <ul>
+          <li>Strengthened understanding of intrinsic/extrinsic calibration</li>
+          <li>Implemented real-time AR without ML or heavy frameworks</li>
+          <li>Built end-to-end geometric intuition for projection pipelines</li>
+          <li>Created a clean demonstration of classical CV-based AR</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

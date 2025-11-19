@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ShapeSense – Real-Time 2D Object Recognition</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/ml-ai.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">ML/AI &amp; Computer Vision</p>
+
+      <h1>ShapeSense – Real-Time 2D Object Recognition</h1>
+
+      <p class="detail-summary">
+        <b>
+          Built a real-time 2D object recognition system in OpenCV that segments
+          live video, computes custom shape descriptors, and classifies objects
+          like mugs, gloves, watches, and power banks while allowing users to
+          register new categories on the fly.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li><strong>Timeline:</strong> <b>Feb 2024 - Mar 2024</b></li>
+        <li>
+          <strong>Tech Stack:</strong>
+          <b
+            >C++, OpenCV, custom Otsu thresholding, Hu moments, k-NN style
+            classifier, cosine similarity, CSV feature store</b
+          >
+        </li>
+      </ul>
+
+      <!-- HERO IMAGE: LABELED OBJECTS -->
+      <section class="detail-section detail-hero-gif" style="margin-top: 2rem">
+        <figure class="gallery-item gallery-item--medium">
+          <img
+            src="./images/detection.png"
+            alt="Labeled objects with oriented bounding boxes and axes"
+            style="
+              max-width: 900px;
+              width: 100%;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            "
+          />
+          <figcaption>
+            Live recognition view: segmented objects with oriented bounding
+            boxes, principal axes and predicted labels (e.g., mug, glove,
+            passport).
+          </figcaption>
+        </figure>
+      </section>
+    </header>
+
+    <main class="section detail-content">
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick Insights:</h2>
+        <ul class="psr-list">
+          <li>
+            <strong>Problem:</strong>
+            Build a classical computer vision pipeline that can recognize
+            multiple everyday objects in real time from a webcam feed, without
+            relying solely on heavyweight deep learning models.
+          </li>
+          <br />
+          <li>
+            <strong>Solution:</strong>
+            Implemented custom Otsu thresholding, morphological cleanup and
+            connected-component segmentation, then computed a compact feature
+            vector per object (Hu moments, oriented bounding box ratio, percent
+            fill and principal-axis angle) and classified with distance-based
+            nearest neighbour and cosine similarity, with support for adding new
+            objects interactively.
+          </li>
+          <br />
+          <li>
+            <strong>Result:</strong>
+            System recognized up to <b>13 object categories</b> in live video
+            and maintained rotation- and scale-robust predictions, backed by
+            confusion-matrix evaluation and an optional DNN-embedding classifier
+            for comparison.
+          </li>
+        </ul>
+      </section>
+
+      <!-- INTRODUCTION -->
+      <section class="detail-section">
+        <h2>Introduction</h2>
+        <p>
+          ShapeSense is a real-time 2D object recognition system built as part
+          of a computer vision course. The goal was to design a full pipeline
+          from raw video frames to predictions using classic vision techniques
+          rather than end-to-end deep networks.
+        </p>
+
+        <p>
+          The system focuses on dark objects on a light background (e.g., mug,
+          glove, passport, watch) placed on a workspace. From each frame, we
+          threshold, clean, segment and then compute custom features that are
+          invariant to translation, scale and in-plane rotation. These features
+          are stored in a CSV database and used for nearest-neighbour
+          classification in real time.
+        </p>
+
+        <ul>
+          <li>Supports 13 trained object classes with room to add more</li>
+          <li>Operates on a live video stream, not just static images</li>
+          <li>
+            Offers both classic k-NN style classifier and a DNN-embedding mode
+            for comparison
+          </li>
+          <li>
+            Includes an interactive unknown-object registration and a dynamic
+            confusion matrix for evaluation
+          </li>
+        </ul>
+      </section>
+
+      <!-- DEMONSTRATION -->
+      <section class="detail-section detail-gallery">
+        <h2>Sample Inputs and Feature Visualization</h2>
+
+        <p>
+          The examples below show a subset of the objects used for training and
+          how they appear after segmentation and feature computation.
+        </p>
+
+        <div class="detail-gallery__grid">
+          <!-- ORIGINAL OBJECTS -->
+          <figure>
+            <img
+              src="./images/original.png"
+              alt="Original reference images: cut-out five, mug, glove, cylinder bottle"
+            />
+            <figcaption>
+              <b>Original reference images:</b> sample objects (five, mug,
+              glove, cylinder, etc.) captured on a light background for
+              training. Live recognition uses the webcam feed with similar
+              physical objects.
+            </figcaption>
+          </figure>
+
+          <!-- FEATURE IMAGE -->
+          <figure>
+            <img
+              src="./images/feature_calc.png"
+              alt="Feature visualization with oriented bounding boxes and principal axes"
+            />
+            <figcaption>
+              <b>Feature visualization:</b> cleaned silhouettes with oriented
+              bounding boxes and principal axes. Values below each image show
+              the custom 7-dimensional feature vector (Hu moments, fill ratio,
+              box ratio) used for classification.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- PIPELINE & FEATURES -->
+      <section class="detail-section">
+        <h2>Pipeline & Feature Design</h2>
+        <p>
+          The full pipeline is implemented in C++/OpenCV and runs per frame on
+          live video. Each step is designed to make the final feature vector
+          robust to translation, scaling and rotation.
+        </p>
+
+        <ul>
+          <li>
+            <b>Custom Otsu Thresholding:</b> Gaussian blur followed by manually
+            implemented Otsu to separate foreground objects from background.
+          </li>
+          <li>
+            <b>Morphological cleanup:</b> custom dilation and erosion matrices
+            to remove noise and unify object blobs.
+          </li>
+          <li>
+            <b>Segmentation:</b> <code>connectedComponentsWithStats</code> to
+            extract candidate regions above a minimum area threshold.
+          </li>
+          <li>
+            <b>Feature vector per region (7D):</b><br />
+            – 5 Hu moments (scale / rotation / translation invariant)<br />
+            – oriented bounding box height–width ratio<br />
+            – percent of box area filled by the object
+          </li>
+          <li>
+            <b>Orientation robustness:</b> principal axis of least central
+            moment is computed and drawn in red; the features are monitored
+            while rotating the object to verify stability.
+          </li>
+        </ul>
+      </section>
+
+      <!-- CODE SNIPPET -->
+      <section class="detail-section detail-snippet">
+        <h2>Representative Code Snippet</h2>
+        <pre><code>// Extract major region and compute moments
+Moments mu = moments(regionMask, true);
+
+// Compute Hu moments (rotation/scale invariant)
+double hu[7];
+HuMoments(mu, hu);
+
+// Compute oriented bounding box and fill ratio
+RotatedRect box = minAreaRect(regionPoints);
+float boxRatio = box.size.height / box.size.width;
+float fillPercent = contourArea(regionPoints) /
+                    (box.size.height * box.size.width);
+
+// Build 7D feature vector for this object
+std::vector&lt;double&gt; features = {
+    hu[0], hu[1], hu[2], hu[3], hu[4],
+    boxRatio, fillPercent
+};
+</code></pre>
+      </section>
+
+      <!-- CLASSIFICATION & EVALUATION -->
+      <section class="detail-section detail-impact">
+        <h2>Classification & Evaluation</h2>
+        <p>
+          With the feature vectors in place, recognition is done with simple,
+          explainable methods and evaluated via confusion matrices.
+        </p>
+
+        <ul>
+          <li>
+            <b>Nearest-neighbour classifier:</b> scaled Euclidean distance over
+            the 7-dimensional feature vector, using a CSV file as the feature
+            database; if the minimum distance is above a threshold, the object
+            is labeled as <i>unknown</i>.
+          </li>
+          <li>
+            <b>Unknown object support:</b> when an unknown is detected, the user
+            can press a key to provide a label; the new feature vector is then
+            appended to the CSV so future frames recognize it.
+          </li>
+          <li>
+            <b>DNN comparison mode:</b> an optional mode uses deep embeddings
+            and cosine similarity, providing a contrast with the classic
+            nearest-neighbour approach on shape descriptors.
+          </li>
+          <li>
+            <b>Confusion matrix:</b> a dynamic confusion matrix is built in real
+            time by letting the user confirm ground-truth labels and logging
+            predicted vs. true classes.
+          </li>
+          <li>
+            <b>Real-time performance:</b> all processing is done on live video,
+            not just offline images, so users can move and rotate objects to see
+            how the recognizer behaves.
+          </li>
+        </ul>
+
+        <p>
+          This project deepened my understanding of how a classical 2D object
+          recognition system can be engineered end-to-end, and how it compares
+          in practice to DNN-based approaches on small, controlled datasets.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
