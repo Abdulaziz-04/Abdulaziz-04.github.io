@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Statistical Analysis of TA Hiring – Research Project</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/research.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">Research Projects</p>
+      <h1>Statistical Analysis of TA Hiring Bias in Computing Programs</h1>
+      <p class="detail-summary">
+        <b>
+          Data-driven intersectional study that analyzed more than 15,000
+          teaching assistant applications across computing courses to uncover
+          gender and demographic disparities in TA hiring and to inform equity
+          focused policy changes.
+        </b>
+      </p>
+      <p class="detail-summary">
+        <em>Note:</em> WNB refers to
+        <strong>Women and Non Binary</strong> applicants grouped together for
+        statistical privacy and stability in the study results.
+      </p>
+
+      <ul class="detail-meta">
+        <li>
+          <strong>Publication:</strong>
+          <a
+            href="https://dl.acm.org/doi/pdf/10.1145/3641554.3701789"
+            target="_blank"
+            rel="noopener"
+          >
+            SIGCSE 2025 - Understanding Demographic Bias in Teaching Assistant
+            Hiring
+          </a>
+        </li>
+        <br />
+        <li><strong>Role:</strong> Research Assistant and Analyst</li>
+        <br />
+        <li><strong>Timeline:</strong> Jan 2024 - May 2024</li>
+        <br />
+        <li>
+          <strong>Tech Stack:</strong>
+          Python, Pandas, NumPy, SciPy, statsmodels, Matplotlib, Plotly
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE -->
+      <section class="detail-section detail-hero-gif">
+        <figure
+          class="gallery-item gallery-item--wide"
+          style="text-align: center"
+        >
+          <a
+            href="./images/bias_hero.png"
+            target="_blank"
+            style="display: inline-block"
+          >
+            <img
+              src="./images/bias_hero.png"
+              alt="Relative percentage of all applications for WNB and Men across courses"
+              style="display: block; margin: 0 auto"
+            />
+          </a>
+          <figcaption style="text-align: center">
+            Relative percentage of all applications by course, split by WNB and
+            Men. Many foundational courses show similar or even higher WNB
+            application rates, which means downstream hiring differences cannot
+            be explained purely by lack of interest or pipeline.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick insights</h2>
+        <ul class="psr-list">
+          <li>
+            <strong>Goal:</strong>
+            Quantify whether teaching assistant hiring decisions in a large
+            computing program differ by gender, race, and student status, and
+            provide data backed recommendations that departments can turn into
+            policy.
+          </li>
+          <br />
+          <li>
+            <strong>Why this matters?</strong>
+            Very few peer reviewed papers study TA hiring patterns, even though
+            TAs are central to grading, mentoring, and classroom culture. This
+            work adds a crucial but rarely measured dimension to equity work in
+            computing education research.
+          </li>
+          <br />
+          <li>
+            <strong>Headline result:</strong>
+            For entry level MS courses we observed that
+            <b
+              >Women and Non Binary (WNB) applicants were hired at markedly
+              lower rates than Men</b
+            >, despite comparable application patterns. For one cluster of entry
+            level MS courses the effect corresponded to roughly a
+            <b>42.5% shortfall</b> in WNB hires relative to their share of the
+            qualified applicant pool.
+          </li>
+          <br />
+          <li>
+            <strong>What WNB means?</strong>
+            WNB refers to
+            <b>Women and Non Binary applicants grouped together</b>. The number
+            of non binary applicants was extremely small, which made separate
+            statistical analysis unreliable and at risk of exposing individuals.
+            Following common practice, we merged women and non binary applicants
+            into a single category for robust and privacy preserving analysis.
+          </li>
+        </ul>
+      </section>
+
+      <!-- STUDY DESIGN -->
+      <section class="detail-section">
+        <h2>Preliminary Analysis</h2>
+        <p>
+          The dataset spanned multiple years of TA applications for both
+          undergraduate and graduate computing courses. Each record included
+          applicant demographics, course applied for, instructor, and hiring
+          outcome. My contribution focused on cleaning the data, building
+          reproducible analysis notebooks, and constructing interactive
+          visualizations that faculty could explore.
+        </p>
+
+        <ul>
+          <li>
+            <strong>Data preparation:</strong>
+            Normalized course names, merged multiple application systems, and
+            filtered to applicants who met minimum eligibility criteria so that
+            we compared candidates who were realistically hireable.
+          </li>
+          <br />
+          <li>
+            <strong>Statistical tests:</strong>
+            Used <b>Jensen Shannon Distance (JSD)</b>, two sample t-tests, and
+            one way ANOVA to compare hiring outcomes across demographic groups
+            and instructors.
+          </li>
+          <br />
+          <li>
+            <strong>Additional demographic analysis:</strong>
+            Beyond gender, we examined patterns by race, by international versus
+            domestic status, and prior teaching experience. We also ran
+            <b>intersectional analyses</b> for race × gender and race ×
+            international status to test whether disparities compound for
+            specific groups.
+          </li>
+        </ul>
+      </section>
+
+      <!-- COURSE PATTERNS -->
+      <section class="detail-section">
+        <h2>Course level application patterns</h2>
+        <p>
+          The <b>Relative Percentage of All Applications by Course</b> (chart at
+          the top) compares how often WNB and Men apply to each course. It helps
+          answer two key questions:
+        </p>
+        <ul>
+          <li>Do WNB candidates apply to the same types of courses as Men?</li>
+          <br />
+          <li>Do hiring outcomes reflect these application patterns?</li>
+        </ul>
+        <p>
+          Several MS level gateway courses have
+          <b>substantial WNB application shares</b> that are similar to or
+          higher than Men. This was important because it ruled out a simple
+          explanation that WNB candidates were not applying to the courses where
+          hiring imbalances appeared.
+        </p>
+      </section>
+
+      <!-- CHART 2: MS COURSE APPLICATION SHARES -->
+      <section class="detail-section">
+        <h2>MS courses Focus</h2>
+        <p>
+          The <b>MS Course Application Share Chart</b> zooms in on graduate
+          level courses that serve as entry points for MS students. Bars show
+          the percentage of all applications for each course that come from WNB
+          applicants versus Men.
+        </p>
+      </section>
+      <section class="detail-section detail-gallery">
+        <div class="gallery-row gallery-row--one">
+          <figure class="gallery-item gallery-item--wide">
+            <a href="./images/ms_pref_ms_course.png" target="_blank">
+              <img
+                src="./images/ms_pref_ms_course.png"
+                alt="Percent of applications by gender for MS level courses"
+              />
+            </a>
+            <figcaption>
+              Percent of applications by gender for MS level courses. Many
+              courses show healthy WNB representation in the applicant pool, yet
+              these shares are not always reflected in final hires.
+            </figcaption>
+          </figure>
+        </div>
+
+        <p>
+          For several introductory MS courses, WNB applicants make up a
+          significant fraction of the applicant pool. When combined with hiring
+          outcomes, the analysis revealed that
+          <b
+            >WNB candidates were not being hired in proportion to their
+            application rates</b
+          >, especially in entry level TA roles where teaching experience is
+          first acquired.
+        </p>
+      </section>
+
+      <!-- CHART 3: JSD / INSTRUCTOR BIAS -->
+      <section class="detail-section">
+        <h2>Instructor Hiring Divergence and Jensen Shannon Distance</h2>
+
+        <p>
+          To understand where disparities originate, we needed a way to compare
+          the <b>distribution of genders in the applicant pool</b> with the
+          <b>distribution of genders among hires</b> for each instructor and
+          course. For this we used <b>Jensen Shannon Distance (JSD)</b>.
+        </p>
+      </section>
+      <section class="detail-section detail-gallery">
+        <div class="gallery-row gallery-row--one">
+          <figure class="gallery-item gallery-item--wide">
+            <a href="./images/instructor_bias.png" target="_blank">
+              <img
+                src="./images/instructor_bias.png"
+                alt="Histogram showing distributions of Jensen–Shannon Distance for WNB preferred, Men preferred, and all courses"
+              />
+            </a>
+            <figcaption>
+              Distribution of Jensen Shannon Distance values for WNB preferred
+              courses, Men preferred courses, and the overall course set. Higher
+              values indicate stronger divergence between applicant and hire
+              distributions for a course or instructor.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="detail-section">
+        <p>
+          <b>Why Jensen Shannon Distance?</b>
+        </p>
+        <ul>
+          <li>
+            JSD measures how different two probability distributions are and is
+            <b>symmetric and bounded between 0 and 1</b>. A value of 0 means the
+            hiring distribution exactly matches the applicant distribution, and
+            values closer to 1 indicate strong divergence.
+          </li>
+          <br />
+          <li>
+            Unlike raw percentage gaps, JSD lets us aggregate across many
+            courses with different applicant counts and still compare them
+            fairly. It is also stable when some categories have small counts,
+            which made it well suited for our departmental scale data.
+          </li>
+          <br />
+          <li>
+            Using JSD, we could group courses into those where hiring favored
+            WNB applicants, those where hiring favored Men, and those that were
+            roughly aligned with the pool. This grouping was later tested with
+            t-tests and ANOVA to check which differences were statistically
+            significant.
+          </li>
+        </ul>
+
+        <p>
+          The histogram shows that a subset of courses has
+          <b>consistently high JSD values skewed toward Men</b>, indicating that
+          instructors in these courses hire Men at rates that diverge
+          significantly from the applicant pool composition. This provided
+          strong evidence that instructor level decisions, not just pipeline,
+          contribute to the observed disparities.
+        </p>
+      </section>
+
+      <!-- TOPIC MODELING RESULTS -->
+      <section class="detail-section">
+        <h2>Topic Modeling Insights</h2>
+        <p>
+          To understand whether WNB and Men prefer different types of courses,
+          we applied topic modeling to course descriptions and grouped courses
+          into themes. Key takeaways are summarized below.
+        </p>
+        <ul>
+          <li>
+            Topic modeling revealed that WNB applicants were more likely to
+            apply to
+            <b
+              >project based, programming intensive, and application focused
+              courses</b
+            >, such as software engineering and design oriented classes.
+          </li>
+          <br />
+          <li>
+            Men were more likely to apply to
+            <b>math heavy and theory oriented courses</b>, including algorithms,
+            machine learning theory, and systems style offerings.
+          </li>
+          <br />
+          <li>
+            These preference differences align with prior work on gendered
+            course choices, but they
+            <b>did not fully explain the hiring gap</b>. Even in courses where
+            WNB formed a large share of the applicant pool, hiring patterns
+            still favored Men in several important MS entry level roles.
+          </li>
+        </ul>
+      </section>
+
+      <!-- FINDINGS AND IMPACT -->
+      <section class="detail-section detail-impact">
+        <h2>Key Findings and Impact</h2>
+        <ul>
+          <li>
+            <b>Instructor decisions drive much of the disparity:</b>
+            Comparing JSD values and hiring rates showed that the largest
+            imbalances come from instructor level selection, not lack of WNB
+            applicants. Some instructors hired close to the pool distribution,
+            while others showed strong skew toward Men.
+          </li>
+          <br />
+          <li>
+            <b>WNB are under selected for entry level MS TA roles:</b>
+            In several graduate gateway courses WNB application rates were high,
+            but hires lagged significantly behind their representation,
+            including an estimated <b>42.5% shortfall</b> in one entry level TA
+            cluster.
+          </li>
+          <br />
+          <li>
+            <b>Intersectional gaps matter:</b>
+            Analyses by race, international status, and their intersections
+            highlighted that some groups, such as international WNB applicants
+            from underrepresented racial backgrounds, experience compounded
+            disadvantages that would be invisible in gender only statistics.
+          </li>
+          <br />
+          <li>
+            <b>Policy influence:</b>
+            The results informed <b>equity focused recommendations</b> that were
+            adopted by academic leadership for the 2025 hiring cycle, including
+            structured rubrics, bias training for instructors, and department
+            wide monitoring of demographic distributions in TA hiring.
+          </li>
+          <br />
+          <li>
+            <b>Long term contribution:</b>
+            This project demonstrates that TA hiring can and should be treated
+            as a measurable part of equity efforts in computing. The combination
+            of JSD based divergence metrics, traditional hypothesis tests, and
+            interactive dashboards provides a reusable blueprint for other
+            departments to audit their own processes.
+          </li>
+        </ul>
+
+        <p>
+          Overall, the analysis showed that while application patterns and topic
+          preferences differ slightly by gender, the
+          <b
+            >largest disparities come from how instructors convert applicants
+            into hires</b
+          >. This makes TA hiring an essential and previously overlooked
+          dimension of diversity work in computing education.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

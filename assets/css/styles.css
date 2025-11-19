@@ -784,6 +784,10 @@ main {
   overflow-x: auto;
 }
 
+.code-emphasis {
+  font-size: 1.4em;
+}
+
 .skills-list {
   display: flex;
   flex-wrap: wrap;
@@ -894,4 +898,13 @@ main {
   margin-top: 0.95rem;
   color: var(--muted);
   line-height: 1.5;
+}
+
+
+a {
+  color: #b6f5c9;
+}
+
+a:hover {
+  color: #8ef0af;
 }

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LLM-based Agents in Social VR – Research Project</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/research.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">Research Projects</p>
+
+      <h1>LLM-driven Humanoid Agents in Social Virtual Reality</h1>
+
+      <p class="detail-summary">
+        <b>
+          Research apprenticeship project that built memory-aware non playable
+          characters in VRChat using GPT-4 API. These agents remember prior
+          conversations, pass information between players, and respond with
+          appropriate dialogue, facial expressions, and body gestures in real
+          time.
+        </b>
+      </p>
+      <p class="detail-summary">
+        <b>Note: </b>Non-Playable Characters (NPCs) are the supporting
+        characters that make games and social worlds feel alive by providing
+        quests, continuity, and context. In this work I refer to them simply as
+        Agents and focus on how memory-aware behavior makes those Agents
+        credible collaborators.
+      </p>
+
+      <ul class="detail-meta">
+        <li>
+          <strong>Publication:</strong>
+          <a
+            href="https://web.archive.org/web/20240531232445id_/https://dl.acm.org/doi/pdf/10.1145/3613905.3651026"
+            target="_blank"
+            rel="noopener"
+            >CHI 2024 – Building LLM-based AI Agents in Social Virtual
+            Reality</a
+          >
+        </li>
+        <li><strong>Role:</strong> Research apprentice and Project Lead</li>
+        <br />
+        <li><strong>Timeline:</strong> Fall 2023 – Dec 2023</li>
+        <li>
+          <strong>Tech Stack:</strong> OpenAI API, GPT-4, VRChat, Python,
+          MongoDB, Unity, Whisper API, Vosk, OCR, Custom RAG pipeline
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO VIDEO -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--wide">
+          <video
+            src="./images/final.mp4"
+            controls
+            class="hero-video"
+            style="
+              max-width: 70%;
+              width: 100%;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            "
+          ></video>
+          <figcaption style="text-align: center">
+            Demo of the LLM driven agent in VRChat holding a multi turn
+            conversation, recalling previous details, and reacting with gestures
+            and expressions.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick insights</h2>
+        <ul class="psr-list">
+          <li>
+            <strong>Goal:</strong> Explore how large language models can power
+            believable social Agents in VR that remember the player, share facts
+            across sessions, and react with both voice and body language.
+          </li>
+          <br />
+          <li>
+            <strong>Approach:</strong> Built a modular AI agent on top of VRChat
+            (a social VR platform) with a memory database, retrieval function,
+            and GPT-4 prompting. Agents support both text and voice input, plus
+            animated facial expressions and actions driven by the conversation
+            state.
+          </li>
+          <br />
+          <li>
+            <strong>Key result:</strong> Through LLM judge and human evaluation
+            we found that using <b>3 base observations</b> plus
+            <b>5 contextual observations</b> produced a 94.6% plausibility score
+            while keeping prompts compact enough for real-time dialogue.
+          </li>
+        </ul>
+      </section>
+
+      <!-- SYSTEM OVERVIEW -->
+      <section class="detail-section">
+        <h2>System overview</h2>
+        <p>
+          I led the full design of the system architecture. The system runs as a
+          long-lived agent. Every interaction creates observations that persist
+          beyond the current session so players can return and continue
+          conversations. Instead of a single chat history, the agent maintains
+          structured memories about people, relationships, and events.
+        </p>
+
+        <ul>
+          <li>
+            <b>GPT module:</b> GPT-4 API turns raw chat logs into structured
+            observations, generates agent responses, and infers player mood and
+            intent.
+          </li>
+          <br />
+          <li>
+            <b>Agent formation module:</b> Each agent gets a base description
+            (name, backstory, preferences) stored as active observations that
+            define personality.
+          </li>
+          <br />
+          <li>
+            <b>Observation database:</b> MongoDB stores base and contextual
+            observations. Each agent keeps up to 50 recent observations
+            in-memory for fast retrieval without losing continuity.
+          </li>
+          <br />
+          <li>
+            <b>Custom RAG Retrieval function:</b> Recency is modeled using
+            exponential decay and relevance via cosine similarity between
+            embeddings of the player message and each observation. Scores are
+            combined into an importance value that ranks memories for the
+            current prompt.
+          </li>
+          <br />
+          <li>
+            <b>VR integration:</b> Unity plus Python OSC control the VRChat
+            avatar so the agent speaks, animates facial expressions, and
+            triggers body gestures aligned with the generated text reply.
+          </li>
+          <br />
+          <li>
+            <b>Integration of Voice detection and text-to-speech:</b> Integrated
+            Whisper APIs and Vosk Model for voice detection and allowing the
+            avatar to speak with expressions and actions.
+          </li>
+        </ul>
+      </section>
+
+      <!-- POSTER IMAGE -->
+      <section class="detail-section detail-gallery">
+        <h2>Poster snapshot</h2>
+        <div class="gallery-row gallery-row--one">
+          <figure class="gallery-item gallery-item--wide">
+            <a href="./images/poster.png" target="_blank">
+              <img
+                src="./images/poster.png"
+                alt="Research poster summarizing system design and retrieval function"
+              />
+            </a>
+            <figcaption>
+              Poster summarizing motivation, retrieval function, MongoDB memory
+              store, dual text and voice modes, and timing metrics.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- MEMORY AND RETRIEVAL -->
+      <section class="detail-section">
+        <h2>Memory and retrieval design</h2>
+        <p>
+          I designed the retrieval and memory subsystem that feeds context to
+          GPT-4. The design keeps the agent responsive yet capable of sharing
+          information across players.
+        </p>
+        <ul>
+          <li>
+            <b>Running memory queue:</b> Each agent maintains a deque of up to
+            50 context observations. Old entries drop off automatically and
+            create a summarized observation once the deque hits the limit, this
+            keeps the retrieval fast.
+          </li>
+          <br />
+          <li>
+            <b>Scoring observations:</b> Recency decay and semantic similarity
+            are combined to rank observations. The top
+            <code class="code-emphasis">m</code> base observations and top
+            <code class="code-emphasis">n</code> contextual observations are fed
+            into the GPT-4 response prompt alongside the latest player message.
+          </li>
+          <br />
+          <li>
+            <b>Cross-player memory:</b> Observations include who said what and
+            when, letting the agent pass messages between players (for example
+            reminding Player B about plans mentioned by Player A).
+          </li>
+        </ul>
+      </section>
+
+      <!-- DATA ANALYSIS & EVALUATION -->
+      <section class="detail-section">
+        <h2>Data analysis and evaluation pipeline</h2>
+        <p>
+          Every interaction records the user message, retrieved observations,
+          scores, generated response, and timing for speech to text, retrieval,
+          and LLM generation. These logs feed the analysis scripts that compare
+          design settings using LLM judges and human raters, making it faster to
+          tune the agent for believable behavior.
+        </p>
+      </section>
+      <section class="detail-section detail-gallery">
+        <div class="gallery-row gallery-row--one">
+          <figure class="gallery-item gallery-item--wide">
+            <a href="./images/evaluation.png" target="_blank">
+              <img
+                src="./images/evaluation.png"
+                alt="Experimental and data analysis phases for evaluating the NPC system"
+              />
+            </a>
+            <figcaption>
+              Evaluation pipeline: tests log metrics in CSV during NPC
+              conversations, then analysis compares retrieval settings and
+              response quality using both LLM judges and human raters.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- EVALUATION RESULTS -->
+      <section class="detail-section">
+        <h2>Evaluation and findings</h2>
+        <p>
+          To tune how much memory context the agent should use, we combined LLM
+          based judging with human evaluation:
+        </p>
+        <ul>
+          <li>
+            <b>LLM judge evaluation:</b> GPT-4, Llama 2 13B, and Mistral 7B
+            acted as independent judges. For various combinations of base and
+            context observations they scored how much each observation improved
+            the agent response, aggregated using mean average precision.
+          </li>
+          <br />
+          <li>
+            <b>Human plausibility study:</b> Human raters marked responses as
+            plausible based on coherence and relevance. The best configuration
+            (<code class="code-emphasis">m = 3</code>,
+            <code class="code-emphasis">n = 5</code>) achieved roughly
+            <b>94.6%</b> plausible responses based on Mean Average Precision.
+          </li>
+          <br />
+          <li>
+            <b>Scenario coverage:</b> Tests included base fact questions,
+            limited-memory retrieval, edited memories, emotional understanding,
+            and keeping avatar actions aligned with dialogue.
+          </li>
+          <br />
+          <li>
+            <b>Insights:</b> A small set of base facts plus richer conversation
+            context outperformed both minimal context and overly long prompts.
+          </li>
+        </ul>
+      </section>
+
+      <!-- IMPACT -->
+      <section class="detail-section detail-impact">
+        <h2>Impact and learnings</h2>
+        <ul>
+          <li>
+            <b>Practical agent design:</b> Created a reusable pattern for
+            memory-aware LLM agents that can extend to other social VR or game
+            environments.
+          </li>
+          <br />
+          <li>
+            <b>Instrumentation for agents:</b> CSV-based logging of timing and
+            quality metrics made it easier to debug speech-to-text latency and
+            long model response times.
+          </li>
+          <br />
+          <li>
+            <b>Human-centered evaluation:</b> Learned how to combine automatic
+            judging by LLMs with human ratings to tune parameters for believable
+            agents.
+          </li>
+          <br />
+          <li>
+            <b>Collaboration in research teams:</b> Partnered with faculty and a
+            multi-campus team, contributing retrieval design, evaluation code,
+            and figures for the CHI extended abstract and poster.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
