@@ -611,7 +611,7 @@ main {
 
 .project-modal__body {
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto 1fr auto auto;
   gap: 0.6rem;
   height: 100%;
 }
@@ -631,7 +631,7 @@ main {
 .project-modal__summary {
   color: var(--muted);
   line-height: 1.5;
-  min-height: 11rem;
+  min-height: 0;
 }
 
 .project-modal__tech {
@@ -739,6 +739,10 @@ main {
   text-align: center;
 }
 
+.detail-gallery .gallery-item figcaption {
+  text-align: center;
+}
+
 .detail-gallery .gallery-item img {
   display: block;
   width: 100%;
@@ -746,6 +750,7 @@ main {
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   margin: 0 auto;
+  transform: none;
 }
 
 .detail-video {

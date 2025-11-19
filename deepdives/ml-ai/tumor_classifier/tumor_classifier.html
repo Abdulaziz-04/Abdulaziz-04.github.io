@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Brain Tumor Detection with Augmentation and Transfer Learning</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <section class="detail-hero">
+      <a class="category-back" href="../../../projects/ml-ai.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">ML/AI Projects</p>
+
+      <h1>Brain Tumor Detection with Augmentation and Transfer Learning</h1>
+
+      <p class="detail-summary">
+        <b>
+          Built a deep learning system that classifies MRI brain scans and
+          highlights tumor regions using a combination of CNNs, data
+          augmentation pipelines, and transfer learning methods. Designed for
+          reliability across multiple datasets and MRI formats, achieving strong
+          F1-scores and stable learning dynamics.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li><strong>Timeline:</strong> <b>Feb 2023 – Apr 2023</b></li>
+        <li>
+          <strong>Tech Stack:</strong>
+          <b
+            >PyTorch, Keras/TensorFlow, EfficientNetB4, YOLOv5, OpenCV, NumPy,
+            Matplotlib</b
+          >
+        </li>
+      </ul>
+
+      <figure class="gallery-item gallery-item--wide" style="text-align: center">
+        <img
+          src="./images/tumor_detection.png"
+          alt="Tumor detection visual example"
+          style="display: block; margin: 0 auto"
+        />
+        <figcaption style="text-align: center; transform: translateX(10%)">
+          Sample tumor detection output using transfer learning + detection
+          head.
+        </figcaption>
+      </figure>
+    </section>
+
+    <main class="section detail-content">
+      <section class="detail-section">
+        <h2>Quick Insights:</h2>
+
+        <ul class="psr-list">
+          <li>
+            <strong>Problem:</strong> MRI scans vary significantly in contrast,
+            noise, and orientation, making consistent tumor classification
+            challenging across datasets.
+          </li>
+          <br />
+
+          <li>
+            <strong>Solution:</strong> Implemented a multi-stage pipeline using
+            augmentation → baseline CNN → transfer learning (EfficientNetB4) →
+            tumor-region visualization. This ensured robustness while keeping
+            the model lightweight and stable.
+          </li>
+          <br />
+
+          <li>
+            <strong>Result:</strong> Achieved
+            <b>~0.97 validation F1-score</b> and smooth loss convergence.
+            Transfer learning significantly outperformed models trained from
+            scratch.
+          </li>
+        </ul>
+      </section>
+
+      <!-- SYSTEM OVERVIEW -->
+      <section class="detail-section">
+        <h2>Introduction</h2>
+
+        <p>
+          This project focused on building a reliable MRI-based brain tumor
+          classifier using supervised deep learning. Instead of relying on a
+          single dataset, we combined <b>four MRI datasets</b> to improve model
+          diversity and reduce overfitting. Augmentation played a key role in
+          simulating clinical variations such as rotation, zoom shifts,
+          brightness changes, and spatial distortions.
+        </p>
+
+        <p>
+          After evaluating a custom CNN built from scratch, we transitioned to
+          <b>transfer learning</b>
+          (EfficientNetB4) which delivered significantly better generalization
+          on unseen MRI scans.
+        </p>
+      </section>
+
+      <!-- AUGMENTATION IMAGES -->
+      <section class="detail-section detail-gallery">
+        <h2>Dataset Preparation & Augmentation</h2>
+
+        <p>
+          Augmentation compensated for limited data and high MRI variability.
+          Below are examples of synthetic samples generated from healthy
+          (non-tumor) scans:
+        </p>
+
+        <figure class="gallery-item gallery-item--wide">
+          <img src="./images/augmentation.png" alt="Augmentation examples" />
+          <figcaption>
+            Generated augmentations: rotation, flip, zoom, and pipeline
+            transformations.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- BASELINE CNN -->
+      <section class="detail-section">
+        <h2>Baseline Model: Custom CNN</h2>
+
+        <p>
+          The baseline CNN served as a controlled experiment to understand the
+          dataset’s complexity. It was intentionally simple, using two
+          convolution layers and dense classifiers. The architecture below
+          summarizes the layer progression:
+        </p>
+
+        <figure class="gallery-item gallery-item--medium">
+          <img src="./images/cnn_dims.png" alt="CNN architecture table" />
+          <figcaption>
+            Baseline CNN architecture (trained from scratch).
+          </figcaption>
+        </figure>
+
+        <p>
+          While effective for initial exploration, the model plateaued in
+          performance when exposed to more diverse MRI scans, motivating the use
+          of transfer learning.
+        </p>
+      </section>
+      <!-- TRANSFER LEARNING -->
+      <section class="detail-section">
+        <h2>Transfer Learning Approach</h2>
+
+        <p>
+          To achieve higher performance and generalization, we adopted
+          <b>EfficientNetB4</b> pre-trained on ImageNet and fine-tuned it for
+          binary tumor classification. Transfer learning helped retain low-level
+          features like gradients and textures while adapting high-level layers
+          to MRI patterns.
+        </p>
+
+        <figure class="gallery-item gallery-item--medium">
+          <img
+            src="./images/transfer_learning.jpg"
+            alt="Transfer learning illustration"
+            style="
+              max-width: 680px;
+              width: 100%;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            "
+          />
+          <figcaption>
+            Why transfer learning helps — reuse proven vision features.
+          </figcaption>
+        </figure>
+
+        <p>
+          This approach reduced training time, stabilized gradients, and
+          consistently outperformed custom CNN results. Below are the updated
+          final results using Transfer Learning.
+        </p>
+        <div class="gallery-row gallery-row--two">
+          <figure class="gallery-item">
+            <img
+              src="./images/results.png"
+              alt="Loss curve"
+              style="
+                max-width: 718px;
+                width: 100%;
+                height: auto;
+                margin: 0 auto;
+                display: block;
+              "
+            />
+            <figcaption style="text-align: center">
+              Binary cross-entropy loss and F1-score dynamics (Training vs
+              Validation).
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- KEY OUTCOMES -->
+      <section class="detail-section detail-impact">
+        <h2>Key Outcomes & Learnings</h2>
+
+        <ul>
+          <li>
+            Transfer learning (EfficientNetB4) achieved <b>~0.97 F1</b>,
+            outperforming CNN-from-scratch by a significant margin.
+          </li>
+          <br />
+
+          <li>
+            MRI augmentation was crucial for robustness, especially rotation and
+            zoom variations.
+          </li>
+          <br />
+
+          <li>
+            Learned how MRI modalities differ and how to design augmentations
+            that preserve diagnostic signals.
+          </li>
+          <br />
+
+          <li>
+            The pipeline generalizes well across datasets due to layered
+            approach: augmentation → CNN baseline → transfer learning.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Image Captioning – CNN-RNN, Attention & ViT-GPT2</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/ml-ai.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">ML/AI Projects</p>
+
+      <h1>Image Captioning with CNN-RNN, Attention and ViT-GPT2</h1>
+
+      <p class="detail-summary">
+        <b>
+          Explored multiple deep learning architectures for automatic image
+          captioning – starting from a CNN-RNN baseline, extending it with
+          attention, and finally fine tuning a ViT-GPT2 encoder–decoder model –
+          then compared their quality using ROUGE scores and test loss.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li><strong>Timeline:</strong> <b>Mar 2023 - Apr 2023</b></li>
+        <li>
+          <strong>Tech Stack:</strong>
+          <b>
+            PyTorch, Hugging Face Transformers, Inception v3, LSTMs, Vision
+            Transformer (ViT), GPT-2, spaCy
+          </b>
+        </li>
+      </ul>
+
+      <!-- HERO EXAMPLES -->
+      <section class="detail-section detail-hero-gif" style="margin-top: 2rem">
+        <div class="detail-gallery__grid">
+          <figure class="gallery-item gallery-item--medium">
+            <img
+              src="./images/sample_1.png"
+              alt="Children playing in a fountain with ground-truth and predicted captions"
+              style="max-width: 540px; width: 100%; height: auto"
+            />
+            <figcaption>
+              Example 1 – model correctly captures “children playing in a
+              fountain” with a high ROUGE score.
+            </figcaption>
+          </figure>
+
+          <figure class="gallery-item gallery-item--medium">
+            <img
+              src="./images/sample_2.png"
+              alt="Dog jumping over hurdle with ground-truth and predicted captions"
+              style="max-width: 540px; width: 100%; height: auto"
+            />
+            <figcaption>
+              Example 2 – generated caption matches core semantics of the ground
+              truth for a dog jumping over an obstacle.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+    </header>
+
+    <main class="section detail-content">
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick Insights:</h2>
+
+        <ul class="psr-list">
+          <li>
+            <strong>Problem:</strong>
+            Given an input image, generate a natural-language caption that
+            captures the main scene, actors and action – and compare how classic
+            CNN-RNN architectures stack up against modern transformer-based
+            encoder–decoder models.
+          </li>
+          <br />
+
+          <li>
+            <strong>Solution:</strong>
+            Implemented and trained three variants:
+            <b>CNN-RNN</b> with Inception v3 + 2-layer LSTM decoder,
+            <b>CNN-RNN with attention</b> over visual features, and a
+            <b>ViT-GPT2</b> model fine tuned via Hugging Face as a unified
+            encoder–decoder. All models were trained on the same caption dataset
+            and evaluated under a common pipeline.
+          </li>
+          <br />
+
+          <li>
+            <strong>Result:</strong>
+            Attention improved semantic coverage over the baseline, and the
+            ViT-GPT2 model achieved the best performance with an
+            <b>average ROUGE score of 0.45</b> and the lowest test loss
+            (<b>2.78</b>), while also handling longer, more descriptive
+            captions.
+          </li>
+        </ul>
+      </section>
+
+      <!-- INTRODUCTION -->
+      <section class="detail-section">
+        <h2>Introduction</h2>
+        <p>
+          This project investigates different neural architectures for image
+          captioning, from classic CNN-RNN pipelines to transformers. The goal
+          was to move beyond “toy examples” and build a training + evaluation
+          loop that makes it easy to benchmark ideas under the same data,
+          metrics and preprocessing.
+        </p>
+
+        <p>
+          We started with a strong baseline using pre trained
+          <b>Inception v3</b> as a feature extractor and a 2-layer
+          <b>LSTM decoder</b> trained with teacher forcing. We then added an
+          attention mechanism over the image features, and finally replaced the
+          entire stack with a <b>ViT-GPT2</b> encoder–decoder initialized from
+          Hugging Face checkpoints and fine tuned using
+          <code>Seq2SeqTrainer</code>.
+        </p>
+
+        <ul>
+          <li>Tokenizer and vocabulary built from training captions</li>
+          <br />
+          <li>Images augmented via random cropping and normalization</li>
+          <br />
+          <li>
+            Teacher forcing ratio set to 1.0 during training, with scheduled
+            sampling considered as future work
+          </li>
+          <br />
+          <li>
+            Evaluation performed with ROUGE scores and test cross-entropy loss
+          </li>
+        </ul>
+      </section>
+
+      <!-- CNN-RNN SECTION -->
+      <section class="detail-section detail-gallery">
+        <h2>CNN-RNN Baseline</h2>
+
+        <div class="detail-gallery__grid">
+          <figure class="gallery-item gallery-item--wide">
+            <img
+              src="./images/cnn_rnn_model.png"
+              alt="Flow diagram for CNN-RNN image captioning model"
+              style="max-width: 900px; width: 100%; height: auto"
+            />
+            <figcaption>
+              Pipeline for the CNN-RNN baseline: Inception v3 encoder, caption
+              preprocessing, padded batches, and 2-layer LSTM decoder.
+            </figcaption>
+          </figure>
+        </div>
+
+        <p>
+          The baseline model extracts a fixed visual embedding from Inception v3
+          and feeds it as the initial hidden state to a 2-layer LSTM that
+          predicts the caption token by token.
+        </p>
+
+        <ul>
+          <li>Inception v3 encoder frozen during early epochs</li>
+          <br />
+          <li>
+            LSTM hidden size and embedding size chosen to balance capacity and
+            training time
+          </li>
+          <br />
+          <li>
+            Achieved an <b>average ROUGE score of 0.336</b> with a
+            <b>test loss of 4.82</b> after 100 epochs (~7 hours of training)
+          </li>
+          <br />
+          <li>
+            Captures broad scene information but often misses finer details such
+            as small objects or modifiers
+          </li>
+        </ul>
+      </section>
+
+      <!-- CNN-RNN + ATTENTION SECTION -->
+      <section class="detail-section detail-gallery">
+        <h2>Adding Attention on Visual Features</h2>
+
+        <p>
+          To improve detail capture, we extended the baseline with an attention
+          mechanism that lets the decoder focus on different spatial regions of
+          the image as each word is generated.
+        </p>
+        <div class="detail-gallery__grid">
+          <figure class="gallery-item gallery-item--wide">
+            <img
+              src="./images/attention_node.png"
+              alt="diagram for added attention architecture to base model"
+              style="max-width: 900px; width: 100%; height: auto"
+            />
+            <figcaption>
+              Attention mechanism added to base RNN-CNN architecture
+            </figcaption>
+          </figure>
+        </div>
+
+        <ul>
+          <li>
+            Attention weights computed over feature maps from the CNN encoder
+          </li>
+          <br />
+          <li>
+            Decoder receives both previous hidden state and attended visual
+            context at each step
+          </li>
+          <br />
+          <li>
+            Improved the <b>average ROUGE score to 0.41</b> and reduced
+            <b>test loss to 3.09</b> with similar training time (~8 hours)
+          </li>
+          <br />
+          <li>
+            Qualitatively, captions better reflected key objects and actions,
+            especially when multiple entities are present
+          </li>
+        </ul>
+      </section>
+
+      <!-- VIT+GPT2 SECTION -->
+      <section class="detail-section detail-gallery">
+        <h2>ViT-GPT2 Encoder–Decoder</h2>
+
+        <div class="detail-gallery__grid">
+          <figure class="gallery-item gallery-item--wide">
+            <img
+              src="./images/vit_gpt2.png"
+              alt="Diagram of ViT-GPT2 encoder-decoder captioning model"
+              style="max-width: 900px; width: 100%; height: auto"
+            />
+            <figcaption>
+              ViT-GPT2 model: Vision Transformer encoder produces image tokens
+              consumed by a GPT-2 decoder for caption generation.
+            </figcaption>
+          </figure>
+        </div>
+
+        <p>
+          The final model uses a <b>Vision Transformer (ViT)</b> as the image
+          encoder and <b>GPT-2</b> as the text decoder. Both components are
+          initialized from pre trained Hugging Face models and jointly fine
+          tuned on the captioning dataset.
+        </p>
+
+        <ul>
+          <li>
+            ViT processes 224×224 images into patch embeddings passed through
+            transformer layers
+          </li>
+          <br />
+          <li>
+            GPT-2 decoder attends over both text and image embeddings, making it
+            more expressive for long captions
+          </li>
+          <br />
+          <li>
+            Achieved the best <b>average ROUGE score: 0.45</b> and
+            <b>lowest test loss: 2.78</b>
+          </li>
+          <br />
+          <li>
+            Captured richer spatial relationships and nuanced details (e.g.,
+            “group of children playing in a fountain” rather than generic
+            “children outside”)
+          </li>
+        </ul>
+      </section>
+
+      <!-- RESULTS & COMPARISON -->
+      <section class="detail-section detail-gallery">
+        <h2>Results & Model Comparison</h2>
+
+        <p>
+          The table below summarizes the three approaches under the same
+          training schedule. ViT-GPT2 offers the best caption quality while
+          keeping training time reasonable thanks to pre training.
+        </p>
+
+        <div class="detail-gallery__grid">
+          <figure class="gallery-item gallery-item--wide">
+            <img
+              src="./images/results.png"
+              alt="Comparison table of CNN-RNN, CNN-RNN with Attention, and ViT-GPT2"
+              style="max-width: 900px; width: 100%; height: auto"
+            />
+            <figcaption>
+              Comparison of models over 100 epochs: attention reduces test loss
+              significantly, and ViT-GPT2 achieves the highest ROUGE and lowest
+              loss overall.
+            </figcaption>
+          </figure>
+        </div>
+
+        <ul>
+          <li>
+            <b>CNN-RNN:</b> strong baseline, underfits fine details and
+            relationships between objects.
+          </li>
+          <br />
+          <li>
+            <b>CNN-RNN + Attention:</b> better at focusing on key regions,
+            especially for multi-object scenes.
+          </li>
+          <br />
+          <li>
+            <b>ViT-GPT2:</b> most expressive model; excels at longer, more
+            descriptive captions and aligns best with human-written references.
+          </li>
+          <br />
+        </ul>
+      </section>
+
+      <!-- TAKEAWAYS -->
+      <section class="detail-section detail-impact">
+        <h2>Key Takeaways</h2>
+
+        <p>
+          This project provided a practical comparison between classic and
+          transformer-based captioning systems under a controlled setup. It also
+          reinforced the importance of clean preprocessing, consistent
+          evaluation, and strong baselines.
+        </p>
+
+        <ul>
+          <li>
+            Built a reusable training + evaluation loop that can plug in
+            different encoder–decoder architectures with minimal changes.
+          </li>
+          <br />
+          <li>
+            Saw how attention mechanisms systematically improve coverage of
+            salient objects compared to plain CNN-RNN models.
+          </li>
+          <br />
+          <li>
+            Confirmed that leveraging pre trained ViT and GPT-2 gives a clear
+            boost in caption quality, especially for complex scenes.
+          </li>
+          <br />
+          <li>
+            Deepened understanding of sequence modeling, vision transformers and
+            how to read and compare metrics like ROUGE and test loss in a
+            multi-model experiment.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

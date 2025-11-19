@@ -41,10 +41,10 @@
       <!-- HERO IMAGE: PROMPT FLOW -->
       <section class="detail-section detail-hero-gif">
         <figure class="gallery-item gallery-item--medium">
-            <img
-              src="./images/prompt_flow.png"
-              alt="User prompt flowing into a fine tuned Falcon LLM with a generated horror story"
-              style="
+          <img
+            src="./images/prompt_flow.png"
+            alt="User prompt flowing into a fine tuned Falcon LLM with a generated horror story"
+            style="
               max-width: 220px;
               width: 100%;
               height: auto;
@@ -131,11 +131,13 @@
             Falcon 7B was loaded in 8 bit mode with bitsandbytes and fine tuned
             using PEFT and LoRA while freezing the base weights.
           </li>
+          <br />
           <li>
             Llama 2 7B was fine tuned using Autotrain advanced with the same
             instruction style dataset and comparable settings for a fair
             comparison.
           </li>
+          <br />
           <li>
             For each configuration, we generated up to 200 tokens per story and
             ran a shared evaluation pipeline across all story sets.
@@ -159,10 +161,12 @@
             Books were segmented into roughly 50 line excerpts to keep stories
             coherent while still practical for training.
           </li>
+          <br />
           <li>
             Each segment used a genre specific prompt such as "Write me a horror
             story" or "Write me a fairy tale" with the segment as the response.
           </li>
+          <br />
           <li>
             The resulting dataset could be fed to both Falcon and Llama models
             without changing the format, which made the comparison more direct.
@@ -232,7 +236,9 @@
           class="story-sample"
           style="max-width: 52rem; margin: 0 auto; text-align: center"
         >
-          <pre style="display: inline-block; text-align: left"><code>"It is the story of the old man who lived alone in the woods,"
+          <pre
+            style="display: inline-block; text-align: left"
+          ><code>"It is the story of the old man who lived alone in the woods,"
 answered the boy. "He had no friends, and no one ever came to
 visit him. He was very lonely, and one night he heard a voice
 calling him. He opened the door, and there stood a tall,
@@ -335,19 +341,23 @@ in hell."</code></pre>
             Structured an instruction style dataset from public domain books and
             reused it across different models and training configurations.
           </li>
+          <br />
           <li>
             Used PEFT and LoRA to fine tune only 0.13 percent of Falcon 7B
             parameters, making experimentation feasible on limited hardware.
           </li>
+          <br />
           <li>
             Designed an evaluation pipeline that blends sentiment analysis, word
             statistics and topic modeling instead of relying on a single score.
           </li>
+          <br />
           <li>
             Observed that Falcon 7B was better suited for this creative story
             task, while Llama 2 behaved more like a generic instruction follower
             and often softened the tone of horror stories.
           </li>
+          <br />
           <li>
             Identified next steps such as scaling the dataset, trying different
             prompts and testing newer base models for more controllable genre

@@ -13,7 +13,7 @@
         &larr; Back to Projects
       </a>
 
-      <p class="category-pill">ML/AI &amp; Computer Vision</p>
+      <p class="category-pill">ML/AI Projects</p>
 
       <h1>ShapeSense – Real-Time 2D Object Recognition</h1>
 
@@ -31,8 +31,8 @@
         <li>
           <strong>Tech Stack:</strong>
           <b
-            >C++, OpenCV, custom Otsu thresholding, Hu moments, k-NN style
-            classifier, cosine similarity, CSV feature store</b
+            >C++, OpenCV, Hu moments, k-NN style classifier, cosine similarity,
+            CSV feature store</b
           >
         </li>
       </ul>
@@ -113,11 +113,14 @@
 
         <ul>
           <li>Supports 13 trained object classes with room to add more</li>
+          <br />
           <li>Operates on a live video stream, not just static images</li>
+          <br />
           <li>
             Offers both classic k-NN style classifier and a DNN-embedding mode
             for comparison
           </li>
+          <br />
           <li>
             Includes an interactive unknown-object registration and a dynamic
             confusion matrix for evaluation
@@ -179,20 +182,24 @@
             <b>Custom Otsu Thresholding:</b> Gaussian blur followed by manually
             implemented Otsu to separate foreground objects from background.
           </li>
+          <br />
           <li>
             <b>Morphological cleanup:</b> custom dilation and erosion matrices
             to remove noise and unify object blobs.
           </li>
+          <br />
           <li>
             <b>Segmentation:</b> <code>connectedComponentsWithStats</code> to
             extract candidate regions above a minimum area threshold.
           </li>
+          <br />
           <li>
             <b>Feature vector per region (7D):</b><br />
             – 5 Hu moments (scale / rotation / translation invariant)<br />
             – oriented bounding box height–width ratio<br />
             – percent of box area filled by the object
           </li>
+          <br />
           <li>
             <b>Orientation robustness:</b> principal axis of least central
             moment is computed and drawn in red; the features are monitored
@@ -240,21 +247,25 @@ std::vector&lt;double&gt; features = {
             database; if the minimum distance is above a threshold, the object
             is labeled as <i>unknown</i>.
           </li>
+          <br />
           <li>
             <b>Unknown object support:</b> when an unknown is detected, the user
             can press a key to provide a label; the new feature vector is then
             appended to the CSV so future frames recognize it.
           </li>
+          <br />
           <li>
             <b>DNN comparison mode:</b> an optional mode uses deep embeddings
             and cosine similarity, providing a contrast with the classic
             nearest-neighbour approach on shape descriptors.
           </li>
+          <br />
           <li>
             <b>Confusion matrix:</b> a dynamic confusion matrix is built in real
             time by letting the user confirm ground-truth labels and logging
             predicted vs. true classes.
           </li>
+          <br />
           <li>
             <b>Real-time performance:</b> all processing is done on live video,
             not just offline images, so users can move and rotate objects to see

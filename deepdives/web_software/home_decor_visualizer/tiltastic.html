@@ -114,12 +114,14 @@
             textures and then adjust rotation along X and Z axes plus tile count
             for the final visualization.
           </li>
+          <br />
           <li>
             The backend keeps the segmented floor and depth information cached
             per session, reducing repeated visualization time from around
             <b>60 seconds to 30 seconds</b> when trying multiple tile designs on
             the same image.
           </li>
+          <br />
           <li>
             The project followed an incremental model: starting from data
             collection and segmentation, then model training, then depth
@@ -211,21 +213,25 @@
             multiple tile designs from home, replacing the need for repeated
             store visits and physical samples for many early decisions.
           </li>
+          <br />
           <li>
             Learned how to train and integrate segmentation and depth models
             with Flask APIs, including handling image preprocessing, model
             loading, error cases and response formatting.
           </li>
+          <br />
           <li>
             Implemented pixel level replacement and corner estimation using
             depth gradients, which improved alignment for oblique camera angles
             and non rectangular rooms.
           </li>
+          <br />
           <li>
             Applied an iterative development process: start with floor only,
             then add wall support, then optimize for repeated design changes on
             the same image.
           </li>
+          <br />
           <li>
             Demonstrated that a relatively compact model plus efficient
             preprocessing can provide visually convincing results at around 85
