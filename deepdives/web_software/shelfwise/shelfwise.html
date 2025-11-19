@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shelfwise – Personal Reading Companion</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/web-software.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">Web and Software</p>
+
+      <h1>Shelfwise – Personal Reading Companion</h1>
+
+      <p class="detail-summary">
+        <b>
+          A React and GraphQL powered personal library to track books, capture
+          notes, auto summarize reflections and surface genre based
+          recommendations inside a clean reading dashboard.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li><strong>Timeline:</strong> <b> Aug 2020 - Sep 2020</b></li>
+        <li>
+          <strong>Tech Stack:</strong>
+          <b>
+            React.js, Apollo Client, Node.js, Express, GraphQL (graphql-http),
+            JavaScript, BERT embeddings
+          </b>
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--medium">
+          <img
+            src="./images/intro_page.png"
+            alt="Shelfwise personal library view with list of books and a detailed current selection panel"
+            style="
+              max-width: 900px;
+              width: 100%;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            "
+          />
+          <figcaption>
+            Shelfwise library view showing the collection on the left and a
+            detailed panel on the right with genre, notes summary and more from
+            the same author.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick Insights:</h2>
+
+        <ul class="psr-list">
+          <li>
+            <strong>Problem:</strong>
+            I wanted a focused place to track what I read, keep short notes and
+            quickly recall why a book mattered, along with a few smart
+            suggestions for what to read next.
+          </li>
+          <br />
+
+          <li>
+            <strong>Solution:</strong>
+            Built Shelfwise, a small personal reading companion where each book
+            has notes, a BERT based notes summary and inline recommendations
+            driven by cosine similarity over book embeddings.
+          </li>
+          <br />
+
+          <li>
+            <strong>Result:</strong>
+            The app turns scattered reading notes into a structured library. A
+            single GraphQL query powers the main view with book details,
+            summaries and recommendations, which keeps the React code simple and
+            avoids multiple REST calls.
+          </li>
+        </ul>
+      </section>
+
+      <!-- INTRODUCTION -->
+      <section class="detail-section">
+        <h2>Introduction</h2>
+
+        <p>
+          Shelfwise is a personal library application that helps me track my
+          reading and capture lightweight reflections. Each entry includes a
+          title, genre, author and notes. The app highlights a single current
+          selection and presents the notes summary and suggested next reads side
+          by side.
+        </p>
+
+        <p>
+          The project is built as a small full stack system: a React.js frontend
+          with Apollo Client talks to a Node and Express backend that exposes a
+          GraphQL API. Data is stored in memory for easy demo and testing, which
+          keeps the focus on schema design, resolver logic and UI flow rather
+          than infrastructure.
+        </p>
+      </section>
+
+      <!-- DEMONSTRATION -->
+      <section class="detail-section detail-gallery">
+        <h2>Demonstration</h2>
+
+        <div class="gallery-row gallery-row--one">
+          <figure
+            class="gallery-item gallery-item--clickable gallery-item--wide"
+          >
+            <a href="./images/entry.png" target="_blank">
+              <img
+                src="./images/entry.png"
+                alt="New book entry form for Shelfwise with title, genre, author and notes fields"
+                style="
+                  max-width: 760px;
+                  width: 100%;
+                  height: auto;
+                  margin: 0 auto;
+                  display: block;
+                "
+              />
+            </a>
+            <figcaption>
+              Add book flow with fields for title, genre, author and notes.
+              Notes are later summarized into a short highlight block for quick
+              recall.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ARCHITECTURE & GRAPHQL DESIGN -->
+      <section class="detail-section">
+        <h2>Architecture and GraphQL design</h2>
+
+        <p>
+          Shelfwise uses GraphQL as the main boundary between the React frontend
+          and the Node backend. The main screen needs a mix of base data and
+          derived data: raw notes, a BERT based summary and a list of similar
+          books. GraphQL lets the UI fetch all of that in a single, strongly
+          typed query.
+        </p>
+
+        <h3>Why GraphQL fits this project</h3>
+        <ul>
+          <li>
+            The main view can fetch
+            <b>all data for a selected book in one round trip</b>: title, genre,
+            author, notesSummary and recommendations.
+          </li>
+          <li>
+            <b>Derived fields live behind resolvers.</b> The backend owns how
+            summaries and recommendations are computed, while the client only
+            asks for the fields it needs.
+          </li>
+          <li>
+            The schema doubles as a contract: adding future fields like rating
+            or reading status is a small, discoverable change.
+          </li>
+        </ul>
+
+        <h3>Summarisation and recommendations</h3>
+        <ul>
+          <li>
+            <b>Notes summarisation with BERT:</b>
+            when a user saves notes, the backend encodes the text using a
+            sentence BERT model and scores sentences by importance. The top
+            sentences are stitched into a short notesSummary that fits naturally
+            into the UI.
+          </li>
+          <li>
+            <b>Recommendations via cosine similarity:</b>
+            for each book, an embedding is computed from its title and a short
+            description using the same BERT encoder. These embeddings are
+            compared against a small open dataset of books (a filtered slice of
+            the Goodbooks-10k dataset), and the closest matches by cosine
+            similarity are returned as recommendations, excluding the current
+            title.
+          </li>
+        </ul>
+      </section>
+
+      <!-- REPRESENTATIVE CODE SNIPPET -->
+      <section class="detail-section detail-snippet">
+        <h2>Representative GraphQL schema snippet</h2>
+        <pre><code>// backend/schema.js (excerpt)
+
+const BookType = new GraphQLObjectType({
+  name: "Book",
+  fields: () => ({
+    id: { type: new GraphQLNonNull(GraphQLID) },
+    title: { type: new GraphQLNonNull(GraphQLString) },
+    genre: { type: new GraphQLNonNull(GraphQLString) },
+    notes: { type: GraphQLString },
+
+    notesSummary: {
+      type: GraphQLString,
+      resolve: (book, args, ctx) =>
+        ctx.services.summarizer.summarizeWithBert(book.notes),
+    },
+
+    recommendations: {
+      type: new GraphQLList(BookType),
+      resolve: (book, args, ctx) =>
+        ctx.services.recommender.similarBooksByCosine(book),
+    },
+  }),
+});
+
+// Query { books, book(id: ID!) } and Mutation { addBook(...) } sit on top
+// of this type and are used by the React UI via Apollo Client.
+</code></pre>
+
+        <p>
+          The Book type exposes both stored fields and derived fields. React
+          components can request title, genre, notesSummary and recommendations
+          in one query, while the backend hides the BERT based summarisation and
+          cosine similarity logic inside services.
+        </p>
+      </section>
+
+      <!-- KEY OUTCOMES -->
+      <section class="detail-section detail-impact">
+        <h2>Key outcomes and learnings</h2>
+
+        <p>
+          Shelfwise is a small but well rounded project that combines UI work,
+          schema design and lightweight ML to improve the reading experience.
+        </p>
+
+        <ul>
+          <li>
+            Designed a GraphQL schema that keeps the React components simple by
+            centralising summarisation and recommendation logic on the server.
+          </li>
+          <li>
+            Built a responsive reading dashboard that makes it easy to add
+            books, review notes and decide what to read next in one place.
+          </li>
+          <li>
+            Structured the backend so that the in memory data store can later be
+            swapped for a persistent database without changing the GraphQL
+            contract.
+          </li>
+          <li>
+            Used BERT embeddings and cosine similarity to add ML driven
+            behaviour without complicating the frontend or the API surface.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

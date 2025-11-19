@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LLM Story Generation – Horror & Fairy Tales</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/ml-ai.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">ML/AI Projects</p>
+
+      <h1>Fine tuned LLMs for story generation</h1>
+
+      <p class="detail-summary">
+        <b>
+          Fine tuned open source large language models to generate genre
+          conditioned horror stories and fairy tales, then evaluated how well
+          different models match the tone and patterns of the training data.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li><strong>Timeline:</strong> <b>Nov 2023 to Dec 2023</b></li>
+        <li>
+          <strong>Tech Stack:</strong>
+          <b>
+            Falcon 7B Instruct, Llama 2 7B, Hugging Face Transformers, PEFT,
+            LoRA, bitsandbytes, PyTorch, BERT, LDA, Python
+          </b>
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE: PROMPT FLOW -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--medium">
+            <img
+              src="./images/prompt_flow.png"
+              alt="User prompt flowing into a fine tuned Falcon LLM with a generated horror story"
+              style="
+              max-width: 220px;
+              width: 100%;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            "
+          />
+          <figcaption>
+            Prompt flow from a user request such as "Write me a horror story"
+            into the fine tuned model and the generated output.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick Insights:</h2>
+
+        <ul class="psr-list">
+          <li>
+            <strong>Problem:</strong>
+            Off the shelf large language models are powerful, but it is not
+            obvious how well they adapt to narrow creative domains such as
+            horror stories or fairy tales. We wanted to see how fine tuning
+            changes style and sentiment for these genres.
+          </li>
+          <br />
+
+          <li>
+            <strong>Solution:</strong>
+            Trained Falcon 7B and Llama 2 7B on horror and fairy tale books
+            using parameter efficient fine tuning and LoRA. Built an evaluation
+            pipeline that compares generated stories with the training
+            distribution using sentiment analysis, word statistics and topic
+            modeling.
+          </li>
+          <br />
+
+          <li>
+            <strong>Result:</strong>
+            Falcon tuned with PEFT and LoRA, updating only about
+            <b
+              >4.7 million trainable parameters (around 0.13 percent of the
+              model)</b
+            >, produced stories whose sentiment and topical patterns were closer
+            to the training data than Llama 2 7B, especially for horror. We
+            generated <b>100 stories per scenario</b> to compare original data,
+            base models and multiple fine tuning stages.
+          </li>
+        </ul>
+      </section>
+
+      <!-- INTRODUCTION -->
+      <section class="detail-section">
+        <h2>Introduction</h2>
+
+        <p>
+          This project explores how open source large language models can be
+          adapted for a focused creative task. We targeted two genres, horror
+          and fairy tales, and two models, Falcon 7B Instruct and Llama 2 7B.
+          The goal was to understand both how to train these models on a small
+          domain specific dataset and how their behavior changes after fine
+          tuning.
+        </p>
+
+        <p>
+          We used
+          <a
+            href="https://www.gutenberg.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Project Gutenberg</a
+          >, a public domain digital library of books in plain text format, as
+          the data source. Books were cleaned and converted into instruction
+          style prompt and response pairs. A typical training row has a prompt
+          such as "Write me a horror story" or "Write me a fairy tale" and a
+          roughly 50 line excerpt from a matching story as the response. This
+          structure lets us reuse the same dataset across different instruction
+          tuned models.
+        </p>
+
+        <ul>
+          <li>
+            Falcon 7B was loaded in 8 bit mode with bitsandbytes and fine tuned
+            using PEFT and LoRA while freezing the base weights.
+          </li>
+          <li>
+            Llama 2 7B was fine tuned using Autotrain advanced with the same
+            instruction style dataset and comparable settings for a fair
+            comparison.
+          </li>
+          <li>
+            For each configuration, we generated up to 200 tokens per story and
+            ran a shared evaluation pipeline across all story sets.
+          </li>
+        </ul>
+      </section>
+
+      <!-- DATASET & PROMPT FORMATTING + DATASET IMAGE -->
+      <section class="detail-section">
+        <h2>Dataset and Prompt Formatting</h2>
+
+        <p>
+          The dataset started as raw text files from Project Gutenberg for both
+          genres. We removed boilerplate, normalized the content and split each
+          book into self contained story slices. Each slice was tagged with its
+          genre and turned into an instruction style training example.
+        </p>
+
+        <ul>
+          <li>
+            Books were segmented into roughly 50 line excerpts to keep stories
+            coherent while still practical for training.
+          </li>
+          <li>
+            Each segment used a genre specific prompt such as "Write me a horror
+            story" or "Write me a fairy tale" with the segment as the response.
+          </li>
+          <li>
+            The resulting dataset could be fed to both Falcon and Llama models
+            without changing the format, which made the comparison more direct.
+          </li>
+        </ul>
+
+        <section class="detail-section detail-gallery">
+          <div class="gallery-row gallery-row--one">
+            <figure
+              class="gallery-item gallery-item--clickable gallery-item--wide"
+            >
+              <a href="./images/data_set_creation.png" target="_blank">
+                <img
+                  src="./images/data_set_creation.png"
+                  alt="Dataset creation flow from Project Gutenberg books to instruction pairs"
+                  style="
+                    max-width: 220px;
+                    width: 100%;
+                    height: auto;
+                    margin: 0 auto;
+                    display: block;
+                  "
+                />
+              </a>
+              <figcaption>
+                Dataset creation flow from Project Gutenberg books through
+                cleaning, segmentation and prompt plus response construction.
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+      </section>
+
+      <!-- SYSTEM PIPELINE: FULL FLOW IMAGE -->
+      <section class="detail-section detail-gallery">
+        <h2>End to End LLM Pipeline</h2>
+
+        <div class="gallery-row gallery-row--one">
+          <figure
+            class="gallery-item gallery-item--clickable gallery-item--wide"
+          >
+            <a href="./images/full_flow.png" target="_blank">
+              <img
+                src="./images/full_flow.png"
+                alt="Full pipeline from data preprocessing to evaluation"
+                style="
+                  max-width: 308px;
+                  width: 100%;
+                  height: auto;
+                  margin: 0 auto;
+                  display: block;
+                "
+              />
+            </a>
+            <figcaption>
+              End to end pipeline from Gutenberg books to instruction dataset,
+              Falcon and Llama fine tuning, story generation and evaluation.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- SAMPLE STORY -->
+      <section class="detail-section detail-snippet">
+        <h2>Sample generated story (Horror, Falcon 7B tuned)</h2>
+        <div
+          class="story-sample"
+          style="max-width: 52rem; margin: 0 auto; text-align: center"
+        >
+          <pre style="display: inline-block; text-align: left"><code>"It is the story of the old man who lived alone in the woods,"
+answered the boy. "He had no friends, and no one ever came to
+visit him. He was very lonely, and one night he heard a voice
+calling him. He opened the door, and there stood a tall,
+gray-haired man, with a white beard. He said he had come to take
+him away, and that he was to go to a better place than he had ever
+been to before. He took the old man by the hand, and led him away
+into the woods. They walked all night, and when they reached a
+little lake, the man said to the old man, "Now, I am going to tell
+you a story. You have heard of the devil, and you know that he lives
+in hell."</code></pre>
+        </div>
+        <p style="text-align: center; max-width: 52rem; margin: 0.75rem auto 0">
+          This sample shows how the tuned Falcon model adopts genre appropriate
+          setting, character choices and mood for horror stories using the
+          instruction based training.
+        </p>
+      </section>
+
+      <!-- EVALUATION & RESULTS WITH SIDE BY SIDE GRAPHS -->
+      <section class="detail-section">
+        <h2>Evaluation and results</h2>
+
+        <p>
+          We compared original data, base models, partially trained Falcon,
+          Falcon tuned for three epochs and Llama 2 after one epoch. For each
+          configuration we generated 100 stories and analyzed them with three
+          complementary methods.
+        </p>
+
+        <ul>
+          <li>
+            <b>Sentiment analysis by genre:</b><br />
+            Used a BERT based sentiment classifier on the last 512 tokens of
+            each story to measure the proportion of positive and negative
+            endings for horror, fairy tales and all stories combined.
+          </li>
+          <br />
+          <li>
+            <b>Top positive and negative words:</b><br />
+            Counted curated positive and negative words to see which sentiment
+            carrying terms dominated each model and how that differed from the
+            original data.
+          </li>
+          <br />
+          <li>
+            <b>Topic modeling with LDA:</b><br />
+            Ran LDA on each story set and inspected topics to check whether
+            fairy tales preserve royalty and family themes and horror stories
+            retain darker imagery such as night, ghosts or forests.
+          </li>
+        </ul>
+
+        <p>
+          Overall, Falcon tuned with PEFT and LoRA moved closer to the training
+          distribution. Horror stories from Falcon were more likely to have
+          negative endings and fairy tales more likely to have positive tone,
+          while Llama 2 often pushed both genres toward more positive outcomes.
+        </p>
+
+        <section class="detail-section detail-gallery">
+          <div class="gallery-row gallery-row--two">
+            <figure class="gallery-item">
+              <img
+                src="./images/original_prop.png"
+                alt="Sentiment proportions for original data by genre"
+                style="max-width: 100%; height: auto"
+              />
+              <figcaption>
+                Original data sentiment by genre used as a reference.
+              </figcaption>
+            </figure>
+
+            <figure class="gallery-item">
+              <img
+                src="./images/falcon_prop.png"
+                alt="Sentiment proportions for Falcon tuned data by genre"
+                style="max-width: 100%; height: auto"
+              />
+              <figcaption>
+                Falcon tuned for three epochs, showing a closer match to the
+                original genre specific sentiment patterns.
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+      </section>
+
+      <!-- KEY OUTCOMES AND LEARNINGS -->
+      <section class="detail-section detail-impact">
+        <h2>Key outcomes and learnings</h2>
+
+        <p>
+          This project combined modern LLM tooling, parameter efficient fine
+          tuning and lightweight evaluation methods into a single workflow for
+          creative text generation.
+        </p>
+
+        <ul>
+          <li>
+            Structured an instruction style dataset from public domain books and
+            reused it across different models and training configurations.
+          </li>
+          <li>
+            Used PEFT and LoRA to fine tune only 0.13 percent of Falcon 7B
+            parameters, making experimentation feasible on limited hardware.
+          </li>
+          <li>
+            Designed an evaluation pipeline that blends sentiment analysis, word
+            statistics and topic modeling instead of relying on a single score.
+          </li>
+          <li>
+            Observed that Falcon 7B was better suited for this creative story
+            task, while Llama 2 behaved more like a generic instruction follower
+            and often softened the tone of horror stories.
+          </li>
+          <li>
+            Identified next steps such as scaling the dataset, trying different
+            prompts and testing newer base models for more controllable genre
+            specific generation.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

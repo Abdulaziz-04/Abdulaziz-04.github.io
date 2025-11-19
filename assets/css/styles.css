@@ -710,6 +710,14 @@ main {
   align-items: center;
 }
 
+.detail-gallery .gallery-row--two {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+
 .detail-gallery .gallery-item {
   flex: 0 0 auto;
   max-width: 880px;
