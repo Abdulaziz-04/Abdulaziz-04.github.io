@@ -858,6 +858,24 @@ main {
   }
 }
 
+@media (max-width: 640px) {
+  .hero-header {
+    padding-top: 9rem;
+  }
+
+  .experience-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    font-size: 1.05rem;
+  }
+
+  .experience-title .org {
+    white-space: normal;
+    width: 100%;
+  }
+}
+
 
 /* Medium size for first GIF */
 .gallery-item--medium {
