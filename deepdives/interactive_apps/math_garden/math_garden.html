@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Math Garden – Handwritten digits and growing garden feedback</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/interactive_apps.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">Interactive Applications</p>
+
+      <h1>Math Garden – Interactive Toddler App</h1>
+
+      <p class="detail-summary">
+        <b>
+          A browser-based addition game for toddlers and early learners where
+          they write the answer by hand, a small MLP neural network recognizes
+          the digit in real time, and a colorful garden grows or shrinks based
+          on their answers.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li>
+          <strong>Tech Stack:</strong>
+          Python, TensorFlow, MLP neural network,TensorFlow.js, JavaScript, HTML
+          /CSS
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--wide">
+          <img
+            src="./images/intro_page.png"
+            alt="Math Garden landing screen with playful plants and simple addition problem for kids"
+            style="
+              max-width: 80%;
+              width: 100%;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            "
+          />
+          <figcaption style="text-align: center">
+            Math Garden’s main screen: kids solve tiny addition problems and
+            draw the answer in the black square to help the garden flourish.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick insights</h2>
+        <ul class="psr-list">
+          <li>
+            <strong>Goal:</strong>
+            Turn early math practice into a playful, low-pressure activity where
+            toddlers feel like they are nurturing a garden instead of taking a
+            test.
+          </li>
+          <br />
+          <li>
+            <strong>Gameplay loop:</strong>
+            The page shows random addition problems, Children write the answer
+            using a finger, stylus, or mouse on a canvas and tap “Check Answer”
+            to see if the garden grows.
+          </li>
+          <br />
+          <li>
+            <strong>ML in the browser:</strong>
+            A pre-trained 3-layer dense MNIST classifier is converted to a
+            TensorFlow.js model and runs entirely in the browser. OpenCV.js
+            preprocesses the canvas and the MLP (Multi-Layer Perceptron) neural
+            network predicts the digit with no backend calls.
+          </li>
+          <br />
+          <li>
+            <strong>Feedback:</strong>
+            Correct answers stack new SVG background layers and grow the garden
+            through six stages. Mistakes gently shrink one step, keeping
+            feedback clear but not discouraging for young kids.
+          </li>
+        </ul>
+      </section>
+
+      <!-- GAME FLOW -->
+      <section class="detail-section">
+        <h2>Experience and game flow</h2>
+        <p>
+          The interface is intentionally minimal so pre-readers can play with
+          almost no instructions from adults.
+        </p>
+        <ul>
+          <li>
+            <b>Single page play:</b>
+            The entire game lives on one HTML page with no menus. A new addition
+            problem appears immediately after each attempt to keep the rhythm
+            simple and predictable for toddlers.
+          </li>
+          <br />
+          <li>
+            <b>Handwriting canvas:</b>
+            An HTML5 canvas captures strokes from both mouse and touch events.
+            Kids literally “write” the answer inside the black tile, which feels
+            more like drawing than typing numbers.
+          </li>
+          <br />
+          <li>
+            <b>Garden growth mechanic:</b>
+            Each correct answer increments a score and swaps in the next SVG
+            background to represent a fuller garden. After six correct answers
+            the garden is “fully blossomed” and the scene resets for another
+            short session.
+          </li>
+          <br />
+          <li>
+            <b>Gentle mistakes:</b>
+            An incorrect prediction shrinks the garden by one layer instead of
+            resetting everything, encouraging experimentation without harsh
+            penalties.
+          </li>
+        </ul>
+      </section>
+
+      <!-- GAMEPLAY GIF -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--wide">
+          <img
+            id="garden-gif"
+            src="./images/garden_gif.gif"
+            alt="Animated sequence of Math Garden showing a correct handwritten answer and the garden growing"
+            style="
+              max-width: 70%;
+              width: 100%;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            "
+            data-loop-duration="42000"
+          />
+          <figcaption style="text-align: center">
+            Gameplay snippet: the child writes the answer, the MLP recognizes
+            the digit, and the garden grows as a visual reward.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- ARCHITECTURE -->
+      <section class="detail-section">
+        <h2>Architecture at a glance</h2>
+        <p>
+          Math Garden is designed as a self contained browser experience with a
+          Python based training pipeline that lives alongside the front end
+          code.
+        </p>
+        <ul>
+          <li>
+            <b>Front end:</b>
+            Vanilla JavaScript manages state and math problem generation. An
+            HTML5 canvas captures strokes along with CSS styling.
+          </li>
+          <br />
+          <li>
+            <b>Processing pipeline:</b>
+            When “Check Answer” is pressed, OpenCV.js converts the canvas to
+            grayscale, thresholds, finds the main contour, crops, resizes, pads
+            to 28×28, recenters the digit, and normalizes pixel values before
+            turning it into a tensor.
+          </li>
+          <br />
+          <li>
+            <b>On device inference:</b>
+            TensorFlow.js loads the model and runs a single forward pass of the
+            MLP to predict the digit. Everything runs locally in the browser, so
+            the game works offline once assets are cached.
+          </li>
+          <br />
+          <li>
+            <b>No backend dependency:</b>
+            There is no live server side API in the gameplay loop. Python
+            scripts exist only for offline training and evaluation.
+          </li>
+        </ul>
+      </section>
+
+      <!-- MLP & TRAINING -->
+      <section class="detail-section">
+        <h2>MLP model and training pipeline</h2>
+        <p>
+          The core of the game is a simple but effective multilayer perceptron
+          trained on handwritten digits. It is light enough to run in real time
+          in JavaScript while still robust to kids’ messy handwriting.
+        </p>
+        <ul>
+          <li>
+            <b>Model architecture:</b>
+            A 3 layer dense network built in TensorFlow with ReLU activations
+            and a 10 way softmax output for digits 0–9.
+          </li>
+          <br />
+          <li>
+            <b>Training:</b>
+            A Python script trains a handwritten-digit-classifier on MNIST, logs
+            to TensorBoard, and exports a model once validation accuracy
+            converges which is saved for quick inference.
+          </li>
+          <br />
+          <br />
+          <li>
+            <b>JS conversion:</b>
+            The saved model is loaded using TensorFlow.js so that the front end
+            can load the model directly in the browser.
+          </li>
+        </ul>
+      </section>
+
+      <!-- IMPACT AND LEARNINGS -->
+      <section class="detail-section detail-impact">
+        <h2>Impact and Learnings</h2>
+        <ul>
+          <li>
+            <b>Kid friendly ML demo:</b>
+            The project doubles as a playful toddler math game and a concrete
+            example of how on device ML can be used in education with no setup
+            beyond opening a web page.
+          </li>
+          <br />
+          <li>
+            <b>End to end pipeline experience:</b>
+            Implementing both the Python training scripts and the TensorFlow.js
+            inference path reinforced best practices for exporting, converting,
+            and validating models across environments.
+          </li>
+          <br />
+          <li>
+            <b>Browser UX for toddlers:</b>
+            Handling both mouse and touch events, preventing accidental scrolls,
+            and keeping the UI minimal were key to making the experience work
+            for very young users.
+          </li>
+        </ul>
+      </section>
+    </main>
+    <script>
+      (function () {
+        const gif = document.getElementById("garden-gif");
+        if (!gif) return;
+        const baseSrc = gif.getAttribute("src");
+        const delay =
+          parseInt(gif.getAttribute("data-loop-duration"), 10) || 8000;
+        let timer;
+
+        const scheduleRestart = () => {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            gif.setAttribute("src", `${baseSrc}?${Date.now()}`);
+          }, delay);
+        };
+
+        gif.addEventListener("load", scheduleRestart);
+        scheduleRestart();
+      })();
+    </script>
+  </body>
+</html>

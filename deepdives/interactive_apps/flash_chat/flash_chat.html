@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FlashChat – Student Chat Application for Campus</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/interactive_apps.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">Interactive Applications</p>
+
+      <h1>FlashChat – Student chat application for Campus</h1>
+
+      <p class="detail-summary">
+        <b>
+          Cross-platform mobile app built with Flutter and Firebase for students
+          to swap quick updates, ask questions, and hang out in topic-based
+          rooms, without the clutter of public social media.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li>
+          <strong>Tech Stack:</strong>
+          Flutter SDK, Dart, Firebase Core, Cloud Firestore, Cross-platform
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE -->
+      <section class="detail-section detail-hero-gif">
+        <div class="hero-screens">
+          <figure class="gallery-item">
+            <img
+              src="./images/login.png"
+              alt="FlashChat login screen with email and password"
+            />
+            <figcaption>
+              Secure login screen with subtle background visuals.
+            </figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img
+              src="./images/conv2.png"
+              alt="Conversation screenshot showing multiple students chatting"
+            />
+            <figcaption>
+              Conversation view highlighting quick replies and friendly avatars.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick insights</h2>
+        <ul class="psr-list">
+          <li>
+            <strong>Goal:</strong>
+            A 2-week quick sprint to give university students a lightweight
+            place to chat in focused rooms, share campus updates, and ask
+            questions without needing to trade phone numbers or social media
+            handles.
+          </li>
+          <br />
+          <li>
+            <strong>Approach:</strong>
+            Built a real-time group messaging app using Flutter and Firebase
+            where users register and login with email and join pre-defined rooms
+            like Campus Updates, Career Discussion, Unpopular Opinions and
+            Programming Help.
+          </li>
+          <br />
+          <li>
+            <strong>Result:</strong>
+            Delivered a responsive Android app with real-time Firestore-backed
+            chat, handling multiple clients, consistent performance across
+            devices, and a UI simple enough for first-time smartphone users.
+          </li>
+        </ul>
+      </section>
+
+      <!-- SYSTEM OVERVIEW -->
+      <section class="detail-section">
+        <h2>System overview</h2>
+        <p>
+          FlashChat is structured as a thin Flutter front end on top of Firebase
+          backend services. All messaging is live, with Firestore handling
+          persistence and real-time streams, which keeps the client code small
+          and focused on UI and state management.
+        </p>
+
+        <ul>
+          <li>
+            <b>Authentication and privacy:</b>
+            Uses Firebase Authentication email and password sign in. Only the
+            user email is stored as an identifier in chat messages, which keeps
+            the profile surface minimal while still allowing basic identity in
+            rooms.
+          </li>
+          <br />
+          <li>
+            <b>Real-time messaging:</b>
+            Messages are added to a room collection in Cloud Firestore and
+            streamed back to all subscribed clients using real-time listeners.
+            This keeps chats synchronized across devices without manual polling.
+          </li>
+          <br />
+          <li>
+            <b>Room model:</b>
+            Each chat room is a Firestore document with its own messages
+            subcollection. Rooms are currently curated to keep content focused.
+            Students can quickly hop between rooms.
+          </li>
+          <br />
+          <li>
+            <b>Client deployment:</b>
+            The Flutter app is compiled to an Android APK and uploaded to google
+            drive, so that testers and classmates can download and install
+            builds during development.
+          </li>
+        </ul>
+      </section>
+
+      <!-- FEATURES -->
+      <section class="detail-section">
+        <h2>Student-centered features</h2>
+        <ul>
+          <li>
+            <b>Topic rooms for campus life:</b>
+            Separate rooms for programming help, physics questions, career
+            advice, sci-fi discussions, and general hangouts. This reduces noise
+            and lets students pick the social context they want.
+          </li>
+          <br />
+          <li>
+            <b>Simple, friendly UI:</b>
+            Chat bubbles, clear timestamps, and large buttons make the app
+            approachable. Animations and subtle colors highlight which messages
+            are yours versus others.
+          </li>
+          <br />
+          <li>
+            <b>Real-time delivery:</b>
+            Messages appear instantly across clients using Firestore streams,
+            creating the feel of a live group chat rather than delayed forum
+            posts.
+          </li>
+          <br />
+          <li>
+            <b>Low-friction onboarding:</b>
+            New users only need an email and password to start chatting. There
+            is no complex profile form or friend-request flow to get in the way.
+          </li>
+          <br />
+          <li>
+            <b>Lightweight and portable:</b>
+            The app is small enough to install quickly and runs smoothly on
+            lower-end Android devices and on iOS platforms as well, which was
+            important for a mixed hardware student population.
+          </li>
+        </ul>
+      </section>
+
+      <!-- SCREEN GALLERY -->
+      <section class="detail-section detail-gallery">
+        <h2>Screen tour</h2>
+
+        <div class="hero-screens">
+          <figure class="gallery-item">
+            <img
+              src="./images/register.png"
+              alt="FlashChat registration screen"
+            />
+            <figcaption>Registration flow for new students.</figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img src="./images/rooms.png" alt="FlashChat room list screen" />
+            <figcaption>
+              List of chat rooms for different topics like career, physics, and
+              casual chats.
+            </figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img
+              src="./images/conv_1.png"
+              alt="Conversation screenshot in Career Discussions room"
+            />
+            <figcaption>
+              Career Discussions room - students ask about future prospects in
+              computer science.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- DEVELOPMENT PROCESS -->
+      <section class="detail-section">
+        <h2>Development process</h2>
+        <p>
+          The project was scoped as a two week build, split into learning,
+          implementation, and testing phases.
+        </p>
+        <ul>
+          <li>
+            <b>Days 1 - 4:</b>
+            Learned Dart, the Flutter widget model, and the project file
+            structure. Set up the Flutter SDK, Android tooling, and Firebase
+            project.
+          </li>
+          <br />
+          <li>
+            <b>Days 5 - 8:</b>
+            Built the initial UI, wired up navigation between login, room list,
+            and chat screens, and connected Firebase Authentication plus Cloud
+            Firestore reads and writes.
+          </li>
+          <br />
+          <li>
+            <b>Days 9 - 14:</b>
+            Tested on multiple screen sizes and phones, improved performance,
+            refined animations, and adjusted layouts so that chat bubbles and
+            input fields behave correctly on different devices.
+          </li>
+        </ul>
+      </section>
+
+      <!-- IMPACT AND FUTURE WORK -->
+      <section class="detail-section detail-impact">
+        <h2>Impact and learnings</h2>
+        <ul>
+          <li>
+            <b>Real-time mobile experience:</b>
+            Built a production-style real-time chat using Firebase Firestore
+            listeners, which later informed how I structure data and indexes for
+            other mobile projects.
+          </li>
+          <br />
+          <li>
+            <b>Student community focus:</b>
+            Learned how topic-based rooms and a simple, low-friction UI can
+            encourage more shy students to participate and ask questions that
+            might not show up on public social media.
+          </li>
+          <br />
+          <li>
+            <b>Future improvements:</b>
+            Planned enhancements include one-to-one DMs, media sharing, custom
+            room creation, usernames instead of raw emails and stronger
+            end-to-end privacy controls.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

@@ -900,6 +900,35 @@ main {
   line-height: 1.5;
 }
 
+.hero-screens {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.hero-screens .gallery-item {
+  max-width: 220px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-screens .gallery-item img {
+  width: 100%;
+  height: 420px;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.hero-screens .gallery-item figcaption {
+  text-align: center;
+  margin-top: 0.75rem;
+}
+
 
 a {
   color: #b6f5c9;
