@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BitHeat – Blockchain Built From Scratch in Node.js</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/backend_systems.html">
+        &larr; Back to Projects
+      </a>
+
+      <a class="category-pill" href="../../../projects/backend_systems.html">
+        Backend &amp; Distributed Logic
+      </a>
+      <h1>BitHeat – Blockchain Built From Scratch in Node.js</h1>
+
+      <p class="detail-summary">
+        <b>
+          A full peer-to-peer blockchain system implemented from scratch in
+          Node.js. Includes Proof-of-Work mining, dynamic difficulty, a wallet
+          with ECDSA signatures, a transaction pool, block validation, and a
+          WebSocket-based P2P network for chain replication.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li>
+          <strong>Tech Stack:</strong> Node.js, WebSockets, SHA-256 hashing,
+          ECDSA (elliptic), crypto utilities
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--wide">
+          <img
+            src="./images/architecture.svg"
+            alt="Blockchain architecture overview diagram"
+            style="max-width: 90%; display: block; margin: 0 auto"
+          />
+          <figcaption style="text-align: center">
+            High-level architecture: wallet → transaction pool → miner → block
+            creation → P2P broadcast → chain sync.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick insights</h2>
+        <ul class="psr-list">
+          <li>
+            <strong>Goal:</strong> Understand blockchain fundamentals by
+            re-creating the full system i.e. ledger, consensus, networking,
+            wallets, and mining—from first principles.
+          </li>
+          <br />
+          <li>
+            <strong>Scope:</strong> Implemented Proof-of-Work, dynamic
+            difficulty, transaction signing, mempool validation, longest-chain
+            rule, peer discovery, and full chain synchronization.
+          </li>
+          <br />
+          <li>
+            <strong>Outcome:</strong> A locally distributed blockchain where
+            multiple nodes mine, broadcast, and converge on the same chain using
+            deterministic validation rules.
+          </li>
+        </ul>
+      </section>
+
+      <!-- SYSTEM OVERVIEW -->
+      <section class="detail-section">
+        <h2>System overview</h2>
+        <p>
+          BitHeat is composed of four major components working together to
+          maintain a consistent decentralized ledger. Each node exposes an HTTP
+          API for wallets and a WebSocket P2P layer for block propagation.
+        </p>
+
+        <h3>1. Blockchain</h3>
+        <ul>
+          <li>
+            Each block stores timestamp, last hash, hash, transaction list,
+            nonce, and difficulty.
+          </li>
+          <br />
+          <li>
+            Block validation ensures correct linkage, hash correctness, and
+            Proof-of-Work compliance.
+          </li>
+          <br />
+          <li>
+            Chain validation ensures the entire history is valid before
+            accepting any peer chain.
+          </li>
+        </ul>
+
+        <h3>2. Wallet & Transactions</h3>
+        <ul>
+          <li>
+            Wallet generates ECDSA public/private key pairs using elliptic curve
+            cryptography.
+          </li>
+          <br />
+          <li>
+            Transactions are signed using the private key and verified on every
+            node.
+          </li>
+          <br />
+          <li>
+            TransactionPool keeps only valid, non-conflicting transactions.
+          </li>
+        </ul>
+
+        <h3>3. Mining</h3>
+        <ul>
+          <li>Miner gathers valid transactions from the pool.</li>
+          <br />
+          <li>
+            Runs Proof-of-Work: increment nonce until hash has required leading
+            zeros.
+          </li>
+          <br />
+          <li>
+            Difficulty adjusts up/down based on time it took to mine the last
+            block.
+          </li>
+        </ul>
+
+        <h3>4. Peer-to-Peer Network</h3>
+        <ul>
+          <li>Nodes communicate through WebSockets using p2p-server.js.</li>
+          <br />
+          <li>Newly mined blocks broadcast to all peers.</li>
+          <br />
+          <li>
+            Nodes automatically replace their chain if a longer valid chain is
+            received.
+          </li>
+        </ul>
+      </section>
+
+      <!-- CODE SNIPPET -->
+      <section class="detail-section detail-snippet">
+        <h2>Block mining code snippet</h2>
+        <div class="gallery-row gallery-row--two">
+          <figure class="gallery-item">
+            <pre><code>//Basic attributes
+constructor(timestamp, last_hash, hash, data, nonce, difficulty) {
+    this.timestamp = timestamp
+    this.last_hash = last_hash
+    this.hash = hash
+    this.data = data
+    //Random number for hashing problems
+    this.nonce = nonce
+    //Setting up difficulty to adjust mining time
+    this.difficulty = typeof difficulty === 'number' ? difficulty : DIFFICULTY
+}</code></pre>
+            <figcaption style="text-align: center;">
+              Block structure: header references, payload, nonce, and difficulty.
+            </figcaption>
+          </figure>
+
+          <figure class="gallery-item">
+            <pre><code>//Building new blocks with hashes of previous block
+static mineBlock(last_block, data) {
+    let timestamp, hash
+    let { difficulty } = last_block
+    let nonce = 0
+    const last_hash = last_block.hash
+    //Rehash until the leading-zero difficulty target is met
+    do {
+        nonce++
+        timestamp = Date.now()
+        difficulty = Block.adjustDifficulty(last_block, timestamp)
+        hash = Block.hash(timestamp, last_hash, data, nonce, difficulty)
+    } while (hash.substring(0, difficulty) !== '0'.repeat(difficulty))
+    return new Block(timestamp, last_hash, hash, data, nonce, difficulty)
+}
+
+//performing the hash 
+static hash(timestamp, last_hash, data, nonce, difficulty) {
+    return util.hash(`${timestamp}${last_hash}${JSON.stringify(data)}${nonce}${difficulty}`)
+}</code></pre>
+            <figcaption style="text-align: center;">
+              Mining flow: iterate nonce, adjust difficulty, and hash until the
+              target is satisfied.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- IMAGES GALLERY -->
+      <section class="detail-section detail-gallery">
+        <h2>Helpful Visualizations</h2>
+
+        <div class="gallery-row">
+          <figure
+            class="gallery-item gallery-item--wide"
+            style="width: 100%; max-width: none; margin: 0; padding: 0;"
+          >
+            <img
+              src="./images/transaction_pool.svg"
+              alt="Transaction pool flow"
+              style="width: 100%; max-width: none; height: auto; display: block; margin: 0;"
+            />
+            <figcaption>Transaction pool lifecycle and validation flow.</figcaption>
+          </figure>
+        </div>
+
+      </section>
+
+      <!-- IMPACT -->
+      <section class="detail-section detail-impact">
+        <h2>Why it matters</h2>
+        <p>
+          Implementing a blockchain from scratch provides hands-on experience in
+          decentralized system design, distributed consensus, validation logic,
+          and cryptographic integrity. It is a practical demonstration of how
+          modern blockchains maintain trust without a central authority.
+        </p>
+
+        <ul>
+          <li>
+            <b>Consensus understanding:</b> Proof-of-Work, difficulty
+            retargeting, fork resolution.
+          </li>
+          <br />
+          <li>
+            <b>Distributed systems:</b> WebSocket messaging, chain replication,
+            and peer sync rules.
+          </li>
+          <br />
+          <li>
+            <b>Security concepts:</b> Digital signatures, transaction integrity,
+            deterministic validation.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
