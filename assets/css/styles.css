@@ -865,14 +865,31 @@ main {
 }
 
 @media (max-width: 640px) {
+  .site-header {
+    min-height: auto;
+    padding: 6.5rem 1.25rem 3rem;
+    align-items: flex-start;
+  }
+
   .hero-header {
-    padding-top: 9rem;
+    padding-top: 8rem;
+  }
+
+  .hero-grid {
+    gap: 1.5rem;
   }
 
   .hero-photo img {
-    width: min(82vw, 360px);
+    width: min(92vw, 420px);
+    max-width: 420px;
     height: auto;
     object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .section {
+    padding: 2.5rem 1.25rem;
   }
 
   .experience-title {
