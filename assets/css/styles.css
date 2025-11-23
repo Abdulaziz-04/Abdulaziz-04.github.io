@@ -10,6 +10,7 @@
   --border: rgba(255, 255, 255, 0.08);
   --radius: 18px;
   --shadow: 0 25px 70px rgba(1, 8, 4, 0.55);
+  --top-nav-height: 96px;
 }
 
 * {
@@ -872,7 +873,7 @@ main {
   }
 
   .hero-header {
-    padding-top: 6.5rem;
+    padding-top: calc(var(--top-nav-height, 96px) + 1.25rem);
   }
 
   .hero-grid {

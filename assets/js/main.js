@@ -4,6 +4,13 @@
   let hireModal;
   const trackedSections = new Set();
   let scrollSpyBound = false;
+  let navHeightListenerBound = false;
+
+  const updateNavHeightVar = () => {
+    const nav = document.querySelector('.top-nav');
+    if (!nav) return;
+    document.documentElement.style.setProperty('--top-nav-height', `${nav.offsetHeight}px`);
+  };
 
   const setYear = () => {
     const yearEl = document.getElementById('year');
@@ -170,6 +177,13 @@
     const nav = root.querySelector('.top-nav');
     if (!nav || nav.dataset.bound === 'true') return;
     nav.dataset.bound = 'true';
+
+    updateNavHeightVar();
+    if (!navHeightListenerBound) {
+      navHeightListenerBound = true;
+      window.addEventListener('resize', () => requestAnimationFrame(updateNavHeightVar));
+      window.addEventListener('orientationchange', updateNavHeightVar);
+    }
 
     navLinkMap.clear();
     nav.querySelectorAll('.nav-link').forEach((link) => {
