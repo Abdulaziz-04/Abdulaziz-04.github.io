@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Unity Gameplay Suite — Glitch Garden, FPS Survivor, Space Defender, Block
+      Breaker
+    </title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/game-development.html">
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">
+        Interactive Applications, Prototypes &amp; Games
+      </p>
+      <h1>Unity Gameplay Suite</h1>
+
+      <p class="detail-summary">
+        <b>
+          A compact suite of four Unity projects that highlight core gameplay
+          programming, game loops, and clean scene management. Focus on readable
+          C#, reusable components, and clear player feedback. Each project ships
+          with a short gameplay demo.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li>
+          <strong>Tech Stack:</strong> Unity, C#, Animator, NavMesh,
+          ScriptableObjects, UI Toolkit
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick insights</h2>
+        <ul class="psr-list">
+          <li>
+            <b>Goal:</b> Demonstrate gameplay engineering across tower defense,
+            First Person Shooter and arcade physics.
+          </li>
+          <br />
+          <li>
+            <b>What stands out:</b> Clear scene flows, Object-oriented
+            programming, modular scripts, and UI feedback loops.
+          </li>
+          <br />
+          <li>
+            <b>What you will see:</b> Short videos, concise architecture notes,
+            and the key systems that drive each game.
+          </li>
+        </ul>
+      </section>
+
+      <!-- GLITCH GARDEN — HERO -->
+      <section class="detail-section">
+        <h2>Glitch Garden (Plants vs Zombies style) — Hero</h2>
+
+        <figure class="gallery-item gallery-item--wide">
+          <video
+            src="./images/glitch_garden.mp4"
+            controls
+            class="hero-video"
+            style="
+              max-width: 80%;
+              width: 100%;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            "
+          ></video>
+          <figcaption style="text-align: center">
+            Lane defense with timed waves, resources, and defender placement.
+          </figcaption>
+        </figure>
+
+        <ul>
+          <li>
+            <b>Core loop:</b> Place defenders on a grid with sun as currency
+            while different attackers come down the lanes.
+          </li>
+          <br />
+          <li>
+            <b>Key systems:</b> LevelController for win and loss states,
+            GameTimer to end spawns, lane-based Spawner, Resource store,
+            DefenderSelector and DefenderSpawner UI.
+          </li>
+          <br />
+          <li>
+            <b>Combat:</b> Defenders detect attackers in lane and fire
+            Projectiles. Attackers advance, animate, and damage via Health
+            handlers.
+          </li>
+          <br />
+          <li>
+            <b>UX polish:</b> Scene Manager for splash and menu flow, Music
+            Manager singleton object for persistent audio, GameHealth Manager
+            for hearts and win or lose overlays.
+          </li>
+          <br />
+          <li>
+            <b>Unity features used:</b> Animator-driven attacks and deaths,
+            prefab spawners, Scriptable separation of data where useful, audio
+            mixing, and simple VFX.
+          </li>
+        </ul>
+      </section>
+
+      <!-- FPS SURVIVOR -->
+      <section class="detail-section">
+        <h2>FPS Survivor — three weapons, AI waves</h2>
+
+        <figure class="gallery-item gallery-item--wide">
+          <video
+            src="./images/fps.mp4"
+            controls
+            style="
+              max-width: 80%;
+              width: 100%;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            "
+          ></video>
+          <figcaption style="text-align: center">
+            Gameplay with NavMesh AI, weapon switching, hitscan and projectile
+            combat.
+          </figcaption>
+        </figure>
+
+        <ul>
+          <li>
+            <b>Note:</b> Built by following a FreeCodeCamp tutorial to explore
+            FPS architecture and AI patterns in Unity.
+          </li>
+          <br />
+          <li>
+            <b>Player systems:</b> CharacterController movement, LookMovement
+            for mouse aim, SprintCrouch with stamina, PlayerAttack handling
+            hitscan rays and projectiles.
+          </li>
+          <br />
+          <li>
+            <b>Weapons:</b> WeaponManager switches WeaponHandler components.
+            Handlers drive fire modes, aim states, muzzle VFX, and SFX.
+          </li>
+          <br />
+          <li>
+            <b>Enemies:</b> EnemyController finite state machine with Patrol,
+            Chase, Attack using NavMeshAgent.EnemyAnimations and EnemySounds
+            wrapper scripts.
+          </li>
+          <br />
+          <li>
+            <b>Spawning and lifecycle:</b> Spawner caps counts and respawns on
+            enemy death. HealthMgmt applies damage, triggers animations and SFX,
+            and cleans up objects.
+          </li>
+        </ul>
+      </section>
+
+      <!-- SPACE DEFENDER -->
+      <section class="detail-section">
+        <h2>Space Defender — wave shooter with pathing</h2>
+
+        <figure class="gallery-item gallery-item--wide">
+          <video
+            src="./images/space_defender.mp4"
+            controls
+            style="
+              max-width: 80%;
+              width: 100%;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            "
+          ></video>
+          <figcaption style="text-align: center">
+            ScriptableObject waves, waypoint paths, score HUD, scrolling
+            backdrop.
+          </figcaption>
+        </figure>
+
+        <ul>
+          <li>
+            <b>Core loop:</b> Player dodges and fires while enemies spawn in
+            waves along predefined waypoint paths.
+          </li>
+          <br />
+          <li>
+            <b>Wave design:</b> WaveConfig ScriptableObjects define enemy
+            prefab, count, spawn rate, and movement. WaveSpawner selects configs
+            and instantiates at runtime.
+          </li>
+          <br />
+          <li>
+            <b>Combat:</b> Player fires lasers with Damage components. Enemy
+            fires on timers and awards score on death. LaserShredder cleans
+            off-screen projectiles.
+          </li>
+          <br />
+          <li>
+            <b>UX and flow:</b> SceneMgmt for menu and end states, MusicMgmt and
+            GameSession as singletons, ScoreMgmt and HealthMgmt update UI in
+            real time. BackGroundScroll animates space movement.
+          </li>
+        </ul>
+      </section>
+
+      <!-- BLOCK BREAKER -->
+      <section class="detail-section">
+        <h2>Block Breaker — classic arcade with scene progression</h2>
+
+        <figure class="gallery-item gallery-item--wide">
+          <video
+            src="./images/block_breaker.mp4"
+            controls
+            style="
+              max-width: 80%;
+              width: 100%;
+              height: auto;
+              margin: 0 auto;
+              display: block;
+            "
+          ></video>
+          <figcaption style="text-align: center">
+            Ball and paddle with damage states, score, and level flow.
+          </figcaption>
+        </figure>
+
+        <ul>
+          <li>
+            <b>Core loop:</b> Anchor ball to paddle until first click, then
+            break blocks and advance levels. Missed ball triggers game over
+            scene.
+          </li>
+          <br />
+          <li>
+            <b>Key scripts:</b> Initiate anchors and launches the ball with
+            light randomness. Paddlemovement clamps input within camera bounds.
+            Blockdestroy tracks hits, swaps sprites, spawns sparkles, and
+            updates score and counters.
+          </li>
+          <br />
+          <li>
+            <b>Progression:</b> Level counts breakables, persists score, and
+            triggers Sceneloader to load next scenes. ScoreDisplay shows totals
+            on game-over. Speed slider adjusts global time scale for slow or
+            fast play.
+          </li>
+          <br />
+          <li>
+            <b>Unity features used:</b> Collision events, AudioSource SFX, scene
+            management, DontDestroyOnLoad for persistent state.
+          </li>
+        </ul>
+      </section>
+
+      <!-- WHY IT MATTERS -->
+      <section class="detail-section detail-impact">
+        <h2>Why it matters</h2>
+        <ul>
+          <li>
+            <b>Breadth:</b> Shows fluency across multiple gameplay patterns
+            including tower defense, FPS, wave shooter, and arcade physics.
+          </li>
+          <br />
+          <li>
+            <b>Engineering habits:</b> Consistent scene flow, state management,
+            and modular components that scale to new mechanics.
+          </li>
+          <br />
+          <li>
+            <b>Player experience:</b> Focus on readable feedback through UI,
+            audio cues, animations, and reliable inputs.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
