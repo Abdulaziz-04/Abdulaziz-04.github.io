@@ -880,11 +880,11 @@ main {
   }
 
   .hero-photo img {
-    width: clamp(180px, 65vw, 300px);
+    width: clamp(150px, 52vw, 240px);
     height: auto;
     object-fit: contain;
     display: block;
-    margin: 0 auto;
+    margin: 0.25rem auto 0;
   }
 
   .section {
