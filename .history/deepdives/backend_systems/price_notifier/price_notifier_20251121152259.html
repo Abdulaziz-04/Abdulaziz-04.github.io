@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Price Notifier with WhatsApp Alerts</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/backend_systems.html">
+        ← Back to Projects
+      </a>
+
+      <p class="category-pill">Backend & Distributed Logic</p>
+      <br />
+
+      <h1>Price Notifier with WhatsApp Alerts</h1>
+
+      <p class="detail-summary">
+        <b>
+          Lightweight FastAPI service that checks live Amazon prices on demand
+          and every 6 hours, then sends WhatsApp alerts via Twilio when a target
+          is reached. Simple browser UI, optional send delay, Docker deploy, and
+          multi-URL tracking via CSV for personal use.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li><strong>Timeline:</strong> Jan 2025 – Present</li>
+        <br />
+        <li>
+          <strong>Tech Stack:</strong> FastAPI, asyncio, BeautifulSoup,
+          requests, Twilio API, uvicorn, HTML/CSS/JS, Docker, Heroku
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--wide">
+          <img
+            src="/mnt/data/intro.png"
+            alt="Price notifier UI"
+            style="display: block; margin: 0 auto; max-width: 90%; height: auto"
+          />
+          <figcaption style="text-align: center">
+            Submit an Amazon URL, target price, optional delay, and see a
+            structured JSON response from the API.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick insights</h2>
+        <ul class="psr-list">
+          <li>
+            <strong>Purpose:</strong> Automate price checks for Amazon products
+            and alert on WhatsApp when a target is hit.
+          </li>
+          <br />
+          <li>
+            <strong>Inputs:</strong> Product URL, target price, optional delay
+            in minutes, and optional per-request WhatsApp recipient.
+          </li>
+          <br />
+          <li>
+            <strong>Automation:</strong> A background task re-checks all saved
+            URLs every 6 hours and sends alerts when thresholds are met.
+          </li>
+        </ul>
+      </section>
+
+      <!-- FEATURES -->
+      <section class="detail-section">
+        <h2>Features</h2>
+        <ul>
+          <li>
+            Amazon-focused price extraction tuned for common product pages.
+          </li>
+          <br />
+          <li>Immediate or delayed WhatsApp alerts via Twilio.</li>
+          <br />
+          <li>
+            Multiple URL tracking stored in a CSV for a lightweight workflow.
+          </li>
+          <br />
+          <li>Static UI served by the API, plus a health check endpoint.</li>
+        </ul>
+      </section>
+
+      <!-- AMAZON LOGIC -->
+      <section class="detail-section">
+        <h2>Amazon parsing approach</h2>
+        <p>
+          The service is targeted specifically at Amazon links. When a request
+          arrives, the backend fetches the page using a custom User-Agent to
+          avoid simplistic bot blocking. It then parses the HTML with
+          BeautifulSoup and looks for Amazon’s typical price containers such as
+          <em>priceblock_ourprice</em>, <em>priceblock_dealprice</em>, and
+          <em>priceblock_saleprice</em>. If those are missing (for example on
+          certain variations and deals pages), it falls back to scanning the
+          page text for the first currency-like number. The parsed value is
+          normalized to a numeric price and compared to the target; if
+          <strong>price ≤ target</strong>, an alert is queued immediately or
+          after the requested delay.
+        </p>
+        <p>
+          This keeps scraping resilient across common Amazon layouts while
+          remaining intentionally simple for a personal notifier.
+        </p>
+      </section>
+
+      <!-- API SURFACE -->
+      <section class="detail-section">
+        <h2>API surface</h2>
+        <ul>
+          <li><b>GET /</b> serves the static UI.</li>
+          <br />
+          <li><b>GET /api/health</b> returns {"status":"ok"}.</li>
+          <br />
+          <li>
+            <b>POST /api/notify</b> accepts { url, target_price,
+            delay_minutes(0–1440), send_to? } and returns status, current price,
+            and Twilio SID if a message was sent.
+          </li>
+        </ul>
+      </section>
+
+      <!-- DEPLOYMENT -->
+      <section class="detail-section">
+        <h2>Deployment & reliability</h2>
+        <ul>
+          <li>Dockerized and deployed to Heroku as an ASGI service.</li>
+          <br />
+          <li>
+            Delayed sends use asyncio; recurring re-checks run every 6 hours in
+            process. For production hardening, this can be moved to a durable
+            job runner and datastore.
+          </li>
+          <br />
+          <li>
+            Clear error responses for missing Twilio config, invalid inputs, or
+            price parse failures.
+          </li>
+        </ul>
+      </section>
+
+      <!-- GALLERY -->
+      <section class="detail-section detail-gallery">
+        <h2>WhatsApp alert snapshot</h2>
+        <div class="gallery-row gallery-row--one">
+          <figure class="gallery-item gallery-item--wide">
+            <a href="/mnt/data/notify.jpg" target="_blank">
+              <img
+                src="/mnt/data/notify.jpg"
+                alt="WhatsApp alert showcasing price trigger"
+              />
+            </a>
+            <figcaption>
+              Example alert sent when the Amazon price dropped below the target.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

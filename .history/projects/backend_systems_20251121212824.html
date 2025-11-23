@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Backend, Systems &amp; Distributed Logic | Projects</title>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="category-page">
+    <header class="category-hero">
+      <a class="category-back" href="../index.html#projects"
+        >&larr; Back to Projects</a
+      >
+      <a class="category-pill" href="../index.html#projects"
+        >Backend System &amp; Distributed Logic</a
+      >
+      <br />
+      <h1>Backend, Systems &amp; Distributed Logic</h1>
+    </header>
+    <main class="section category-section">
+      <div class="project-modal-grid">
+        <article class="project-modal-card">
+          <article class="project-modal-card">
+            <div class="project-modal__body">
+              <h3>Full-Stack Search Engine: Crawl, Index, Rank, and Rerank</h3>
+              <p class="project-modal__summary">
+                Built an end-to-end search engine over a nuclear-safety corpus:
+                custom crawler, compressed inverted indexes, classic IR ranking
+                (TF-IDF/BM25/LM), graph algorithms (PageRank/HITS), vertical
+                search UI with manual assessments, learning-to-rank, and
+                ML-powered spam filtering.
+              </p>
+              <p class="project-modal__tech">
+                <strong>Tech Stack:</strong>
+                Python, Flask, ElasticSearch, NumPy, scikit-learn, pandas,
+                BeautifulSoup, multi-threading, custom inverted index storage
+              </p>
+              <div class="project-modal__actions">
+                <a
+                  class="btn primary"
+                  href="../deepdives/backend_systems/search_engine/search_engine.html"
+                  >Learn more!</a
+                >
+              </div>
+            </div>
+          </article>
+          <div class="project-modal__body">
+            <h3>From Nand to Tetris: Building a Compiler from Scratch</h3>
+            <p class="project-modal__summary">
+              Two–part systems project where I built a full 16-bit computer,
+              assembler, virtual machine, and compiler from primitive NAND
+              gates. The stack ends in a high-level programming language called
+              Jack that runs on the hardware I designed using an emulator.
+            </p>
+            <p class="project-modal__tech">
+              <strong>Tech Stack:</strong>
+              Hardware Description Language (HDL), Hack assembly, Java , shell
+              tooling, hardware and VM emulators
+            </p>
+            <div class="project-modal__actions">
+              <a
+                class="btn primary"
+                href="../deepdives/backend_systems/nand2tetris/nand2tetris.html"
+                >Learn more!</a
+              >
+            </div>
+          </div>
+        </article>
+
+        <article class="project-modal-card">
+          <div class="project-modal__body">
+            <h3>Backend Microservices Suite</h3>
+            <p class="project-modal__summary">
+              A small but fully working suite of Node.js microservices built for
+              FreeCodeCamp’s Backend Development and APIs certification. Each
+              service is independently deployable, exposes a clean JSON API, and
+              is wired into a simple dashboard for local testing.
+            </p>
+            <p class="project-modal__tech">
+              <strong>Tech Stack:</strong>
+              Node.js, Express, MongoDB (NoSQL), middleware-based routing, CORS
+            </p>
+            <div class="project-modal__actions">
+              <a
+                class="btn primary"
+                href="../deepdives/backend_systems/microservices/microservices.html"
+                >Learn more!</a
+              >
+            </div>
+          </div>
+        </article>
+
+        <article class="project-modal-card">
+          <div class="project-modal__body">
+            <h3>Price Notifier with WhatsApp Alerts</h3>
+            <p class="project-modal__summary">
+              Lightweight FastAPI service that checks live Amazon prices on
+              demand and every 6 hours, then sends WhatsApp alerts via Twilio
+              when a price is within the target price range. Simple browser UI,
+              optional send delay, Docker deploy, and multi-URL tracking via CSV
+              for personal use.
+            </p>
+            <p class="project-modal__tech">
+              <strong>Tech Stack:</strong> FastAPI, asyncio, BeautifulSoup,
+              Twilio API, uvicorn, React, Docker, Heroku
+            </p>
+            <div class="project-modal__actions">
+              <a
+                class="btn primary"
+                href="../deepdives/backend_systems/price_notifier/price_notifier.html"
+                >Learn more!</a
+              >
+            </div>
+          </div>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

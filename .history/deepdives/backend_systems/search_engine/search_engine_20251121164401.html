@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Full-Stack Search Engine: Crawl, Index, Rank, and Rerank</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a class="category-back" href="../../../projects/backend_systems.html">
+        &larr; Back to Projects
+      </a>
+
+      <p
+        class="category-pill"
+        onclick="window.location.href='../../../projects/backend_systems.html'"
+      >
+        Backend &amp; Distributed Logic
+      </p>
+      <br />
+
+      <h1>Full-Stack Search Engine: Crawl, Index, Rank, and Rerank</h1>
+
+      <p class="detail-summary">
+        <b>
+          Built an end-to-end search engine over a nuclear-safety corpus: custom
+          crawler, compressed inverted indexes, classic IR ranking
+          (TF-IDF/BM25/LM), graph algorithms (PageRank/HITS), vertical search UI
+          with manual assessments, learning-to-rank, and ML-powered spam
+          filtering.
+        </b>
+      </p>
+
+      <p class="detail-summary">
+        Completed a 7-part IR course sequence at Northeastern: starting with
+        baseline ranking, adding compression and proximity search, building a
+        focused crawler, applying link analysis, running a vertical search
+        assessment interface, experimenting with learning-to-rank, and closing
+        with ML-based spam classification.
+      </p>
+
+      <ul class="detail-meta">
+        <li>
+          <strong>Tech Stack:</strong>
+          Python, ElasticSearch, NumPy, scikit-learn, pandas, BeautifulSoup,
+          priority queues, multi-threading, custom inverted index storage
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--wide">
+          <img
+            src="./images/architecture-placeholder.png"
+            alt="System architecture: crawler → indexer → ranker → reranker → UI"
+            style="display: block; margin: 0 auto; max-width: 95%; height: auto"
+          />
+          <figcaption style="text-align: center">
+            Architecture at a glance: focused crawler feeds compressed inverted
+            indexes; BM25/TF-IDF for first-pass ranking; PageRank/HITS signals
+            available; LTR and spam classifiers for reranking and filtering.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick insights</h2>
+        <ul class="psr-list">
+          <li>
+            <strong>Goal:</strong>
+            Build a demonstrable, end-to-end search stack covering crawling,
+            indexing, ranking, evaluation, and ML reranking.
+          </li>
+          <br />
+          <li>
+            <strong>Scope:</strong>
+            7 staged builds: baseline BM25/LM (A1), index compression +
+            proximity search (A2), focused crawler (A3), PageRank/HITS (A4),
+            vertical search UI with manual labels (A5), learning-to-rank (A6),
+            and spam classifier with unigrams + heuristics (A7).
+          </li>
+          <br />
+          <li>
+            <strong>Outcome:</strong>
+            BM25 average precision ≈ 0.31 on stemmed corpus (A1/A2); compressed
+            index to 67.4 MB from 187 MB (A2); proximity search AP 0.2313
+            stemmed (A2); LTR best precision 0.414 on held-out queries (A6);
+            spam detection ROC-AUC led by Logistic Regression with full unigrams
+            (A7).
+          </li>
+        </ul>
+      </section>
+
+      <!-- SYSTEM OVERVIEW -->
+      <section class="detail-section">
+        <h2>System overview</h2>
+        <p>
+          A modular pipeline that goes beyond textbook retrieval: crawling and
+          canonicalization, compressed inverted indexes, multi-model scoring,
+          link analysis, vertical search UI with human relevance labels, and
+          ML-based reranking/filters.
+        </p>
+
+        <ul>
+          <li>
+            <b>Retrieval core:</b>
+            Implemented Okapi TF, TF-IDF, BM25, and two language models
+            (Laplace, Jelinek-Mercer) with ElasticSearch baselines; BM25 led
+            with AP ≈ 0.31 on stemmed data.
+          </li>
+          <br />
+          <li>
+            <b>Indexing &amp; compression:</b>
+            Stemmed + compressed index shrank to 67.4 MB (vs. 187 MB
+            decompressed); tracked decompressed/unstemmed variants and proximity
+            indexes.
+          </li>
+          <br />
+          <li>
+            <b>Crawling &amp; frontier:</b>
+            Priority-queue frontier using BFS wave, keyword hits, and inlink
+            counts; canonicalization (lowercasing, port removal, fragment
+            stripping); politeness with robots.txt + 1s delay.
+          </li>
+          <br />
+          <li>
+            <b>Link analysis:</b>
+            PageRank (Shannon entropy for convergence) and HITS on wt2g + custom
+            crawl; observed high-quality parents boosting children even with few
+            inlinks.
+          </li>
+          <br />
+          <li>
+            <b>Evaluation &amp; LTR:</b>
+            Manual relevance UI (0/1/2 labels) for vertical nuclear-accident
+            search; learning-to-rank with features from five IR models + doc
+            length, reaching precision up to 0.414 on test queries.
+          </li>
+          <br />
+          <li>
+            <b>Spam classification:</b>
+            CountVectorizer over manual spam lexicons and full unigrams; tested
+            Logistic Regression (liblinear, L1), Decision Tree, Multinomial NB;
+            full unigram Logistic delivered best ROC-AUC.
+          </li>
+        </ul>
+      </section>
+
+      <!-- RESPONSE EXAMPLES GALLERY -->
+      <section class="detail-section detail-gallery">
+        <h2>Sample outputs</h2>
+        <div class="gallery-row gallery-row--two">
+          <figure class="gallery-item">
+            <a href="./images/search-results-placeholder.png" target="_blank">
+              <img
+                src="./images/search-results-placeholder.png"
+                alt="Search results list with highlights and BM25 scores"
+              />
+            </a>
+            <figcaption>
+              BM25-ranked results with snippet highlights and scores.
+            </figcaption>
+          </figure>
+
+          <figure class="gallery-item">
+            <a href="./images/index-stats-placeholder.png" target="_blank">
+              <img
+                src="./images/index-stats-placeholder.png"
+                alt="Index size comparison: compressed vs decompressed"
+              />
+            </a>
+            <figcaption>
+              Index size and proximity index metrics (67.4 MB compressed vs. 187
+              MB decompressed stemmed).
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="gallery-row gallery-row--two">
+          <figure class="gallery-item">
+            <a href="./images/ltr-placeholder.png" target="_blank">
+              <img
+                src="./images/ltr-placeholder.png"
+                alt="Learning-to-rank precision chart"
+              />
+            </a>
+            <figcaption>
+              Learning-to-rank precision curve; best test precision 0.414.
+            </figcaption>
+          </figure>
+
+          <figure class="gallery-item">
+            <a href="./images/spam-roc-placeholder.png" target="_blank">
+              <img
+                src="./images/spam-roc-placeholder.png"
+                alt="ROC curve for spam classifier"
+              />
+            </a>
+            <figcaption>
+              Spam classifier ROC-AUC: Logistic with full unigrams leads.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ARCHITECTURE & DESIGN -->
+      <section class="detail-section">
+        <h2>Architecture and design choices</h2>
+        <p>
+          Designed to showcase both IR fundamentals and practical trade-offs:
+          efficiency (compression, proximity), relevance (BM25 vs LM), authority
+          (PageRank/HITS), and learning-based reranking.
+        </p>
+
+        <ul>
+          <li>
+            <b>Index variants:</b>
+            Stemmed/unstemmed, compressed/decompressed; proximity lists for
+            phrase queries (proximity AP: 0.2313 stemmed vs. 0.1814 unstemmed).
+          </li>
+          <br />
+          <li>
+            <b>Candidate generation:</b>
+            Heap-based top-k retrieval; doc-length norms cached; multilingual
+            stopword handling via ElasticSearch analyzers.
+          </li>
+          <br />
+          <li>
+            <b>Link signals:</b>
+            PageRank on wt2g + merged crawl; HITS hubs/authorities skewed toward
+            Wikipedia for topical queries, improving diversity over PageRank.
+          </li>
+          <br />
+          <li>
+            <b>Assessment loop:</b>
+            Vertical search UI captures 3-point relevance labels (0/1/2) per
+            result; stored as space-separated text for trec_eval-style scoring.
+          </li>
+          <br />
+          <li>
+            <b>LTR features:</b>
+            Five IR scores (TF-IDF, Okapi-TF, BM25, Laplace, JM) + doc length;
+            per-query split via random shuffle; balanced train/test precision
+            (train avg 0.297, test avg 0.269).
+          </li>
+          <br />
+          <li>
+            <b>Spam pipeline:</b>
+            Manual spam lexicon vs. full unigrams; CountVectorizer sparse
+            matrices; compared Logistic, Decision Tree, Multinomial NB; unigrams
+            outperformed manual lists, highlighting feature coverage.
+          </li>
+        </ul>
+      </section>
+
+      <!-- EDGE CASES & ROBUSTNESS -->
+      <section class="detail-section">
+        <h2>Edge cases and robustness</h2>
+        <p>
+          Focused on correctness and resilience across crawling, parsing, and
+          scoring.
+        </p>
+
+        <ul>
+          <li>
+            <b>Canonicalization &amp; politeness:</b>
+            Lowercasing, port stripping, fragment removal, duplicate slash
+            cleanup; robots.txt honored; 1s inter-request delay; single-request
+            per URL guard.
+          </li>
+          <br />
+          <li>
+            <b>Frontier fairness:</b>
+            Priority queue blends BFS wave number, keyword hits, and inlink
+            counts to avoid topic drift and reward authoritative seeds.
+          </li>
+          <br />
+          <li>
+            <b>Query parsing:</b>
+            Token normalization, length normalization; language models tuned for
+            sensitivity; BM25 for stability on sparse queries.
+          </li>
+          <br />
+          <li>
+            <b>Assessment UX:</b>
+            Relevance dropdown prevents empty labels; results persisted on
+            submit; clickable URLs to verify content before rating.
+          </li>
+          <br />
+          <li>
+            <b>Model sanity checks:</b>
+            Compared manual spam features vs. full vocab to avoid underfitting;
+            monitored over/underfit via precision bounds (0.1939–0.414).
+          </li>
+        </ul>
+      </section>
+
+      <!-- SCALING & FUTURE ENHANCEMENTS -->
+      <section class="detail-section">
+        <h2>Scaling and future enhancements</h2>
+        <p>Ready to grow from coursework to production-grade demo.</p>
+
+        <ul>
+          <li>
+            <b>Sharding &amp; cache:</b>
+            Shard the index by domain/time; add postings and query result cache
+            (Redis) to reduce P95 latency.
+          </li>
+          <br />
+          <li>
+            <b>Reranking depth:</b>
+            Introduce LambdaMART/XGBoost with expanded features (PageRank, HITS,
+            click priors) and cross-validation over query folds.
+          </li>
+          <br />
+          <li>
+            <b>Quality signals:</b>
+            Add autocomplete with prefix tries; spell correction via k-grams;
+            snippet generator with positional windows.
+          </li>
+          <br />
+          <li>
+            <b>Deployment:</b>
+            Containerize crawler, indexer, API, and UI; use docker-compose for a
+            single-node demo; add health checks and telemetry.
+          </li>
+          <br />
+          <li>
+            <b>Spam hardening:</b>
+            Add character n-grams for obfuscation, URL reputation features, and
+            threshold tuning for precision/recall trade-offs.
+          </li>
+        </ul>
+      </section>
+
+      <!-- IMPACT & LEARNINGS -->
+      <section class="detail-section detail-impact">
+        <h2>Impact and learnings</h2>
+        <ul>
+          <li>
+            <b>IR depth:</b>
+            Hands-on with classic models, proximity, compression, and graph
+            algorithms—understanding when BM25 beats LMs and how link signals
+            diversify results.
+          </li>
+          <br />
+          <li>
+            <b>Evaluation mindset:</b>
+            Built a full relevance loop: manual labels, trec_eval metrics,
+            precision tracking, and feature-driven LTR gains.
+          </li>
+          <br />
+          <li>
+            <b>ML integration:</b>
+            Combined sparse text features with traditional IR scores; compared
+            manual heuristics vs. data-driven vocabularies for spam detection.
+          </li>
+          <br />
+          <li>
+            <b>Systems thinking:</b>
+            From crawling politeness to storage trade-offs, every stage is
+            modular and independently testable for clearer scaling paths.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

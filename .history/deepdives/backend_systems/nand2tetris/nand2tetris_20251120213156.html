@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      From Nand to Tetris: Building a Computer and Compiler from Scratch
+    </title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+    <style>
+      .project-detail-page pre,
+      .project-detail-page code {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      .project-detail-page pre {
+        display: flex;
+        justify-content: center;
+        margin: 1.25rem auto;
+      }
+
+      .project-detail-page pre code {
+        display: inline-block;
+        text-align: left;
+      }
+
+      .code-pair {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+        align-items: start;
+        justify-items: center;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .code-pair > div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .code-pair p {
+        margin: 0;
+        text-align: center;
+        width: 100%;
+      }
+
+      .code-bordered {
+        border: 1px solid #ffffff;
+        border-radius: 8px;
+        padding: 0.75rem;
+        display: block;
+        width: fit-content;
+        max-width: 100%;
+        margin: 0.75rem auto;
+      }
+
+      .project-detail-page pre.code-bordered {
+        margin: 0 auto 1.25rem;
+        justify-content: flex-start;
+      }
+
+      .code-card {
+        color: #f6f8ff;
+        border: 1px solid #ffffff;
+        border-radius: 8px;
+        padding: 0.75rem;
+        background: transparent;
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+      }
+
+      .code-card__title {
+        margin: 0;
+        font-weight: 700;
+        text-align: left;
+      }
+
+      .code-card code {
+        display: block;
+        white-space: pre;
+        width: 100%;
+      }
+
+      .code-card.vm-block,
+      .code-card.asm-block {
+        border-color: #ffffff;
+      }
+
+      .code-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1rem;
+        align-items: start;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .asm-columns {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.75rem;
+        align-items: start;
+      }
+
+      .asm-columns pre {
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: transparent;
+      }
+
+      .asm-columns pre code {
+        display: block;
+        white-space: pre;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a
+        class="category-back"
+        href="../../../projects/compiler-blockchain.html"
+      >
+        &larr; Back to Projects
+      </a>
+
+      <p
+        class="category-pill"
+        onclick="window.location.href='../../../projects/compiler-blockchain.html'"
+      >
+        Backend &amp; Distributed Logic
+      </p>
+      <br />
+      <h1>
+        From Nand to Tetris: Building a Computer and Compiler from Scratch
+      </h1>
+
+      <p class="detail-summary">
+        <b>
+          Two–part systems project where I built a full 16-bit computer,
+          assembler, virtual machine, and compiler from primitive NAND gates.
+          The stack ends in a high-level programming language called Jack that
+          runs on the hardware I designed using an emulator.
+        </b>
+      </p>
+
+      <p class="detail-summary">
+        I completed all projects for both Coursera courses
+        <i>“Build a Modern Computer from First Principles: Part 1 and Part 2”</i
+        >, submitted every assignment, scored <b>98%</b> overall, and earned
+        both certifications.
+      </p>
+
+      <ul class="detail-meta">
+        <li>
+          <strong>Tech Stack:</strong>
+          Hardware Description Language (HDL), Hack assembly, Jack language,
+          Java (assembler, VM translator, compiler), shell tooling, hardware and
+          VM emulators
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--wide">
+          <img
+            src="./images/nand2tetris_intro.png"
+            alt="Hardware and software hierarchy from NAND gate up to high level language"
+            style="display: block; margin: 0 auto; max-width: 90%; height: auto"
+          />
+          <figcaption style="text-align: center">
+            The full stack I implemented: from a single NAND gate to logic
+            chips, CPU, assembler, VM, and Jack compiler running user programs.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick insights</h2>
+        <ul class="psr-list">
+          <li>
+            <strong>Goal:</strong>
+            Design a full computer system from the logic-gate level and build a
+            usable high-level programming language called Jack with it's own
+            compiler and toolchain that runs games and apps on that hardware.
+          </li>
+          <br />
+          <li>
+            <strong>Scope:</strong>
+            Implemented over <b>30+</b> hardware chips in HDL, a
+            <b>16-bit Hack CPU and memory system</b>, a two-stage software stack
+            (assembler and VM translator), and a multi-pass Jack compiler.
+          </li>
+          <br />
+          <li>
+            <strong>Outcome:</strong>
+            The final system runs full Jack programs such as Tetris and a simple
+            operating system (arrays, math library, memory manager), compiled by
+            my Java tools from Jack to machine language that executes on the
+            hardware I built (via emulation).
+          </li>
+        </ul>
+      </section>
+
+      <!-- HARDWARE PLATFORM -->
+      <section class="detail-section">
+        <h2>Hardware platform: from NAND to a 16-bit computer</h2>
+        <p>
+          Part 1 focused on creating the hardware stack using the course HDL.
+          Starting from a single NAND primitive, I implemented combinational and
+          sequential chips and composed them into a usable computer.
+        </p>
+
+        <ul>
+          <li>
+            <b>Core logic:</b> Built gates such as NOT, AND, OR, MUX, and
+            adders, then composed them into an <b>ALU</b> (Arithmetic Logic
+            Unit) supporting arithmetic, bitwise operations, and zero/negative
+            flags.
+          </li>
+          <br />
+          <li>
+            <b>Stateful components:</b> Implemented Register, RAM8/64/4K/16K,
+            counters, and a screen-mapped memory unit using flip-flops and
+            clocked logic.
+          </li>
+          <br />
+          <li>
+            <b>CPU and computer:</b> Wired the ALU (Arithmetic Logic Unit),
+            registers, and instruction decoder into a Hack CPU supporting
+            A-instruction and C-instruction i.e. Address and Compute
+            instructions plus conditional jumps, then added ROM and memory to
+            form the complete computer chip.
+          </li>
+        </ul>
+
+        <h3>Example: ALU snippet and behavior</h3>
+        <p>
+          The ALU combines configurable input negation, zeroing, and function
+          selection. Here is a simplified HDL excerpt (names adjusted for
+          brevity):
+        </p>
+
+        <pre class="code-bordered"><code>// Simplified ALU style HDL
+CHIP ALU {
+  IN  x[16], y[16],
+      zx, nx, zy, ny, f, no;
+  OUT out[16], zr, ng;
+
+  PARTS:
+  Mux16(a=x, b=false, sel=zx, out=xz);
+  Not16(in=xz, out=xn);
+  Mux16(a=xz, b=xn, sel=nx, out=x1);
+
+  Mux16(a=y, b=false, sel=zy, out=yz);
+  Not16(in=yz, out=yn);
+  Mux16(a=yz, b=yn, sel=ny, out=y1);
+
+  Add16(a=x1, b=y1, out=sum);
+  And16(a=x1, b=y1, out=andv);
+  Mux16(a=andv, b=sum, sel=f, out=out0);
+
+  Not16(in=out0, out=out1);
+  Mux16(a=out0, b=out1, sel=no, out=out);
+
+  Or16Way(in=out, out=any);
+  Not(in=any, out=zr);
+  And(in=out[15], in2=true, out=ng);
+}</code></pre>
+
+        <p>
+          With these control bits, higher-level instructions like D=D+M or M=!M
+          are implemented simply by choosing the correct input parameter
+          combination.
+        </p>
+      </section>
+
+      <!-- ASSEMBLER -->
+      <section class="detail-section">
+        <h2>Assembler: Hack assembly to machine code</h2>
+        <p>
+          Once the computer chip worked in simulation, I wrote a two-pass
+          assembler in Java for the Hack assembly language. It resolves labels
+          and variables, then emits 16-bit binary instructions.
+        </p>
+
+        <ul>
+          <li>
+            <b>Two-pass design:</b> First pass scans labels (for example,
+            <code>(LOOP)</code>) and records their ROM addresses. Second pass
+            encodes A and C instructions into their binary form.
+          </li>
+          <br />
+          <li>
+            <b>Symbol table:</b> Pre-populated with predefined registers
+            (R0–R15), pointers (SP, LCL, ARG), screen and keyboard addresses,
+            then extended with user variables starting at address 16.
+          </li>
+        </ul>
+
+        <h3>Assembler encoding example</h3>
+
+        <div class="code-pair">
+          <div>
+            <p><b>Input assembly:</b></p>
+            <pre class="code-card vm-block"><code>// Simple loop
+@i
+M=1
+(LOOP)
+  @i
+  M=M+1
+  @10
+  D;JLT
+  @LOOP
+  0;JMP</code></pre>
+          </div>
+
+          <div>
+            <p><b>Generated machine code:</b></p>
+            <pre
+              class="code-card asm-block"
+            ><code>0000000000010000   // @i (allocated at 16)
+1110111111001000   // M=1
+0000000000010000   // @i
+1111110111011000   // M=M+1
+0000000000001010   // @10
+1110001100000100   // D;JLT
+0000000000000010   // @LOOP (ROM address 2)
+1110101010000111   // 0;JMP</code></pre>
+          </div>
+        </div>
+
+        <p>
+          Running this binary on the hardware simulator shows the register and
+          RAM state changing as expected, proving the assembler and CPU agree on
+          the instruction set.
+        </p>
+      </section>
+
+      <!-- VM TRANSLATOR -->
+      <section class="detail-section">
+        <h2>VM translator: stack machine to Hack assembly</h2>
+        <p>
+          Part 2 starts the software hierarchy. I implemented a VM translator in
+          Java that converts a high-level stack-based VM language into Hack
+          assembly. This layer decouples Jack from the hardware and introduces
+          function calls and static segments.
+        </p>
+
+        <ul>
+          <li>
+            <b>Arithmetic and logic:</b> Commands such as <code>add</code>,
+            <code>sub</code>, <code>eq</code>, <code>lt</code>, and
+            <code>gt</code> pop values from the stack, compute, and push results
+            using small assembly templates.
+          </li>
+          <br />
+          <li>
+            <b>Memory segments:</b> Implemented pointer logic for
+            <code>local</code>, <code>argument</code>, <code>this</code>,
+            <code>that</code>, <code>temp</code>, <code>pointer</code>, and
+            <code>static</code> segments.
+          </li>
+          <br />
+          <li>
+            <b>Functions and calls:</b> Implemented call frames following the
+            Hack VM spec: save caller state, set ARG and LCL, jump to callee,
+            and restore on return.
+          </li>
+        </ul>
+
+        <h3>VM to assembly example</h3>
+
+        <div class="code-grid">
+          <div class="code-card vm-block">
+            <p class="code-card__title">Input VM snippet:</p>
+            <pre><code>function Simple.addTwo 0
+push argument 0
+push constant 2
+add
+return</code></pre>
+          </div>
+
+          <div class="code-card asm-block">
+            <p class="code-card__title">Generated Hack assembly (excerpt):</p>
+            <pre><code>// function Simple.addTwo 0
+(Simple.addTwo)
+// full commands for push argument 0
+@ARG
+D=M
+@0
+A=D+A
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// Similar for push constant 2
+// Similar for add
+
+
+        <p>
+          These templates are reused across all Jack programs, making the VM
+          translator a key abstraction boundary between language and hardware.
+        </p>
+      </section>
+
+      <!-- JACK COMPILER -->
+      <section class="detail-section">
+        <h2>Jack compiler: high-level language on custom hardware</h2>
+        <p>
+          The final stage was a full compiler pipeline for the Jack language,
+          written in Java. Jack is a Java-like language with classes, methods,
+          fields, arrays, and basic control flow. The compiler targets the stack
+          VM, which my translator then lowers to Hack assembly.
+        </p>
+
+        <ul>
+          <li>
+            <b>Front-end:</b> A tokenizer converts characters into tokens
+            (keywords, identifiers, symbols, integers, strings). A recursive
+            descent parser (CompilationEngine) walks the grammar and emits VM
+            commands while constructing and consulting symbol tables.
+          </li>
+          <br />
+          <li>
+            <b>Symbol tables:</b> Separate tables for class-level and subroutine
+            scope track identifiers, their kind (field, static, local,
+            argument), and index. This allows fields of each instance to map
+            cleanly to memory segments.
+          </li>
+          <br />
+          <li>
+            <b>Code generation:</b> Control structures such as if/while use
+            generated labels, while expressions and terms emit stack operations
+            that match the VM semantics.
+          </li>
+        </ul>
+
+        <h3>Example: compiling a Jack method</h3>
+
+        <div class="code-pair">
+          <div>
+            <p><b>Input Jack code:</b></p>
+            <pre class="code-card vm-block"><code>class Counter {
+  field int value;
+
+  method void inc(int delta) {
+    let value = value + delta;
+    return;
+  }
+}</code></pre>
+          </div>
+          <div>
+            <p><b>Generated VM code:</b></p>
+            <pre class="code-card asm-block"><code>// method Counter.inc 1
+function Counter.inc 1
+  // push this.value
+  push argument 0     // this
+  pop pointer 0       // this -> THIS
+  push this 0
+  // push delta
+  push argument 1
+  add
+  pop this 0
+  push constant 0
+  return</code></pre>
+          </div>
+        </div>
+
+        <p>
+          Running this through the VM translator and assembler produces Hack
+          machine code that manipulates the <code>value</code> field stored in
+          the heap area controlled by the OS memory manager.
+        </p>
+
+        <h3>Example: parsing expressions in Java</h3>
+        <p>
+          The recursive descent compiler uses small focused methods that mirror
+          the grammar. For example, expression compilation handles operator
+          precedence and emits VM operations as it walks the parse tree.
+        </p>
+
+        <pre class="code-bordered"><code>// Simplified Java-style excerpt
+private void compileExpression() {
+  compileTerm();
+  while (tokenIsOneOf("+", "-", "*", "/", "&amp;", "|", "&lt;", "&gt;", "=")) {
+    String op = currentToken();
+    advance();
+    compileTerm();
+    writeArithmetic(op);  // maps '+' to 'add', '&lt;' to 'lt', etc.
+  }
+}</code></pre>
+
+        <p>
+          This design keeps the compiler readable and makes it easy to trace
+          from Jack source through VM and assembly when debugging.
+        </p>
+      </section>
+
+      <!-- END-TO-END PIPELINE -->
+      <section class="detail-section">
+        <h2>End-to-end pipeline and final programs</h2>
+        <p>
+          With the full pipeline in place, I compiled and ran several Jack
+          applications, including the supplied Tetris, a simple OS API, and my
+          own small programs that manipulate memory, draw graphics, and handle
+          keyboard input.
+        </p>
+
+        <ul>
+          <li>
+            <b>End-to-end flow:</b> Jack source (User Input Programming
+            Language) → Java Compiler → VM code → Java VM translator → Hack
+            assembly → Java assembler → 16-bit machine code → executed on the
+            computer emulated from NAND gates. The Compiler, VM translator and
+            assembler were built from scratch in Java.
+          </li>
+          <br />
+          <li>
+            <b>Debugging:</b> Used the hardware and VM simulators to step
+            through instructions, inspect RAM and stack, and validate that
+            higher-level bugs were not caused by lower-level hardware mistakes.
+          </li>
+        </ul>
+      </section>
+
+      <!-- IMPACT & LEARNINGS -->
+      <section class="detail-section detail-impact">
+        <h2>Impact and learnings</h2>
+        <ul>
+          <li>
+            <b>Systems thinking:</b> Gained a concrete understanding of how
+            compilers, virtual machines, and hardware interact, instead of
+            treating them as black boxes.
+          </li>
+          <br />
+          <li>
+            <b>Compiler and language design:</b> Implemented a real compiler
+            front-end and back-end, including lexical analysis, parsing, symbol
+            tables, and code generation for a custom language.
+          </li>
+          <br />
+          <li>
+            <b>Hardware intuition:</b> Designing the ALU, CPU, and memory from
+            primitive gates sharpened my intuition for performance, instruction
+            set design, and the cost of different operations.
+          </li>
+          <br />
+          <li>
+            <b>Reliability through abstraction:</b> Each layer (HDL chips,
+            assembler, VM, compiler) had a clear contract and test suite, which
+            made debugging manageable despite how much was built from scratch.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

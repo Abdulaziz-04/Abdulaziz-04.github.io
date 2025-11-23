@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nand2Tetris – Full Computer From Logic Gates to Compiler</title>
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+  </head>
+
+  <body class="project-detail-page">
+    <header class="detail-hero">
+      <a
+        class="category-back"
+        href="../../../projects/compiler-blockchain.html"
+      >
+        &larr; Back to Projects
+      </a>
+
+      <p class="category-pill">Backend, Systems & Compilers</p>
+      <h1>Nand2Tetris – Full Computer From Logic Gates to Compiler</h1>
+      <p class="detail-summary">
+        <b>
+          Two-part systems project where I implemented the full Nand2Tetris
+          hardware and software stack from scratch. Starting from a single NAND
+          gate, I built the ALU, CPU, and RAM in a hardware description
+          language, then implemented a virtual machine translator and Jack
+          compiler so high-level programs run end-to-end on my own computer
+          architecture.
+        </b>
+      </p>
+
+      <ul class="detail-meta">
+        <li>
+          <strong>Scope:</strong>
+          Hardware platform (projects 1–5) and full language toolchain (projects
+          7–11)
+        </li>
+        <br />
+        <li>
+          <strong>Tech Stack:</strong>
+          Nand2Tetris HDL, Hack assembly, Java, Python, Jack language, automated
+          test harnesses (.tst/.cmp)
+        </li>
+        <br />
+        <li>
+          <strong>Focus:</strong>
+          Digital design, CPU architecture, virtual machines, parsing and
+          code-generation for a high-level language
+        </li>
+      </ul>
+    </header>
+
+    <main class="section detail-content">
+      <!-- HERO IMAGE -->
+      <section class="detail-section detail-hero-gif">
+        <figure class="gallery-item gallery-item--wide">
+          <img
+            src="./images/nand2tetris_intro.png"
+            alt="Nand2Tetris hardware and software hierarchy from NAND gate to high-level language"
+          />
+          <figcaption style="text-align: center">
+            Conceptual view of the stack I implemented: from a single NAND gate,
+            up through logic chips, CPU and RAM, machine language, VM, and a
+            high-level language compiler.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- QUICK INSIGHTS -->
+      <section class="detail-section">
+        <h2>Quick insights</h2>
+        <ul class="psr-list">
+          <li>
+            <strong>Goal:</strong>
+            Understand the full path from “human thought” to bits on a chip by
+            implementing each abstraction layer myself, instead of treating the
+            hardware and compiler as black boxes.
+          </li>
+          <br />
+          <li>
+            <strong>Approach:</strong>
+            Used the Nand2Tetris hardware description language to construct
+            every chip from a single NAND gate up to a working CPU and computer
+            module, then wrote a virtual machine translator and Jack compiler
+            (tokenizer, parser, symbol table, code generator) so high-level Jack
+            programs compile to my hardware.
+          </li>
+          <br />
+          <li>
+            <strong>Outcome:</strong>
+            Ended with a self-contained system where I can write an object
+            oriented Jack program (for example, Pong or a text editor), compile
+            it with my own tools, and run it on the CPU and RAM I implemented.
+          </li>
+        </ul>
+      </section>
+
+      <!-- HARDWARE PLATFORM -->
+      <section class="detail-section">
+        <h2>Hardware platform: from NAND to computer chip</h2>
+        <p>
+          Part I focused on digital logic and computer architecture. Using the
+          course HDL and simulator, I incrementally built a working hardware
+          platform:
+        </p>
+
+        <ul>
+          <li>
+            <b>Elementary logic gates:</b>
+            Implemented basic gates (Not, And, Or, Xor, Mux, DMux) and their
+            16-bit versions, all using only the primitive <code>Nand</code>.
+          </li>
+          <br />
+          <li>
+            <b>Arithmetic and state:</b>
+            Built adders (HalfAdder, FullAdder, Add16), an incrementer,
+            registers, RAM chips, and a program counter, then used them to
+            design the ALU.
+          </li>
+          <br />
+          <li>
+            <b>ALU design:</b>
+            The ALU handles addition, bitwise and, zeroing, negation, and
+            comparison flags (<code>zr</code>, <code>ng</code>) controlled by 6
+            input bits. This is the core datapath for all arithmetic and logic
+            in the CPU.
+          </li>
+          <br />
+          <li>
+            <b>CPU and memory hierarchy:</b>
+            Implemented the Hack CPU that fetches and executes A and C
+            instructions, integrates the ALU, instruction memory, and data
+            memory, and controls the program counter for sequential execution,
+            jumps, and conditional branching.
+          </li>
+          <br />
+          <li>
+            <b>Top-level Computer.hdl:</b>
+            Finally wired CPU, ROM, RAM, screen, and keyboard into a single
+            <code>Computer</code> chip so machine code programs can run end to
+            end on my design.
+          </li>
+        </ul>
+
+        <p>
+          All chips were validated with supplied test scripts and comparison
+          files, which helped catch wiring errors early and cemented the habit
+          of building small automated tests for low-level systems work.
+        </p>
+
+        <h3>CPU control snippet</h3>
+        <p>
+          The CPU HDL coordinates instruction decoding, ALU control bits, and
+          program counter updates. A small excerpt:
+        </p>
+
+        <pre><code class="language-hdl">
+// Decide whether to load A from instruction or ALU
+Mux16(a=instruction, b=aluOut, sel=instruction[15], out=aIn);
+ARegister(in=aIn, load=aLoad, out=aOut);
+DRegister(in=aluOut, load=dLoad, out=dOut);
+
+// Program counter logic (sequential vs jump)
+PC(in=aOut, load=pcLoad, inc=pcInc, reset=reset, out=pcOut);
+        </code></pre>
+
+        <p>
+          This wiring plus the control logic implements the Hack instruction
+          set, effectively turning the previous building blocks into a usable
+          CPU.
+        </p>
+      </section>
+
+      <!-- SOFTWARE TOOLCHAIN OVERVIEW -->
+      <section class="detail-section">
+        <h2>Software toolchain: VM translator and Jack compiler</h2>
+        <p>
+          With the hardware platform complete, Part II moves up the abstraction
+          ladder. The goal is to run high-level Jack programs by building out
+          the software hierarchy:
+        </p>
+
+        <ul>
+          <li>
+            <b>Virtual machine translator (Java):</b>
+            Implemented a translator that converts stack-based VM commands
+            (arithmetic, memory access, control flow, function calls) into Hack
+            assembly while preserving the calling convention and stack frame
+            layout.
+          </li>
+          <br />
+          <li>
+            <b>Syntax analyzer and tokenizer (Python):</b>
+            Wrote a Jack tokenizer that produces token sequences for keywords,
+            symbols, identifiers, integers, and string constants, followed by a
+            recursive descent parser that enforces the Jack grammar.
+          </li>
+          <br />
+          <li>
+            <b>Compilation engine:</b>
+            The parser is coupled with a compilation engine that emits VM code
+            directly. It handles expressions, statements, class and subroutine
+            scopes, symbol tables, and correct code generation for control
+            structures and method calls.
+          </li>
+          <br />
+          <li>
+            <b>End-to-end pipeline:</b>
+            The pipeline for a Jack program is:
+            <code
+              >Jack source → tokenizer → parser / compilation engine → VM code →
+              VM translator → Hack assembly → machine code</code
+            >, which is then loaded into the <code>Computer</code> chip.
+          </li>
+        </ul>
+      </section>
+
+      <!-- VM TRANSLATOR SNIPPET -->
+      <section class="detail-section">
+        <h2>VM translator logic</h2>
+        <p>
+          The VM translator is written in Java and uses a
+          <code>CodeWriter</code> to emit Hack assembly. Arithmetic commands
+          share a common pattern: pop operands from the stack, perform the
+          operation, and push the result back. An excerpt from the
+          <code>writeArithmetic</code> implementation for binary operators:
+        </p>
+
+        <pre><code class="language-java">
+public void writeArithmetic(String command) throws IOException {
+    writer.write("@SP\nAM=M-1\nD=M\nA=A-1\n");
+    switch (command) {
+        case "add":
+            writer.write("M=M+D\n");
+            break;
+        case "sub":
+            writer.write("M=M-D\n");
+            break;
+        case "and":
+            writer.write("M=M&D\n");
+            break;
+        case "or":
+            writer.write("M=M|D\n");
+            break;
+        // ... comparisons (eq, lt, gt) emit label-based branching ...
+    }
+}
+        </code></pre>
+
+        <p>
+          Later projects add function calls, returns, and static/this/that
+          segments so complex programs like Pong, Square, and a basic OS kernel
+          can run correctly.
+        </p>
+      </section>
+
+      <!-- COMPILER SNIPPET -->
+      <section class="detail-section">
+        <h2>Jack compiler: control flow and symbol management</h2>
+        <p>
+          The Python <code>CompilationEngine</code> coordinates parsing and VM
+          code generation. Each construct in the Jack grammar has a method that
+          emits VM instructions. For example, <code>compileWhile</code> wraps
+          the condition and body with generated labels:
+        </p>
+
+        <pre><code class="language-python">
+def compileWhile(self):
+    start_label = self._new_label("WHILE_EXP")
+    end_label   = self._new_label("WHILE_END")
+
+    self.writer.writeLabel(start_label)
+    self._compile_expression()        # condition
+    self.writer.writeArithmetic("not")
+    self.writer.writeIf(end_label)    # exit if false
+
+    self._compile_statements()        # loop body
+    self.writer.writeGoto(start_label)
+    self.writer.writeLabel(end_label)
+        </code></pre>
+
+        <p>
+          The compilation engine also tracks class and subroutine scopes via a
+          symbol table, assigning each field, static, local, and argument a
+          segment and index so method calls and variable references map cleanly
+          onto the VM stack machine.
+        </p>
+      </section>
+
+      <!-- EXAMPLE PROGRAMS -->
+      <section class="detail-section">
+        <h2>Example programs running on the stack</h2>
+        <p>
+          To validate each stage, I compiled and ran several Jack programs on my
+          hardware:
+        </p>
+        <ul>
+          <li>
+            <b>Stack arithmetic tests:</b>
+            Early VM translator projects use small stack programs to verify
+            arithmetic, comparisons, branching, and function calls.
+          </li>
+          <br />
+          <li>
+            <b>Game and graphics demos:</b>
+            Programs like <code>Square</code> and <code>Pong</code> exercise the
+            full pipeline, drawing on the memory mapped screen and polling the
+            keyboard while running entirely on my CPU and RAM.
+          </li>
+          <br />
+          <li>
+            <b>Compiler regression tests:</b>
+            The compiler projects include a suite of Jack programs with
+            reference VM outputs; passing these ensures that control flow,
+            expressions, and class handling are all correct.
+          </li>
+        </ul>
+      </section>
+
+      <!-- IMPACT -->
+      <section class="detail-section detail-impact">
+        <h2>Impact and learnings</h2>
+        <ul>
+          <li>
+            <b>Hardware–software integration:</b>
+            Building both the CPU and the language toolchain clarified how
+            compilers and virtual machines target real hardware and how design
+            decisions at each layer interact.
+          </li>
+          <br />
+          <li>
+            <b>Systematic testing:</b>
+            Learned to rely on small, automated tests at every stage (chip
+            testbenches, VM regression scripts, compiler comparison tools) to
+            keep a large multi-layer project manageable.
+          </li>
+          <br />
+          <li>
+            <b>Comfort with low-level code:</b>
+            Gained fluency in hardware description languages, stack-based
+            execution models, and assembly level debugging which now informs how
+            I write performance-sensitive or systems-oriented code.
+          </li>
+          <br />
+          <li>
+            <b>Foundation for future work:</b>
+            This project directly supports later work in compilers,
+            interpreters, and backend systems where understanding the “full
+            stack” from logic gates to high-level languages is essential.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
