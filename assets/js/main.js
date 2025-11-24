@@ -5,6 +5,51 @@
   const trackedSections = new Set();
   let scrollSpyBound = false;
   let navHeightListenerBound = false;
+  let posthogClient = null;
+  const seenSections = new Set();
+
+  // PostHog analytics loader and click tracking
+  const initPosthog = () => {
+    if (window.posthog && typeof window.posthog.init === 'function') {
+      return Promise.resolve(window.posthog);
+    }
+
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://us.i.posthog.com/static/array.js';
+      script.onload = () => {
+        try {
+          window.posthog.init('phc_JAYewhUaFiR9Bl5mY1B77xUOx0ZGnDsAeMCbrHtNUZf', {
+            api_host: 'https://us.i.posthog.com',
+            person_profiles: 'identified_only'
+          });
+          resolve(window.posthog);
+        } catch (error) {
+          reject(error);
+        }
+      };
+      script.onerror = () => reject(new Error('PostHog failed to load'));
+      document.head.appendChild(script);
+    });
+  };
+
+  initPosthog()
+    .then((ph) => {
+      posthogClient = ph;
+      ph.capture('$pageview');
+      document.addEventListener('click', (event) => {
+        const target = event.target.closest('[data-track]');
+        if (!target) return;
+        ph.capture('cta_click', {
+          label: target.getAttribute('data-track'),
+          href: target.getAttribute('href') || ''
+        });
+      });
+    })
+    .catch((error) => {
+      console.error('PostHog init error', error);
+    });
 
   const updateNavHeightVar = () => {
     const nav = document.querySelector('.top-nav');
@@ -107,6 +152,14 @@
         let bestEntry = null;
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
+
+          const sectionId = entry.target.getAttribute('id') || '';
+          const resolved = resolveSectionId(sectionId);
+          if (resolved && posthogClient && !seenSections.has(resolved)) {
+            seenSections.add(resolved);
+            posthogClient.capture('section_view', { section: resolved });
+          }
+
           if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
             bestEntry = entry;
           }
