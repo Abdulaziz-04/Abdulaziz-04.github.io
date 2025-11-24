@@ -43,6 +43,15 @@
     return sectionAlias.get(sectionId) || sectionId;
   };
 
+  const updateModalOpenClass = () => {
+    const hireOpen = hireModal && !hireModal.hasAttribute('hidden');
+    if (hireOpen) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+  };
+
   const syncActiveNav = (sectionId) => {
     const resolved = resolveSectionId(sectionId);
     if (!sectionId) return;
@@ -134,7 +143,7 @@
     }
     if (!hireModal) return;
     hireModal.setAttribute('hidden', '');
-    document.body.classList.remove('modal-open');
+    updateModalOpenClass();
   };
 
   const ensureHireModal = () => {
@@ -158,7 +167,7 @@
     const modal = ensureHireModal();
     if (!modal) return;
     modal.removeAttribute('hidden');
-    document.body.classList.add('modal-open');
+    updateModalOpenClass();
   };
 
   const initHireTriggers = (root = document) => {
@@ -222,6 +231,8 @@
   initDropdowns();
   initHireTriggers();
   initGlobalKeys();
+  initTopNav(document);
+  registerSections(document);
 
   const templateContainers = document.querySelectorAll('[data-template]');
   templateContainers.forEach((container) => {

@@ -34,6 +34,9 @@
       </div>
       <div class="hero-actions">
         <button class="btn hire-btn" data-hire-trigger>Hire Me!</button>
+        <a class="btn secondary snippets-btn" href="code-wins.html">
+          Code Highlights
+        </a>
       </div>
     </div>
     <div class="hero-photo">
@@ -41,7 +44,6 @@
     </div>
   </div>
 </header>
-
 <div class="hire-modal" data-hire-modal hidden>
   <div class="hire-modal__panel">
     <button class="hire-modal__close" data-hire-close>&times;</button>
@@ -74,5 +76,107 @@
     <button class="btn hire-btn hire-modal__action" data-hire-close>
       Close
     </button>
+  </div>
+</div>
+
+<div class="snippets-modal" data-snippets-modal hidden>
+  <div class="snippets-modal__panel">
+    <button class="snippets-modal__close" data-snippets-close>&times;</button>
+    <p class="snippets-modal__eyebrow">Practical Engineering Samples</p>
+    <h3 class="snippets-modal__title">Code Snippets That Shipped and Scaled</h3>
+    <p class="snippets-modal__lede">
+      A few production-ready excerpts I rely on to keep services reliable and readable.
+    </p>
+    <div class="snippets-grid">
+      <article class="snippet-card">
+        <header class="snippet-card__header">
+          <span class="snippet-card__lang">Java</span>
+          <p class="snippet-card__summary">
+            Fan-out/fan-in pipeline using CompletableFuture to keep API hops non-blocking.
+          </p>
+        </header>
+        <pre class="snippet-card__code"><code class="language-java">// Merge multiple upstream calls without thread explosion
+CompletableFuture&lt;User&gt; user = userClient.fetchAsync(userId);
+CompletableFuture&lt;List&lt;Order&gt;&gt; orders = orderClient.fetchAsync(userId);
+
+// Compose downstream step once both complete
+return user.thenCombineAsync(orders, (u, o) -&gt; assembleProfile(u, o))
+           .orTimeout(2, TimeUnit.SECONDS)   // fail fast for SLOs
+           .exceptionally(this::fallbackProfile);</code></pre>
+      </article>
+
+      <article class="snippet-card">
+        <header class="snippet-card__header">
+          <span class="snippet-card__lang">Python</span>
+          <p class="snippet-card__summary">
+            Structured retry with jitter and contextual logging wrapper for flaky I/O.
+          </p>
+        </header>
+        <pre class="snippet-card__code"><code class="language-python">import random, time, logging
+
+def with_retry(fn, attempts=3, base=0.15):
+    for attempt in range(1, attempts + 1):
+        try:
+            return fn()
+        except Exception as exc:
+            jitter = base * (1 + random.random())
+            logging.warning("retry %s/%s after %.2fs: %s", attempt, attempts, jitter, exc)
+            time.sleep(jitter)
+    raise RuntimeError("exhausted retries")</code></pre>
+      </article>
+
+      <article class="snippet-card">
+        <header class="snippet-card__header">
+          <span class="snippet-card__lang">JavaScript (Node.js)</span>
+          <p class="snippet-card__summary">
+            Stream pipeline that backpressures while transforming large JSON logs.
+          </p>
+        </header>
+        <pre class="snippet-card__code"><code class="language-javascript">import { createReadStream, createWriteStream } from "fs";
+import { pipeline } from "stream/promises";
+import split2 from "split2";
+
+// Backpressure-aware transform
+const redact = async function* (lines) {
+  for await (const line of lines) {
+    const entry = JSON.parse(line);
+    entry.email = "[redacted]"; // scrub PII
+    yield JSON.stringify(entry) + "\\n";
+  }
+};
+
+await pipeline(
+  createReadStream("raw.log"),
+  split2(),          // turn file into lines
+  redact,            // async generator preserves pressure
+  createWriteStream("clean.log")
+);</code></pre>
+      </article>
+
+      <article class="snippet-card">
+        <header class="snippet-card__header">
+          <span class="snippet-card__lang">C#</span>
+          <p class="snippet-card__summary">
+            Policy-based resilience wrapper with typed pattern matching on results.
+          </p>
+        </header>
+        <pre class="snippet-card__code"><code class="language-csharp">public async Task&lt;Result&gt; FetchWithResilience(Func&lt;Task&lt;Result&gt;&gt; work)
+{
+    for (var attempt = 1; attempt &lt;= 3; attempt++)
+    {
+        var result = await work();
+        switch (result)
+        {
+            case Success s: return s;
+            case TransientError e when attempt &lt; 3:
+                await Task.Delay(TimeSpan.FromMilliseconds(200 * attempt));
+                continue; // retry with backoff
+            default: return result; // bubble permanent errors
+        }
+    }
+    return new Failure("Retries exhausted");
+}</code></pre>
+      </article>
+    </div>
   </div>
 </div>

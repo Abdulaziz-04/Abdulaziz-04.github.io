@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Code Highlights | Abdulaziz Suria</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"
+    />
+  </head>
+  <body class="code-wins-page">
+    <header class="site-header hero-header code-wins-hero">
+      <div class="code-wins-intro">
+        <p class="eyebrow">Production-Focused Engineering</p>
+        <p class="code-wins-lede">
+          Pragmatic, well-tested excerpts I lean on to keep services fast, safe,
+          and observable across different stacks.
+        </p>
+        <br />
+        <div class="code-wins-actions">
+          <a class="btn secondary snippets-btn" href="index.html">
+            Back to portfolio
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="code-wins-main">
+      <div class="code-wins-grid">
+        <article class="code-win">
+          <div class="code-win__head">
+            <span class="code-win__lang">Java</span>
+          </div>
+          <div class="code-win__code-box">
+            <div class="code-win__summary code-win__summary--inside">
+              <p>
+                Goal: render portfolio trends as a CLI sparkline and reuse the
+                same bucketing pipeline in a JavaFX view.
+              </p>
+              <p>How:</p>
+              <ul>
+                <li>
+                  Bucket date ranges to cap the output to ~30 points while
+                  preserving ordering.
+                </li>
+                <li>
+                  Normalize portfolio values to avoid division-by-zero and scale
+                  star lengths consistently.
+                </li>
+                <li>
+                  Expose bucketing/normalization behind interfaces so MVC
+                  controllers share logic across CLI and GUI without
+                  duplication.
+                </li>
+              </ul>
+            </div>
+            <pre class="code-win__code language-java">
+            
+            <code class="language-java">/**
+ * Builds an ASCII sparkline of portfolio values between the given dates, choosing an interval that caps the chart at ~30 points.
+ * @param startDate inclusive start date in dd/MM/yyyy format.
+ * @param endDate inclusive end date in dd/MM/yyyy format.
+ * @return map of date -> star string representing relative value.
+ * @throws IOException if the date order is invalid or price data retrieval fails.
+ */
+
+Map&lt;LocalDate, String&gt; visualizePortfolio(String startDate, String endDate) throws IOException {
+  // Reverse date check
+  if (checkReverseDates(startDate, endDate)) throw new IOException("Invalid date sequence");
+
+  LocalDate start = LocalDate.parse(startDate, format);
+  LocalDate end = LocalDate.parse(endDate, format);
+
+  long spanDays = ChronoUnit.DAYS.between(start, end);
+  int step = (int) Math.max(1, Math.ceil(spanDays / 30.0)); // cap to ~30 lines
+  List&lt;String&gt; dates = createTimeSequence(step, Time.DAY, start, end);
+
+  List&lt;Float&gt; totals = dates.stream().map(this::getValue).toList();
+  float min = Collections.min(totals);
+
+  // Avoid division by zero
+  float range = Math.max(1f, Collections.max(totals) - min);
+
+  // Render the data in sorted order with their stars
+  Map&lt;LocalDate, String&gt; chart = new TreeMap&lt;&gt;();
+  for (int i = 0; i &lt; dates.size(); i++) {
+    float normalized = (totals.get(i) - min) / range;
+    int stars = Math.round(normalized * 50);
+    chart.put(LocalDate.parse(dates.get(i), format), "*".repeat(Math.max(1, stars)));
+  }
+  return chart;
+}
+</code></pre>
+          </div>
+        </article>
+
+        <article class="code-win">
+          <div class="code-win__head">
+            <span class="code-win__lang">Python</span>
+          </div>
+          <div class="code-win__code-box">
+            <div class="code-win__summary code-win__summary--inside">
+              <p>
+                Goal: It powers a home decor visualizer by replacing user tiles
+                with a chosen design using pure matrix operations after image
+                segmentation.
+              </p>
+              <p>How:</p>
+              <ul>
+                <li>
+                  Builds a binary mask of the regions to replace by thresholding
+                  white areas and cleaning edges with morphological opening on
+                  large images.
+                </li>
+                <li>
+                  Tiles the selected design pattern so it seamlessly covers the
+                  mask.
+                </li>
+                <li>
+                  Uses NumPy broadcasting (np.where) to composite the tiled
+                  design over the masked pixels while leaving the rest of the
+                  scene unchanged.
+                </li>
+                <li>Saves the rendered image with a timestamped filename.</li>
+              </ul>
+            </div>
+            <pre class="code-win__code language-python">
+            
+            <code class="language-python">def switch_tiles_vectorized(
+    original_image: np.ndarray,
+    tile_design: np.ndarray,
+    mask_image: np.ndarray,
+    file_name: str,
+    output_dir: str = "./output",
+) -> str:
+    """
+    Home Decor Visualizer — Replace floor/wall tiles using matrix ops (no loops).
+
+    Args:
+        original_image: Original BGR scene (H x W x 3).
+        tile_design: Chosen tile texture/pattern (h x w x 3); it will be tiled to cover the mask.
+        mask_image: Mask where white pixels mark the area to replace (H x W or H x W x 3).
+        file_name: Base name used for the saved result (e.g., "room.jpg").
+        output_dir: Directory where the rendered image is saved.
+
+    Returns:
+        Full path to the saved image with the tile design applied.
+    """
+    image_height, image_width = original_image.shape[:2]
+    design_height, design_width = tile_design.shape[:2]
+
+    # 1) Prepare a clean binary mask (white = replace area)
+    grayscale_mask = (
+        cv2.cvtColor(mask_image, cv2.COLOR_BGR2GRAY)
+        if mask_image.ndim == 3
+        else mask_image
+    )
+    _, binary_mask = cv2.threshold(grayscale_mask, 254, 255, cv2.THRESH_BINARY)
+
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
+    binary_mask = cv2.morphologyEx(
+        binary_mask, cv2.MORPH_OPEN, kernel, iterations=15
+    )
+
+    # 2) Tile the design to match scene dimensions
+    tile_repeats_y = math.ceil(image_height / design_height)
+    tile_repeats_x = math.ceil(image_width / design_width)
+    tiled_design = np.tile(
+        tile_design, (tile_repeats_y, tile_repeats_x, 1)
+    )[:image_height, :image_width]
+
+    # 3) Composite via broadcasting
+    mask_three_channel = cv2.cvtColor(binary_mask, cv2.COLOR_GRAY2BGR)
+    replace_mask = mask_three_channel == 255
+    composed_result = np.where(replace_mask, tiled_design, original_image)
+
+    # 4) Save with timestamp
+    os.makedirs(output_dir, exist_ok=True)
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    output_filename = f"outcome_{timestamp}_{file_name}"
+    output_path = os.path.join(output_dir, output_filename)
+    cv2.imwrite(output_path, composed_result)
+    return output_path
+</code></pre>
+          </div>
+        </article>
+
+        <article class="code-win">
+          <div class="code-win__head">
+            <span class="code-win__lang">JavaScript</span>
+          </div>
+          <div class="code-win__code-box">
+            <div class="code-win__summary code-win__summary--inside">
+              <p>
+                Goal: Expose a reliable API endpoint to update an IT/Ops ticket
+                by ID with validation, safe DB update, and clear error handling.
+              </p>
+              <p>How</p>
+              <ul>
+                <li>
+                  Validate the :id as a proper MongoDB ObjectId before hitting
+                  the database.
+                </li>
+                <li>
+                  Validate request payload with validateLog to enforce
+                  schema/constraints.
+                </li>
+                <li>
+                  Whitelist fields and set updatedAt server-side for integrity.
+                </li>
+                <li>
+                  Use findByIdAndUpdate with { new: true } to return the updated
+                  document.
+                </li>
+                <li>
+                  Return precise HTTP codes: 400 invalid input, 404 not found,
+                  500 server error.
+                </li>
+              </ul>
+            </div>
+            <pre class="code-win__code language-javascript">
+            
+            <code class="language-javascript">/**
+ * Update an existing OpsDesk log by ID.
+ *
+ * Accepts a JSON body with validated fields and updates the log document.
+ * Returns the updated log on success, or a structured error response.
+ *
+ * @route PUT /api/logs/:id
+ * @param {express.Request} req - Express request
+ * @param {Object} req.params
+ * @param {string} req.params.id - MongoDB ObjectId of the log to update
+ * @param {Object} req.body - Log payload to validate and persist
+ * @param {string} req.body.message - Ticket message/description
+ * @param {boolean} req.body.attention - Attention/priority flag
+ * @param {string|Date} req.body.dt - ISO date/time for the log
+ * @param {string} req.body.tech - Assigned technician name/id
+ * @param {"open"|"in_progress"|"resolved"} req.body.status - Ticket status
+ * @param {express.Response} res - Express response
+ * @returns {void} 200 with updated log JSON on success
+ *
+ * @errors 400 - Invalid ObjectId or payload validation failed
+ * @errors 404 - Log not found for the given id
+ * @errors 500 - Unexpected server/database error
+ */
+router.put('/:id', async (req, res) =&gt; {
+  // 1) Defensive: validate MongoDB ObjectId early
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ msg: 'Invalid log ID' });
+  }
+
+  // 2) Domain validation (e.g., Joi/Zod/custom)
+  const validationError = validateLog(req.body);
+  if (validationError) {
+    return res.status(400).json({ msg: validationError });
+  }
+
+  try {
+    // 3) Controlled update whitelist + server-side timestamp
+    const { message, attention, dt, tech, status } = req.body;
+    const update = { message, attention, dt, tech, status, updatedAt: Date.now() };
+
+    // 4) Atomic find-and-update; { new: true } returns the updated doc
+    const updatedLog = await Logs.findByIdAndUpdate(req.params.id, update, { new: true });
+
+    if (!updatedLog) {
+      return res.status(404).json({ msg: 'Log not found' });
+    }
+
+    // 5) Success
+    res.json(updatedLog);
+  } catch (error) {
+    // 6) Fallback: structured server error
+    res.status(500).json({ msg: 'Failed to update log', error: error.message });
+  }
+});</code></pre>
+          </div>
+        </article>
+
+        <article class="code-win">
+          <div class="code-win__head">
+            <span class="code-win__lang">C++</span>
+          </div>
+          <div class="code-win__code-box">
+            <div class="code-win__summary code-win__summary--inside">
+              <p>
+                Goal: Perform real-time object recognition by segmenting the
+                main object in a camera frame, generating a DNN embedding, and
+                matching it against a local feature database.
+              </p>
+              <p>How</p>
+              <ul>
+                <li>
+                  Convert each video frame to grayscale, apply Otsu-based
+                  thresholding, and clean noise.
+                </li>
+                <li>Segment the image and isolate the largest valid region.</li>
+                <li>Extract a deep-learning embedding using an ONNX model.</li>
+                <li>
+                  Load stored feature vectors from CSV and compute cosine
+                  similarity.
+                </li>
+                <li>
+                  Select the closest match (below threshold) and overlay the
+                  recognized label on the output. Also, added a self-learning
+                  feature.
+                </li>
+                <li>Display results continuously until the user exits.</li>
+              </ul>
+            </div>
+            <pre class="code-win__code language-cpp">
+            
+            <code class="language-cpp">
+/*
+* Runs a real-time image recognition loop:
+*
+* Parameters:
+*   onnxModelPath      - Path to the ONNX embedding model (default: "../src/or2d-normmodel-007.onnx").
+*   featureCsvPath     - Path to the CSV file containing stored feature vectors and labels (default: "../features.csv").
+*   ipCameraUrl        - Optional URL of an IP camera; if empty, defaults to local camera 0 (default: "").
+*   matchThreshold     - Maximum cosine error allowed for a positive match (default: 5.0f).
+
+*   minRegionArea      - Minimum pixel area for accepting a segmented region (default: 500).
+*
+* Returns:
+*   0  - Clean exit when video capturing ends or user quits.
+*  -1  - Camera could not be opened or model loading failed.
+*/
+      int ImageRecognizer(
+          const std::string&amp; onnxModelPath = "../src/or2d-normmodel-007.onnx",
+          const std::string&amp; featureCsvPath = "../features.csv",
+          const std::string&amp; ipCameraUrl = "",
+          float matchThreshold = 5.0f,
+          int minRegionArea = 500
+      ) {
+          VideoCapture camera;
+          if (!ipCameraUrl.empty())
+              camera.open(ipCameraUrl);
+          else
+              camera.open(0);
+
+          if (!camera.isOpened()) {
+              std::cerr &lt;&lt; "Error: Could not open camera." &lt;&lt; std::endl;
+              return -1;
+          }
+
+          dnn::Net model = dnn::readNet(onnxModelPath);
+          if (model.empty()) {
+              std::cerr &lt;&lt; "Error: Failed to load model from " &lt;&lt; onnxModelPath &lt;&lt; std::endl;
+              return -1;
+          }
+
+          std::vector&lt;std::string&gt; dbLabels;
+          std::vector&lt;std::vector&lt;float&gt;&gt; dbFeatures;
+
+          if (fs::exists(featureCsvPath) && !fs::is_empty(featureCsvPath)) {
+              read_image_data_csv(featureCsvPath.c_str(), dbLabels, dbFeatures, 0);
+          }
+
+          Mat frame, gray, thresholded, cleanedMask, segmented, regionMap;
+          std::vector&lt;Vec3b&gt; colorPalette;
+          create_color_vector(colorPalette);
+
+          while (true) {
+              if (!camera.read(frame)) break;
+
+              // Preprocessing: grayscale, threshold, and noise cleanup
+              cvtColor(frame, gray, COLOR_BGR2GRAY);
+              int otsuValue = get_otsu_thresh(gray);
+              thresh_custom(otsuValue, gray, thresholded);
+              cleanup(thresholded, cleanedMask);
+
+              // Segmentation to find regions of interest
+          std::vector&lt;int&gt; majorRegions;
+              int largestRegionId = segment_image(
+                  cleanedMask, regionMap, colorPalette, segmented,
+                  minRegionArea, majorRegions
+              );
+
+              // Extract DNN embedding from the cleaned mask area
+              Rect bbox(0, 0, cleanedMask.cols, cleanedMask.rows);
+              Mat embedding;
+              getEmbedding(cleanedMask, embedding, bbox, model, 0);
+              std::vector&lt;float&gt; featureVector(
+                  embedding.begin&lt;float&gt;(), embedding.end&lt;float&gt;()
+              );
+
+              std::string predictedLabel = "Unknown";
+              if (!dbFeatures.empty()) {
+                  std::vector&lt;float&gt; errors = compute_similarity(featureVector, dbFeatures);
+                  auto bestMatch = std::min_element(errors.begin(), errors.end());
+
+                  if (bestMatch != errors.end() && *bestMatch &lt; matchThreshold) {
+                      int index = std::distance(errors.begin(), bestMatch);
+                      predictedLabel = dbLabels[index];
+                  }
+              }
+
+              putText(segmented, predictedLabel, {20, 40},
+                      FONT_HERSHEY_SIMPLEX, 1.0, Scalar(0, 0, 255), 2);
+
+              imshow("Video", segmented);
+
+              int key = waitKey(1);
+              if (key == 27 || key == 'q' || key == 'Q') break;
+          }
+
+          camera.release();
+          destroyAllWindows();
+          return 0;
+      }
+</code></pre>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        hljs.highlightAll();
+      });
+    </script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
