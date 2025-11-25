@@ -1,0 +1,165 @@
+---
+source: assets/templates/experience.html
+title: Experience
+type: page
+---
+
+assets/templates/experience.html
+
+# Experience
+
+## Work Experience
+
+### Intel Corporation — Software Engineer, Data Science Org.
+- Timeline: Jun 2024 - Jul 2025
+
+- Highlights:
+
+- Led the conversion of legacy .NET wafer analysis
+workflows to Python, leveraging Python-Net and
+subprocess integration to reuse 40+ existing DLL
+libraries, saving 80+ hours of development time while
+enabling seamless execution of .NET code in python
+environment.
+
+- Engineered low-code data visualization modules on the
+GENIE platform using Django, Angular, and Docker,
+generating JSON-based chart configurations automatically
+via dataclasses, improving visualization efficiency by
+35% over manual methods for wafer and engineering
+analytics.
+
+- Deployed a containerized LLM-RAG microservice on AWS ECS
+to standardize 600+ excursion reports, integrating
+OpenAI embeddings, LangChain and FastAPI, cutting root
+cause analysis time by 75% and saving approximately
+$100,000 annually in labor costs.
+
+- Built CI/CD pipelines with GitHub Actions, integrating
+Xunit and Jest for testing and Prometheus/Grafana for
+monitoring, which reduced wafer analysis reporting
+latency by 60% and improved dashboard reliability.
+Used Apache Spark and Docker to automate ML pipeline
+orchestration, reducing model update time from 2 hours
+to under 30 mins.
+
+### Northeastern University — Research Assistant
+- Timeline: Jan 2024 - May 2024
+
+- Published a paper at SIGCSE 2025 titled "Student Application
+Trends for Teaching Assistant Positions"
+
+- Highlights
+
+- Analyzed 15,000+ TA applications using Jensen-Shannon
+Distance, t-tests, and ANOVA to identify hiring biases
+in STEM programs
+
+- Built interactive dashboards to visualize demographic
+trends; revealed 42.5% bias for female MS applicants in
+entry-level TA roles.
+
+- Findings led to equity-focused hiring recommendations
+adopted by academic leadership for 2025 cycle policy
+changes
+
+### Northeastern University — Research Apprentice
+- Timeline: Sep 2023 - Dec 2023
+
+- Awarded the Khoury Research Apprenticeship awarded with a
+tuition waiver for 8000$. Published a paper at CHI 2024 titled
+
+"Building LLM-based AI agents in Social Virtual Reality"
+- Highlights
+
+- Directed a team of 4 to develop LLM-driven agents in
+VRChat (social platform) with CUDA-optimized inference,
+achieving sub 3s latency.
+
+- Built a multi-threaded dialogue engine with OpenAI API,
+MongoDB, and custom retrieval algorithm in Python,
+improving user immersion by 30% based on longer session
+duration and higher platform usage.
+
+- Integrated Whisper & Vosk APIs for text-to-speech
+mapping; achieved 95% MAP accuracy, validated using
+LLaMA-7B and human ratings.
+
+### Intel Corporation — Software Developer Intern
+- Timeline: Jun 2023 - Sep 2023
+- Highlights
+
+- Established a GitHub-style change tracking system for
+non-technical teams with React.js, Node.js, and SQL.
+
+- Deployed it on IIS server to provide file-level
+tracking, admin controls, and role-based authorization,
+saving 15 engineer-hours per week by improving
+operational transparency.
+
+- Enhanced backend reliability by implementing Jest and
+Cypress tests, achieving 98% code coverage, reducing
+integration bugs, and ensuring application performance.
+
+- Optimized SQL query pipelines for multi-factory wafer
+data using multi-threading and batch processing,
+reducing data processing time from 2500 seconds to 1200
+seconds, ensuring faster downstream analysis and timely
+reporting.
+
+### Softmax AI — Machine Learning Engineer (Contract)
+- Timeline: Jan 2022 - Jun 2022
+- Highlights
+
+- Built home decor tile visualizer using UNet segmentation
+and depth estimation in PyTorch; reduced backend image
+rendering time to 30 seconds.
+
+- Deployed full-stack React-Flask app on AWS with Nginx,
+increasing client product engagement during demos by 25%
+across 3 teams.
+
+- Built a sentiment classifier using SVM on 1,200 drug
+reviews; improved F1-score from 52% to 85% using SMOTE
+and text preprocessing.
+
+- Forecasted 10-min NSE stock movement using LSTM on 90
+selected features out of 300 features, achieving 78%
+F1-score and reducing model size by 70%.
+
+- Tuned hyperparameters using GridSearchCV, optimizing
+classification and sequence models for precision,
+recall, and stability
+
+### Hexaware Technologies — Software Developer
+- Timeline: Jan 2021 - Aug 2022
+- Highlights
+
+- Developed a full-stack healthcare claims platform using
+React.js, Node.js, and Express, enabling patients and
+providers to track claim history, manage billing, and
+access Explanation of Benefits (EOBs), supporting over
+12,000 daily active users across multiple hospitals.
+
+- Designed and implemented Spring Boot microservices with
+Hibernate ORM for claims processing, provider search,
+and benefit verification workflows, handling 800k claims
+annually and ensuring reliable and scalable back-end
+operations.
+
+- Devised secure, responsive React dashboards for
+administrators to monitor claim workflows, provider
+activity, and patient billing trends, tracking 30,000+
+claim records monthly and enabling actionable
+operational insights.
+
+- Implemented Apache Kafka and Redis caching for real-time
+claim event streaming and query acceleration, supporting
+20,000+ events per hour and improving system
+responsiveness for patient and provider operations.
+
+- Streamlined deployment and infrastructure provisioning
+using Terraform, AWS CloudFormation, and Docker,
+ensuring HIPAA-compliant storage of medical documents in
+S3 buckets with server-side encryption, reducing manual
+deployment time per release by 60 hours monthly.
