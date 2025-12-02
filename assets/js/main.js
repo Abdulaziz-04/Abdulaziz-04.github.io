@@ -7,6 +7,9 @@
   let navHeightListenerBound = false;
   let posthogClient = null;
   const seenSections = new Set();
+  const pageLoader = document.querySelector('[data-page-loader]');
+  const LOADER_MIN_DELAY_MS = 500;
+  let loaderHideTimeout = null;
 
   // PostHog analytics loader and click tracking
   const initPosthog = () => {
@@ -86,6 +89,14 @@
   const resolveSectionId = (sectionId) => {
     if (!sectionId) return '';
     return sectionAlias.get(sectionId) || sectionId;
+  };
+
+  const hidePageLoader = () => {
+    if (!pageLoader || pageLoader.classList.contains('is-hidden')) return;
+    if (loaderHideTimeout) return;
+    loaderHideTimeout = window.setTimeout(() => {
+      pageLoader.classList.add('is-hidden');
+    }, LOADER_MIN_DELAY_MS);
   };
 
   const updateModalOpenClass = () => {
@@ -288,6 +299,12 @@
   registerSections(document);
 
   const templateContainers = document.querySelectorAll('[data-template]');
+  let pendingTemplates = templateContainers.length;
+
+  if (!pendingTemplates) {
+    hidePageLoader();
+  }
+
   templateContainers.forEach((container) => {
     const url = container.getAttribute('data-template');
     if (!url) return;
@@ -316,6 +333,12 @@
         } else {
           container.innerHTML =
             '<p class="loading-error">Unable to load this section.</p>';
+        }
+      })
+      .finally(() => {
+        pendingTemplates -= 1;
+        if (pendingTemplates <= 0) {
+          hidePageLoader();
         }
       });
   });
