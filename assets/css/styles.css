@@ -764,6 +764,26 @@ main {
   text-align: justify;
 }
 
+.course-panel__body {
+  text-align: left;
+}
+
+.course-panel__body ul {
+  margin: 0.25rem 0 0.85rem;
+  padding-left: 1.1rem;
+}
+
+.course-panel__body p,
+.course-panel__body li {
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+.home-page .course-panel__body {
+  text-align: left;
+}
+
 .home-page .projects-overview p,
 .home-page .project-category-card p {
   text-align: left;
