@@ -1,7 +1,19 @@
 ﻿<header class="site-header hero-header">
   <nav class="top-nav">
     <div class="top-nav__brand">Abdulaziz's Portfolio</div>
-    <div class="top-nav__links">
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      data-nav-toggle
+    >
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
+    <div class="top-nav__links" id="mobile-nav">
       <a href="#experience" class="nav-link" data-track="nav-experience"
         >Experience</a
       >

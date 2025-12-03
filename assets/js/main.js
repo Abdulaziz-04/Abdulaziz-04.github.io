@@ -99,6 +99,26 @@
     }, LOADER_MIN_DELAY_MS);
   };
 
+  const closeMobileNav = (nav) => {
+    if (!nav) return;
+    nav.classList.remove('is-open');
+    document.body.classList.remove('nav-open');
+    const toggle = nav.querySelector('[data-nav-toggle]');
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  };
+
+  const openMobileNav = (nav) => {
+    if (!nav) return;
+    nav.classList.add('is-open');
+    document.body.classList.add('nav-open');
+    const toggle = nav.querySelector('[data-nav-toggle]');
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+  };
+
   const updateModalOpenClass = () => {
     const hireOpen = hireModal && !hireModal.hasAttribute('hidden');
     if (hireOpen) {
@@ -251,12 +271,37 @@
     if (!nav || nav.dataset.bound === 'true') return;
     nav.dataset.bound = 'true';
 
+    const navToggle = nav.querySelector('[data-nav-toggle]');
+    if (navToggle) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = nav.classList.contains('is-open');
+        if (isOpen) {
+          closeMobileNav(nav);
+        } else {
+          openMobileNav(nav);
+        }
+      });
+    }
+
+    nav.querySelectorAll('.nav-link').forEach((link) => {
+      link.addEventListener('click', () => closeMobileNav(nav));
+    });
+
     updateNavHeightVar();
     if (!navHeightListenerBound) {
       navHeightListenerBound = true;
       window.addEventListener('resize', () => requestAnimationFrame(updateNavHeightVar));
       window.addEventListener('orientationchange', updateNavHeightVar);
     }
+
+    const handleViewportChange = () => {
+      if (window.innerWidth > 768) {
+        closeMobileNav(nav);
+      }
+    };
+
+    window.addEventListener('resize', handleViewportChange);
+    window.addEventListener('orientationchange', handleViewportChange);
 
     navLinkMap.clear();
     nav.querySelectorAll('.nav-link').forEach((link) => {
@@ -277,6 +322,10 @@
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
         closeHireModal();
+        const openNav = document.querySelector('.top-nav.is-open');
+        if (openNav) {
+          closeMobileNav(openNav);
+        }
       }
     });
   };
